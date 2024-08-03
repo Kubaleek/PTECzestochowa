@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
-
-const inter = Inter({ subsets: ["latin"] });
+import Navbar from "@/components/navbar/Navbar";
 
 export const metadata: Metadata = {
   title: "Polskie Towarzystwo Ekonomiczne - Oddział w Częstochowie",
@@ -25,8 +23,9 @@ export default function RootLayout({
 }: IProps) {
   return (
     <html lang="pl">
-      <body className={inter.className}>
+      <body className={`bg-[#f8f4f2] text-[#2d2d2d]`}>
         <Header />
+        <Navbar />
         <main>
           {children}
         </main>
