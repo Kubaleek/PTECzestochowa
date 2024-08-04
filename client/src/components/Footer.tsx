@@ -1,6 +1,7 @@
 import Logo from "../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
 import Image from "next/image";
 import Navlinks from "./Navbar/NavbarLinks";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -23,12 +24,12 @@ const Footer = () => {
         )))}
       </div>
       <div className="f__copyright p-2 mt-3">
-        <p className="text-end text-[14px]">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone</p>
+        <p className="text-end text-[14px]">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone | <Link href={"/aktualnosci/polityka-prywatnosci-pte"} className="text-[#17822e]">Polityka prywatności</Link>  </p>
       </div>
     </footer>
     <footer className="lg:hidden flex flex-col gap-6 mx-auto max-w-[1360px] justify-center items-center p-6">
       <Image src={Logo} alt="Logo_PTE_pionowe_Czestochowa" width={500} height={500}/>
-      <p className="text-end text-[14px]">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone</p>
+      <p className="text-end text-[14px]">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone | <Link href={"/aktualnosci/polityka-prywatnosci-pte"} className="text-[#17822e]">Polityka prywatności</Link></p>
     </footer>
     </>
   );
