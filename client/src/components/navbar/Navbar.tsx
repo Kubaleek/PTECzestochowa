@@ -46,7 +46,7 @@ const Navbar = () => {
   }
 
   const AnimatedHamburgerButton = () => (
-    <motion.button initial={false} animate={active ? "open" : "closed"} onClick={() => {setActive((prev) => !prev);setMobileMenuOpen((prev) => !prev);}} className="relative h-20 w-20 rounded-full bg-white/0 transition-colors hover:bg-white/20 z-50">
+    <motion.button initial={false} animate={"closed"} onClick={() => {setMobileMenuOpen((prev) => !prev);}} className="relative h-20 w-20 rounded-full bg-white/0 transition-colors hover:bg-white/20">
           <motion.span variants={VARIANTS.top} className="absolute h-[2px] w-10 bg-[#178223]" style={{ y: "-50%", left: "50%", x: "-50%", top: "35%" }}/>
           <motion.span variants={VARIANTS.middle} className="absolute h-[2px] w-10 bg-[#178223]" style={{ left: "50%", x: "-50%", top: "50%", y: "-50%" }}/>
           <motion.span variants={VARIANTS.bottom} className="absolute h-[2px] w-5 bg-[#178223]" style={{ x: "-50%", y: "50%", bottom: "35%", left: "calc(50% + 10px)" }}/>
@@ -71,7 +71,7 @@ const Navbar = () => {
           </Link>
         </div>
       </nav>
-      <nav className="lg:hidden shadow w-full bg-[#f9f2eb] border-b-2 border-[#333]/25">
+      <nav className="lg:hidden shadow w-full bg-[#f9f2eb] border-b-2 border-[#333]/25 fixed z-50 top-0">
         <div className="flex flex-row justify-between items-center">
           <Link href={"/"} className="bg-[#f9f2eb] py-3 pr-2 pl-2">
             <Image src={PTECzestochowaLogo} alt="PTECzestochowaLogo" width={180} height={200} loading="lazy" />
@@ -79,20 +79,25 @@ const Navbar = () => {
           <AnimatedHamburgerButton />
         </div>
         {isMobileMenuOpen && (
-          <ul className="fixed top-0 left-0 z-40 bg-[#f8f4f2] py-8 px-16 list-none w-full h-full flex-col flex gap-4 text-center overflow-auto items-center">
-            {Navlinks.map((item) => (
-              <li key={item.id} className="gap-2 space-y-3">
-                <h2 className="text-[28px] font-bold">{item.title}</h2>
-                {item.links.map((link) => (
-                  <li key={link.name} className="w-full">
-                    <Link href={link.href} className={`text-[#2d2f2d] no-underline text-[14px] text-center w-full block`}>
-                      {link.name}
-                    </Link>
+          <div className="z-40 fixed top-0 left-0 bg-[#f8f4f2] h-screen overflow-auto w-full">
+            <div className="flex justify-end items-end">
+              <AnimatedHamburgerButton />
+            </div>
+              <ul className="list-none w-full flex-col flex gap-4 text-center px-16 pb-6">
+                {Navlinks.map((item) => (
+                  <li key={item.id} className="space-y-3">
+                    <h2 className="text-[28px] font-bold">{item.title}</h2>
+                    {item.links.map((link) => (
+                      <li key={link.name} className="w-full">
+                        <Link href={link.href} className={`text-[#2d2f2d] no-underline text-[14px] text-center w-full block`}>
+                          {link.name}
+                        </Link>
+                      </li>
+                    ))}
                   </li>
                 ))}
-              </li>
-            ))}
-          </ul>
+              </ul>
+          </div>
         )}
       </nav>
     </>
@@ -103,11 +108,11 @@ const FlyoutLink = ({ children, href, FlyoutContent, }: { children: React.ReactN
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   return (
-    <div onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="relative">
-      <a href={href} className="relative text-white">
+    <li onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="relative">
+      <button type="button" className="relative text-white">
         {children}
         <span style={{ transform: open ? "scaleX(1)" : "scaleX(0)" }} className="absolute -bottom-2 -left-2 -right-2 h-px origin-left scale-x-0 rounded-full bg-white transition-transform duration-300 ease-out" />
-      </a>
+      </button>
       <AnimatePresence>
         {open && FlyoutContent && (
           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 15 }} transition={{ duration: 0.3, ease: "easeOut" }} className="absolute top-12 bg-white shadow-lg border border-[#080808]/25" style={{ minWidth: "250px" }}>
@@ -122,7 +127,7 @@ const FlyoutLink = ({ children, href, FlyoutContent, }: { children: React.ReactN
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </li>
   );
 };
 

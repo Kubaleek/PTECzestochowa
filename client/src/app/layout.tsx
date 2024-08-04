@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header";
-import Navbar from "@/components/navbar/Navbar";
 
 export const metadata: Metadata = {
   title: "Polskie Towarzystwo Ekonomiczne - Oddział w Częstochowie",
@@ -24,11 +22,7 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <body className={`bg-[#f8f4f2] text-[#2d2d2d]`}>
-        <Header />
-        <Navbar />
-        <main>
-          {children}
-        </main>
+        {children}
       </body>
     </html>
   );
