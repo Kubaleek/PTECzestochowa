@@ -14,8 +14,16 @@ const config: Config = {
         lg: '976px',
         xl: '1440px',
       },
+      padding: {
+        'custom-t': '4px',  // custom top padding
+        'custom-r': '12px', // custom right padding
+        'custom-b': '5px',  // custom bottom padding
+        'custom-l': '12px', // custom left padding
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    
+  ],
 };
 export default config;
