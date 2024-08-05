@@ -6,11 +6,12 @@ import { usePathname } from "next/navigation";
 import PTECzestochowaLogo from "../../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import NavbarLogo from "../NavbarLogo";
 
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [active, setActive] = useState(false);
+  // const [active, setActive] = useState(false);
 
   const VARIANTS = {
     top: {
@@ -53,11 +54,17 @@ const Navbar = () => {
     </motion.button>
   );
 
+  const isSubPage = usePathname();
   return (
     <>
-      <nav className="bg-[#17822e] hidden lg:flex flex-col sticky top-0 px-7 justify-center items-center z-50 border border-[#333]/15 shadow">
-        <div className="max-w-[1320px] flex justify-between relative items-center py-3 w-full mx-auto">
-          <ul className="flex flex-row gap-4">
+      <nav className="bg-[#17822e] hidden lg:flex flex-col sticky top-0 justify-center items-center z-50 border border-[#333]/15 shadow px-5">
+        <div className={`max-w-[1320px] flex justify-between relative items-center py-3 w-full mx-auto`}>
+          {isSubPage === "/" ? (
+            null
+          ) : (
+            <NavbarLogo />
+          )}
+          <ul className="flex flex-row gap-3 xl:gap-4">
             {Navlinks.map((item) => (
               <FlyoutLink key={item.id} href={"#"} FlyoutContent={item.links}>
                 {item.title}
@@ -71,7 +78,7 @@ const Navbar = () => {
           </Link>
         </div>
       </nav>
-      <nav className="lg:hidden shadow w-full bg-[#f9f2eb] border-b-2 border-[#333]/25 fixed z-50 top-0">
+      <nav className="lg:hidden shadow w-full bg-[#f9f2eb] border-b-2 border-[#333]/25 z-50">
         <div className="flex flex-row justify-between items-center">
           <Link href={"/"} className="bg-[#f9f2eb] py-3 pr-2 pl-2">
             <Image src={PTECzestochowaLogo} alt="PTECzestochowaLogo" width={180} height={200} loading="lazy" />
@@ -115,11 +122,11 @@ const FlyoutLink = ({ children, href, FlyoutContent, }: { children: React.ReactN
       </button>
       <AnimatePresence>
         {open && FlyoutContent && (
-          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 15 }} transition={{ duration: 0.3, ease: "easeOut" }} className="absolute top-12 bg-white shadow-lg border border-[#080808]/25" style={{ minWidth: "250px" }}>
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 15 }} transition={{ duration: 0.3, ease: "easeOut" }} className="absolute top-12 bg-white shadow-lg border border-[#080808]/25 overflow-hidden" style={{ maxWidth: "100%", minWidth: "200px" }}>
             <div className="absolute -top-6 left-0 right-0 h-6 bg-transparent" />
-            <div className="p-2 space-y-1">
+            <div className="p-2 space-y-1 overflow-hidden w-full">
               {FlyoutContent.map((link) => (
-                <Link key={link.name} href={link.href} className={`flex flex-col transition-all ease-out duration-150 p-2 text-[14px] ${pathname === link.href ? "bg-[#17822e] text-[#FFF]" : "hover:bg-[#17822e] hover:text-[#fff]"}`}>
+                <Link key={link.name} href={link.href} className={`flex flex-col transition-all ease-out duration-150 p-2 text-[14px]  ${pathname === link.href ? "bg-[#17822e] text-[#FFF]" : "hover:bg-[#17822e] hover:text-[#fff]"}`}>
                   {link.name}
                 </Link>
               ))}

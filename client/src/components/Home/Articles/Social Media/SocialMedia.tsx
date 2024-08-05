@@ -73,7 +73,7 @@ export default function SocialMedia() {
             <img src="https://pte.pl/_next/image?url=https%3A%2F%2Fcms.pte.pl%2Fuploads%2Fukraina_76705a5fde.webp&amp;w=1920&amp;q=75" alt="flaga ukrainy" loading="lazy" />
             <a href="https://pomagamukrainie.gov.pl/" className="lg:hover:underline">#PomagamUkrainie</a>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '48rem', border: '1px solid #2d2f2d96', margin: 'auto', padding: '0.5rem', paddingBottom: '1rem', alignItems: 'center', backgroundColor: 'white', borderRadius: '0.375rem', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '48rem', margin: 'auto', padding: '0.5rem', paddingBottom: '1rem', alignItems: 'center', backgroundColor: 'white', borderRadius: '0.375rem', justifyContent: 'center' }}>
                 <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#2d3748', textAlign: 'center' }}>Dołącz do newslettera</h1>
                 <form>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '0.5rem' }}>

@@ -20,6 +20,9 @@ const config: Config = {
         'custom-b': '5px',  // custom bottom padding
         'custom-l': '12px', // custom left padding
       },
+      fontFamily: {
+        arrus: ['Arrus', 'sans-serif']
+      }
     },
   },
   plugins: [
