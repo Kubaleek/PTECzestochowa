@@ -1,12 +1,16 @@
+"use client"
+
 import Logo from "../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
 import Image from "next/image";
 import Navlinks from "./Navbar/NavbarLinks";
 import Link from "next/link";
-
+import { usePathname } from "next/navigation";
 const Footer = () => {
+  const pathname = usePathname();
+
   return (
     <>
-    <footer className="hidden lg:flex flex-col gap-6 mx-auto max-w-[1360px] justify-center items-stretch p-6">
+    <footer className={`hidden lg:flex flex-col gap-6 mx-auto ${pathname === "/" ? 'max-w-[1360px]' : 'max-w-[1800px]'} justify-center items-stretch p-6`}>
       <div className="grid lg:grid-cols-4 xl:grid-cols-8 gap-6">
         {Navlinks.map(((item) => (
             <div key={item.id}>
