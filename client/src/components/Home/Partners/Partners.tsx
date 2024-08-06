@@ -1,6 +1,6 @@
 import LineSection from "../../LineSection/LineSection";
 import PartnersTypes from "./PartnersInfo";
-// import Image from "next/image";
+import Image from "next/image";
 
 export default function Partners()  {
     return (
@@ -14,7 +14,7 @@ export default function Partners()  {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-9 gap-12 items-center w-full pb-3">  
             {PartnersTypes.map(((item) => (
                 <a key={item.id} href={item.url} className="flex justify-center items-center lg:justify-normal lg:items-start">
-                    <img src={item.src} alt={item.name} />
+                    <Image src={item.src} alt={item.name} />
                 </a>
             )))}
         </div>

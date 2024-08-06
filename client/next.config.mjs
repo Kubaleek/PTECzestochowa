@@ -1,4 +1,13 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+const nextConfig = {
+    webpack(config) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+      };
+  
+      return config;
+    },
+  };
+  
+  export default nextConfig;
+  
