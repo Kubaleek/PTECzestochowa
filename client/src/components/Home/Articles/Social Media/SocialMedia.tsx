@@ -67,7 +67,7 @@ export default function SocialMedia() {
       <div className="flex flex-col justify-center gap-6">
         <SocialMediaLinks />
         {/* <TwitterWidget /> */}
-        <div className="flex flex-col gap-4 justify-center items-center max-w-[150px] md:mx-auto">
+        <div className="flex flex-col gap-4 justify-center items-center max-w-[150px]">
           <Image src={Ukraine} alt="flaga ukrainy" />
           <a href="https://pomagamukrainie.gov.pl/" className="lg:hover:underline">
             #PomagamUkrainie
