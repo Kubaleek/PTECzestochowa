@@ -1,6 +1,4 @@
 "use client"
-
-import { useEffect, useRef } from 'react';
 import { socialMediaLinks } from './Icons';
 import Ukraine from "../../../../assets/PTE/ukraina.webp"
 import Image from 'next/image';
@@ -14,32 +12,6 @@ const SocialMediaLinks = () => (
     ))}
   </div>
 );
-
-const TwitterWidget = () => {
-  const twitterRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (twitterRef.current) {
-      const script = document.createElement('script');
-      script.src = 'https://platform.twitter.com/widgets.js';
-      script.async = true;
-      script.onload = () => {
-        if (window.twttr && twitterRef.current) {
-          window.twttr.widgets.load(twitterRef.current);
-        }
-      };
-      document.body.appendChild(script);
-    }
-  }, []);
-
-  return (
-    <div ref={twitterRef} className="hidden md:flex max-w-full bg-white">
-      <a className="twitter-timeline" data-theme="light" href="https://twitter.com/PTE_ZK" data-height="400" data-width="100%" data-chrome="noheader nofooter noscrollbar transparent" data-tweet-limit="5" title="Twitter Timeline">
-        Tweets by @PTE_ZK
-      </a>
-    </div>
-  );
-};
 
 const Newsletter = () => (
   <div className="shadow-lg border border-[#333]/25 flex flex-col max-w-3xl mx-auto p-4 pb-4 bg-white rounded-md items-center">
@@ -92,9 +64,9 @@ export default function SocialMedia() {
         </svg>
         <span className="text-[26px] font-bold m-0">Social media</span>
       </h2>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col justify-center gap-6">
         <SocialMediaLinks />
-        <TwitterWidget />
+        {/* <TwitterWidget /> */}
         <div className="flex flex-col gap-4 justify-center items-center max-w-[150px] md:mx-auto">
           <Image src={Ukraine} alt="flaga ukrainy" />
           <a href="https://pomagamukrainie.gov.pl/" className="lg:hover:underline">

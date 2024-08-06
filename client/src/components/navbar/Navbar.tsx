@@ -57,7 +57,7 @@ const Navbar = () => {
   const isSubPage = usePathname();
   return (
     <>
-      <nav className="bg-[#17822e] hidden lg:flex flex-col sticky top-0 justify-center items-center z-50 border border-[#333]/15 shadow px-5">
+      <nav className="bg-[#17822e] hidden lg:flex flex-col sticky top-0 w-full justify-center items-center z-50 border border-[#333]/15 shadow px-5">
         <div className={`max-w-[1320px] flex justify-between relative items-center py-3 w-full mx-auto`}>
           {isSubPage === "/" ? (
             null
