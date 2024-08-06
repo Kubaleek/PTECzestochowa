@@ -1,6 +1,7 @@
 // import Image from "next/image";
 import HeroInfos from "./HeroInfo";
 import LineSection from "../../LineSection/LineSection";
+import Image from "next/image";
 
 export default function Hero() {
     return (
@@ -11,10 +12,10 @@ export default function Hero() {
                     <span className="text-[26px] font-bold m-0">Inicjatywy</span>
                 </h1>
                 <div className="bg-white rounded-lg relative mb-9 p-6 border border-[#333]/15 shadow">
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 grid-rows-[100px] gap-6 items-center w-full">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 items-center w-full">
                         {HeroInfos.map(((item) => (
                             <a key={item.alt} href={item.href}>
-                                <img src={item.src} alt={item.alt} width={300} height={300} />
+                                <Image src={item.src} alt={item.alt} sizes="100vw"/>
                             </a>
                         )))
                         }

@@ -14,12 +14,12 @@ const Header = () => {
           <div className="grid grid-cols-2 gap-4">
             <div className="flex items-center">
               <Link href={"/"} className="flex items-center">
-                <Image src={PTECzestochowaLogo} alt="Logo PTE Częstochowa" loading='lazy' />
+                <Image src={PTECzestochowaLogo} alt="PTECzestochowaLogo" priority />
               </Link>
             </div>
             <div className="flex justify-center">
               <span className="ml:[40px]">
-                <Image src={PTESiedziba} alt="PTE Siedziba" className="object-cover object-left-top" height={200} width={400} loading='lazy' />
+                <Image src={PTESiedziba} alt="PTE Siedziba" className="object-cover object-left-top" priority height={250} width={382} />
               </span>
             </div>
           </div>

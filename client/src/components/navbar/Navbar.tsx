@@ -47,7 +47,7 @@ const Navbar = () => {
   }
 
   const AnimatedHamburgerButton = () => (
-    <motion.button initial={false} animate={"closed"} onClick={() => {setMobileMenuOpen((prev) => !prev);}} className="relative h-20 w-20 rounded-full bg-white/0 transition-colors hover:bg-white/20">
+    <motion.button initial={false} animate={"closed"} onClick={() => {setMobileMenuOpen((prev) => !prev);}} className="relative h-20 w-20 rounded-full bg-white/0 transition-colors hover:bg-white/20" aria-label="Menu">
           <motion.span variants={VARIANTS.top} className="absolute h-[2px] w-10 bg-[#178223]" style={{ y: "-50%", left: "50%", x: "-50%", top: "35%" }}/>
           <motion.span variants={VARIANTS.middle} className="absolute h-[2px] w-10 bg-[#178223]" style={{ left: "50%", x: "-50%", top: "50%", y: "-50%" }}/>
           <motion.span variants={VARIANTS.bottom} className="absolute h-[2px] w-5 bg-[#178223]" style={{ x: "-50%", y: "50%", bottom: "35%", left: "calc(50% + 10px)" }}/>
@@ -81,7 +81,7 @@ const Navbar = () => {
       <nav className="lg:hidden shadow w-full bg-[#f9f2eb] border-b-2 border-[#333]/25 z-50">
         <div className="flex flex-row justify-between items-center">
           <Link href={"/"} className="bg-[#f9f2eb] py-3 pr-2 pl-2">
-            <Image src={PTECzestochowaLogo} alt="PTECzestochowaLogo" width={180} height={200} loading="lazy" />
+            <Image src={PTECzestochowaLogo} alt="PTECzestochowaLogo" width={150} height={80}/>
           </Link>
           <AnimatedHamburgerButton />
         </div>
@@ -90,20 +90,22 @@ const Navbar = () => {
             <div className="flex justify-end items-end">
               <AnimatedHamburgerButton />
             </div>
-              <ul className="list-none w-full flex-col flex gap-4 text-center px-16 pb-6">
-                {Navlinks.map((item) => (
-                  <li key={item.id} className="space-y-3">
-                    <h2 className="text-[28px] font-bold">{item.title}</h2>
-                    {item.links.map((link) => (
-                      <li key={link.name} className="w-full">
-                        <Link href={link.href} className={`text-[#2d2f2d] no-underline text-[14px] text-center w-full block`}>
-                          {link.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </li>
-                ))}
-              </ul>
+            <ul className="list-none w-full flex-col flex gap-4 text-center px-16 pb-6">
+            {Navlinks.map((item) => (
+              <li key={item.id} className="flex flex-col gap-4">
+                <h2 className="text-[28px] font-bold">{item.title}</h2>
+                <div className="flex flex-col gap-2">
+                  {item.links.map((link) => (
+                    <div key={link.name}>
+                      <Link href={link.href} className="text-[#2d2f2d] no-underline text-[14px] text-center w-full block">
+                        {link.name}
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </li>
+            ))}
+            </ul>
           </div>
         )}
       </nav>

@@ -1,7 +1,5 @@
-import Navbar from "@/components/Navbar/Navbar";
-import "../globals.css";
-import Footer from "@/components/Footer";
-import LineSection from "@/components/LineSection/LineSection";
+import "./style.css";
+
 interface IProps {
   children: React.ReactNode;
 }
