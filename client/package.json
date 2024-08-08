@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+    "@material-tailwind/react": "^2.1.9",
     "@mui/icons-material": "^5.16.6",
     "@mui/material": "^5.16.6",
     "framer-motion": "^11.3.21",
@@ -22,6 +23,8 @@
     "preline": "^2.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-dropzone": "^14.2.3",
+    "react-file-drop": "^3.1.6",
     "sharp": "^0.33.4"
   },
   "devDependencies": {
