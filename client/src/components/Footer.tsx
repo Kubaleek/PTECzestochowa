@@ -32,8 +32,8 @@ const Footer = () => {
         <p className="text-end text-[14px]">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone | <Link href={"/aktualnosci/polityka-prywatnosci-pte"} className="text-[#17822e] font-bold" aria-label="politykaPrywatności">Polityka prywatności</Link>  </p>
       </div>
     </footer>
-    <footer className="lg:hidden flex flex-col gap-6 mx-auto max-w-[1360px] justify-center items-center p-6">
-      <Image src={Logo} alt="Logo_PTE_pionowe_Czestochowa" width={640} height={218}/>
+    <footer className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-6 mx-auto max-w-[1360px] justify-center items-center p-6">
+      <Image src={Logo} alt="Logo_PTE_pionowe_Czestochowa" width={440} height={418}/>
       <p className="text-end text-[14px]">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone | <Link href={"/aktualnosci/polityka-prywatnosci-pte"} className="text-[#17822e] font-bold" aria-label="politykaPrywatności">Polityka prywatności</Link></p>
     </footer>
     </>

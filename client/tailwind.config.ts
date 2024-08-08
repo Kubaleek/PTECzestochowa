@@ -13,6 +13,7 @@ const config: Config = {
         md: '768px',
         lg: '976px',
         xl: '1440px',
+        Clg: '1024px',
       },
       padding: {
         'custom-t': '4px',  // custom top padding

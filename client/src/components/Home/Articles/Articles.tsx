@@ -18,7 +18,7 @@ export default function Articles() {
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-1 gap-2">
                     {ArticlesInfos.map(((item) => (
-                      <div key={item.id} className="bg-[#f8f8f8] rounded-lg relative mb-4 overflow-hidden p-3 bg-opacity-50 border border-[#333]/25 shadow lg:hover:bg-opacity-100 lg:hover:border-[#333] transition-all ease duration-500">
+                      <div key={item.id} className="bg-[#f8f8f8] rounded-lg relative mb-4 overflow-hidden p-3 bg-opacity-50 border border-[#333]/25 shadow">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
                           <div>
                             <Image src={item.src} alt="Aktualności" className="rounded-lg object-cover transform h-full" width={500} height={500} loading="lazy" />

@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-        <nav className="bg-[#17822e] hidden lg:flex flex-col sticky top-0 w-full justify-center items-center z-50 border border-[#333]/15 shadow px-5">
+        <nav className={`${isSubPage ? 'Clg:flex' : 'lg:flex'} bg-[#17822e] hidden flex-col sticky top-0 w-full justify-center items-center z-50 border border-[#333]/15 shadow px-4`}>
           <div className="max-w-[1320px] flex justify-between relative items-center py-3 w-full mx-auto">
             {isSubPage && <NavbarLogo />}
             <ul className="flex flex-row gap-3 xl:gap-4">
@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
           </div>
         </nav>
 
-        <nav className="lg:hidden shadow w-full bg-[#f9f2eb] border-b-2 border-[#333]/25 z-50">
+        <nav className={`${isSubPage ? 'Clg:hidden' : 'lg:hidden'} shadow w-full bg-[#f9f2eb] border-b-2 border-[#333]/25 z-50`}>
           <div className="flex flex-row justify-between items-center">
             <Link href={"/"} className="bg-[#f9f2eb] py-3 pr-2 pl-2">
               <Image src={PTECzestochowaLogo} alt="PTECzestochowaLogo" width={150} height={80} />
