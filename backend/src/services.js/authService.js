@@ -17,6 +17,39 @@ class UserService {
     });
   }
 
+  async getUsername(userId) {
+    try {
+      const [rows] = await pool.query(
+        `SELECT username 
+         FROM users 
+         WHERE id = ?`, 
+         [userId]
+      );
+
+      if (rows.length > 0) {
+        return rows[0].username;
+      }
+      return null;
+    } catch (error) {
+      console.error("Error detected at fetching username");
+      throw error;
+    }
+  }
+  async usersExists(userEmail, userFullName) {
+    try {
+      const [rows] = await pool.query(
+        `SELECT * 
+         FROM users 
+         WHERE email = ? OR username = ?`, 
+         [userEmail, userFullName]
+      );
+
+      return rows.length > 0;
+    } catch (error) {
+      console.error("Error detected at checking if user exists");
+      throw error;
+    }
+  }
   async save(user, next) {
     try {
       if (!user || !user.password) {
@@ -55,6 +88,13 @@ class UserService {
       next(err);  
     }
   }
+  async CheckUser(id){
+    try{
+      const [rows] = await pool.query("SELECT `role` FROM `users` WHERE `id` = '?'",[id])
+    }catch(error){
+      console.error("Error detected at fetchnig CheckUser")
+    }
+  }
   async findOne(email) {
     const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
     return rows.length ? rows[0] : null;
@@ -85,7 +125,7 @@ class UserService {
       next(err);
     }
   }
-  async delete(email,next){
+  async delete(user,next){
     try {
       if (!user || !user.password) {
          next(new AppError('User object or password is undefined'));
@@ -95,8 +135,8 @@ class UserService {
       user.password = await bcrypt.hash(user.password, salt);
 
       const [result] = await pool.query(
-        'DELETE FROM users WHERE email = ?',
-        [user.email]
+        'DELETE FROM users WHERE id = ?',
+        [user.id]
       );
 
       return result;  
@@ -123,13 +163,41 @@ class UserService {
 
       res.status(200).json({
         status: "success",
-        data: [{ email, username }],
-        message: "Thank you for creating  accout with us.",
+        message: "Acount has been deleted.",
       });
     } catch (err) {
       next(err);
     }
   }
+  async editUsername(userCourseId) {
+    try {
+      const [rows] = await pool.query(
+        `SELECT users.username 
+         FROM users 
+         JOIN user_courses ON users.id = user_courses.user_id 
+         WHERE user_courses.id = ?`, 
+         [userCourseId]
+      );
+
+      if (rows.length > 0) {
+        return rows[0].username;
+      }
+      return null;
+    } catch (error) {
+      console.error("Error detected at editing username");
+      throw error;
+    }
+  }
+  async getUserByRole(role='użytkownik'){
+    try{
+      const [rows] = await pool.query("SELECT `id`, `username`, `role` FROM `users` WHERE `role` = ?",[role])
+      return rows;
+    }catch(error){
+      console.error("Error detected at fetchgnig getUserByRole")
+      return error;
+    }
+  }
+  
   async register(req, res, next) {
     const { email, username, password,role } = req.body;
 

@@ -1,0 +1,188 @@
+ function checkUserActivity($conn) {
+    if (isset($_SESSION['userID'])) {
+      $user_id = $_SESSION['userID'];
+      $LastCheck = mysqli_query($conn, "SELECT `last_login` FROM `users` WHERE `id` = '$user_id'");
+  
+      if ($LastCheck && mysqli_num_rows($LastCheck) > 0) {
+        $row = mysqli_fetch_assoc($LastCheck);
+        $last_login = strtotime($row['last_login']);
+        $current_time = time();
+        $inactive_time = 3600; 
+  
+        if (($current_time - $last_login) > $inactive_time) {
+          $update_query = "UPDATE `users` SET `status` = 'inactive' WHERE `id` = '$user_id'";
+          mysqli_query($conn, $update_query);
+  
+          session_unset();
+          session_destroy();
+  
+          header('Location: ' . $_SERVER['REQUEST_URI']);
+          exit;
+        }
+      }
+    }
+  }
+//DONE
+AllCourses
+ echo '<h2 class="mt-3">Szkolenia</h2>';
+  $courses = mysqli_query($conn, "SELECT * FROM `courses`");
+  echo '<div class="accordion" id="accordionExample">';
+  while ($row = mysqli_fetch_assoc($courses)) 
+
+  AllUsers
+    $users = mysqli_query($conn, "SELECT * FROM `users`");
+  echo '<div class="accordion" id="accordionExample2">';
+  while ($row = mysqli_fetch_assoc($users)) {
+    $uniqueId = "users-" . $row['id'];
+
+
+    Customowy do kursow z uzytkownikami
+     $users = mysqli_query(
+    $conn,
+    "SELECT
+    user_courses.id,
+    users.email,
+    users.username,
+    courses.name,
+    courses.description,
+    courses.date,
+    courses.course_link,
+    user_courses.certificate,
+    user_courses.status,
+    user_courses.date_completed
+  FROM
+    `user_courses`
+  JOIN `users` ON users.id = user_courses.user_id
+  JOIN `courses` ON courses.id = user_courses.id"
+  );
+  echo '<div class="accordion" id="accordionExample3">';
+  while ($row = mysqli_fetch_assoc($users)) {
+    $uniqueId = "users_courses-" . $row['id'];
+
+    Wszystko z kursow
+  $userID = $_SESSION['userID'];
+  $YourCourses = mysqli_query($conn, "SELECT * FROM user_courses JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id = $userID");
+
+Wszystkie kursy z okreslonym statusem np Ukonczony
+$userID = $_SESSION['userID'];
+  $YourCourses = mysqli_query($conn, "SELECT * FROM user_courses JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id = $userID AND user_courses.status = 'Ukończony'");
+
+
+SaveUzytkownika
+function SaveEditUser($UserID, $UserEmail, $UserFull, $UserRole, $conn)
+{
+  $UserUpdate = "UPDATE `users` SET `email`='$UserEmail', `username`='$UserFull', `role`='$UserRole' WHERE `id`='$UserID'";
+  return mysqli_query($conn, $UserUpdate);
+}
+
+getEditCourse
+function getEditCourse($CourseName, $CourseDescription, $CourseDate, $CourseLink, $CourseId, $conn)
+{
+  $Course_Update = "UPDATE `courses` SET `name`='$CourseName',`description`='$CourseDescription',`date`='$CourseDate',`course_link`=' $CourseLink' WHERE `id`='$CourseId'";
+  return mysqli_query($conn, $Course_Update);
+}
+
+kilka zapytan do usuwania
+function CheckUsers($UserID, $conn)
+{
+    $UserCheck = mysqli_query($conn, "SELECT `role` FROM `users` WHERE `id` = '$UserID'");
+    return mysqli_fetch_assoc($UserCheck);
+}
+
+function DeleteUsers($UserID, $conn)
+{
+    $UserDelete = "DELETE FROM `users` WHERE `id` = '$UserID'";
+    return mysqli_query($conn, $UserDelete);
+}
+
+usuwanie kursu
+
+function DeleteCourse($courseId, $conn){
+  $Course_Delete = "DELETE FROM `courses` WHERE `id`='$courseId'";
+  return mysqli_query($conn, $Course_Delete);
+}
+
+zapytania do edytowania :>
+function EditUsername($userCourse_id, $conn){
+  $query = mysqli_query($conn, "SELECT users.username FROM users JOIN user_courses ON users.id = user_courses.user_id WHERE user_courses.id = $userCourse_id");
+  $result = mysqli_fetch_assoc($query);
+  return valid($result['username'], $conn);
+}
+function EditCourse($userCourse_id, $conn){
+  $query = mysqli_query($conn, "SELECT courses.name FROM `courses` JOIN user_courses ON courses.id = user_courses.course_id WHERE user_courses.id = $userCourse_id");
+  $result = mysqli_fetch_assoc($query);
+  return valid($result['name'], $conn);
+}
+function EditUpdateCourse($UserCourse_Cert, $UserCourse_Status, $UserCourse_DateCompleted, $userCourse_id, $conn){
+  $UserCourse_Update = "UPDATE user_courses JOIN courses ON courses.id = user_courses.course_id SET user_courses.certificate = '$UserCourse_Cert', user_courses.status = '$UserCourse_Status', user_courses.date_completed = '$UserCourse_DateCompleted' WHERE user_courses.id = $userCourse_id";
+  return mysqli_query($conn, $UserCourse_Update);
+}
+
+ciag dalszy :)
+function DeleteUsername($userCourseId, $conn)
+{
+    $query = mysqli_query($conn, "SELECT users.username FROM users JOIN user_courses ON users.id = user_courses.user_id WHERE user_courses.id = $userCourseId");
+    $result = mysqli_fetch_assoc($query);
+    return valid($result['username'], $conn);
+}
+function DeleteCourseName($userCourseId, $conn)
+{
+    $query = mysqli_query($conn, "SELECT courses.name FROM `courses` JOIN user_courses ON courses.id = user_courses.course_id WHERE user_courses.id = $userCourseId");
+    $result = mysqli_fetch_assoc($query);
+    return valid($result['name'], $conn);
+}
+
+function DeleteUserCourse($userCourseId, $conn)
+{
+    $query = mysqli_query($conn, "DELETE FROM `user_courses` WHERE `id`= $userCourseId");
+    return $query;
+}
+
+plik assignCourse(w cholere dlugi wiec oddzielam)
+-------------------------------------
+$users = mysqli_query($conn, "SELECT `id`, `username`, `role` FROM `users` WHERE `role` = 'użytkownik'");
+$courses = mysqli_query($conn, "SELECT `id`, `name` FROM `courses`");
+
+function getCourseName($courseId, $conn)
+{
+  $query = mysqli_query($conn, "SELECT `name` FROM `courses` WHERE `id` = '$courseId'");
+  return mysqli_fetch_assoc($query);
+}
+function getUsername($userId, $conn)
+{
+  $query = mysqli_query($conn, "SELECT `username` FROM `users` WHERE `id` = '$userId'");
+  return mysqli_fetch_assoc($query);
+}
+function isCourseAssigned($userId, $courseId, $conn)
+{
+  $query = mysqli_query($conn, "SELECT * FROM `user_courses` WHERE `user_id` = '$userId' AND `course_id` = '$courseId'");
+  return mysqli_fetch_assoc($query);
+}
+function assignCourse($userId, $courseId, $certificate, $status, $dateCompleted, $conn)
+{
+  $query = "INSERT INTO `user_courses`(`user_id`, `course_id`, `certificate`, `status`, `date_completed`) VALUES ('$userId','$courseId','$certificate','$status','$dateCompleted')";
+  return mysqli_query($conn, $query);
+}
+
+Dodawawnie uzytkownika itp
+
+function usersExists($UserEmail, $UserFullName, $conn){
+  $checkUserQuery = mysqli_query($conn, "SELECT * FROM `users` WHERE `email`='$UserEmail' OR `username`='$UserFullName'");
+  return mysqli_num_rows($checkUserQuery) > 0;
+}
+function addUser($UserEmail, $UserFullName, $UserPassword, $UserRole, $conn){
+  $UserAddQuery = "INSERT INTO `users`(`email`, `username`, `password_hash`, `role`) VALUES ('$UserEmail','$UserFullName','$UserPassword','$UserRole')";
+  return mysqli_query($conn, $UserAddQuery);
+  
+}
+
+Dodawanie Kursy. OSTATNI PLIK :DDD
+function courseExists($courseName, $conn) {
+  $query = mysqli_query($conn, "SELECT * FROM `courses` WHERE `name` = '$courseName'");
+  return mysqli_num_rows($query) > 0;
+}
+function addCourse($courseName, $courseDate, $courseDescription, $courseLink, $conn) {
+  $query = "INSERT INTO `courses`(`name`, `description`, `date`, `course_link`) VALUES ('$courseName', '$courseDescription', '$courseDate', '$courseLink')";
+  return mysqli_query($conn, $query);
+}
+
