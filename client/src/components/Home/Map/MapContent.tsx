@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import LineSection from "@/components/LineSection/LineSection";
+import LineSection from "@/components/LineSection";
 import CityContactDetails from "./MapInfo";
 import cityContacts from "./ContactData";
 import Map from "./Map";

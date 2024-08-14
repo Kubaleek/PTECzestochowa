@@ -1,6 +1,6 @@
 import General from "./Contact/General";
 import Coop from "./Contact/Coop";
-import Tabs from "./Contact/Tabs";
+import Tabs from "./Tabs";
 import Ticket from "./Contact/Ticket";
 import Course from "./Contact/Course";
 

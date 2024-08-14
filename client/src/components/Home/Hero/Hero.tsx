@@ -1,6 +1,6 @@
 // import Image from "next/image";
 import HeroInfos from "./HeroInfo";
-import LineSection from "../../LineSection/LineSection";
+import LineSection from "../../LineSection";
 import Image from "next/image";
 
 export default function Hero() {

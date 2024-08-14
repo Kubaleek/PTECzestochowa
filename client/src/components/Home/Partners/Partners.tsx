@@ -1,4 +1,4 @@
-import LineSection from "../../LineSection/LineSection";
+import LineSection from "../../LineSection";
 import PartnersTypes from "./PartnersInfo";
 import Image from "next/image";
 

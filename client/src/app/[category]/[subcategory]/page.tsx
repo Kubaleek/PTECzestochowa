@@ -8,10 +8,10 @@ import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer';
 import Aside from '@/components/Aside';
 import Detail from '@/components/Detail';
-import LineSection from '@/components/LineSection/LineSection';
+import LineSection from '@/components/LineSection';
 import SocialsButtons from '@/components/SocialsButtons';
 import Contact from '@/components/Contact';
-import Courses from '@/components/Courses';
+import Courses from '@/components/Courses/Courses';
 
 
 type Params = {

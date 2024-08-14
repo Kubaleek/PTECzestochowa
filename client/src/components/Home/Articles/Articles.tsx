@@ -1,5 +1,5 @@
 import Link from "next/link";
-import LineSection from "../../LineSection/LineSection";
+import LineSection from "../../LineSection";
 import ArticlesInfos from "./ArticlesInfo";
 import SocialMedia from "./Social Media/SocialMedia";
 import Image from "next/image";

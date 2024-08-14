@@ -1,6 +1,3 @@
-import Link from "next/link";
-import LineSection from "./LineSection/LineSection";
-
 export default function Detail({ children } : {children: React.ReactNode}) {
     return (
         <>

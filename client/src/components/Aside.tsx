@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Aside({ children } : {children: React.ReactNode}) {
     return (
-        <aside className="col-span-12 lg:col-span-4 xl:col-span-3">
+    <aside className="col-span-12 lg:col-span-4 xl:col-span-3">
         <div className="w-full h-fit mb-0 flex flex-col gap-2">
             <p>
                 <Link href={"/"} className="flex flex-row items-center group lg:hover:underline transition-all ease duration-300 text-[16px]">

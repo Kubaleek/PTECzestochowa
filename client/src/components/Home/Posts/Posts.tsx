@@ -1,6 +1,6 @@
 import News from "./News/News";
 import PostsInfo from "./PostsInfo";
-import LineSection from "../../LineSection/LineSection";
+import LineSection from "../../LineSection";
 import Link from "next/link";
 
 export default function Posts() {
