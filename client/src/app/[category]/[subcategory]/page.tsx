@@ -52,7 +52,7 @@ export default function CategoriesPages({ params }: { params: Params }) {
                 <Detail>
                     <h2 className='m-0 text-[24px] font-bold text-[#17822e] break-words whitespace-normal'>Posty</h2>
                     <h1 className='text-3xl font-bold mt-0 mb-2 break-words whitespace-normal'>Śledź najnowsze wiadomości</h1>
-                    <div className='flex flex-row'>
+                    <div className='flex flex-row gap-2'>
                         <SocialsButtons />
                     </div>
                     <div className='mt-3'>

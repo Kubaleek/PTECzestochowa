@@ -1,23 +1,30 @@
-// Define the Circle type
+"use client"
+
+import { motion } from 'framer-motion';
+import { useInView } from "react-intersection-observer";
 interface Circle {
   cx: number;
   cy: number;
 }
-// Define the props type
 interface MapProps {
   activeCircles: Circle[];
 }
 
+const Variants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1 },
+};
+
 const Map: React.FC<MapProps> = ({ activeCircles }) => {
+
+  const { ref: mapRef, inView: mapInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   return (
     <>
-      <svg
-        width="100%"
-        viewBox="0 0 687 613"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        opacity="1"
-        className="w-full sm:w-2/4 md:w-3/4 lg:w-3/4 xl:w-2/4 px-8 justify-center items-center place-items-center pointer-events-auto">
+    <motion.svg ref={mapRef} width="100%" viewBox="0 0 687 613" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full sm:w-2/4 md:w-3/4 lg:w-3/4 xl:w-2/4 px-8 justify-center items-center place-items-center pointer-events-auto" initial="hidden" animate={mapInView ? "visible" : "hidden"} variants={Variants} transition={{ duration: 0.8 }}>
         <path
           fillRule="evenodd"
           clipRule="evenodd"
@@ -486,7 +493,7 @@ const Map: React.FC<MapProps> = ({ activeCircles }) => {
           r="8.53624"
           fill="#19854A"
           fillOpacity="0.61"></circle>
-      </svg>
+      </motion.svg>
     </>
   );
 };

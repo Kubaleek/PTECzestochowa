@@ -1,11 +1,14 @@
+"use client"
+
 import React from "react";
 import cityContacts from "./ContactData";
+import { motion } from "framer-motion";
 
 const CityContactDetails = ({ city }: { city: string }) => {
   const contact = cityContacts[city];
   
   return (
-    <div className="bg-[#f8f8f8] rounded relative mb-4 p-3 border border-[#333]/30 shadow">
+    <motion.div className="bg-[#f8f8f8] rounded relative mb-4 p-3 border border-[#333]/30 shadow" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, ease: "easeOut" }}>
       <h2 className="text-[#2d2f2d] text-[24px] font-semibold">
         {contact.name}
       </h2>
@@ -66,7 +69,7 @@ const CityContactDetails = ({ city }: { city: string }) => {
           </a>
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

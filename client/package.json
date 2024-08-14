@@ -15,7 +15,7 @@
     "@mui/icons-material": "^5.16.6",
     "@mui/material": "^5.16.6",
     "@react-hook/media-query": "^1.1.1",
-    "framer-motion": "^11.3.21",
+    "framer-motion": "^11.3.27",
     "lucide": "^0.424.0",
     "lucide-react": "^0.424.0",
     "next": "14.2.5",
@@ -26,6 +26,7 @@
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.2.3",
     "react-file-drop": "^3.1.6",
+    "react-intersection-observer": "^9.13.0",
     "react-responsive": "^10.0.0",
     "sharp": "^0.33.4"
   },
