@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.animate-element {
+  will-change: opacity, transform;
+}

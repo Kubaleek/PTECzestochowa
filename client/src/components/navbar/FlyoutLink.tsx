@@ -25,7 +25,7 @@ const FlyoutLink: React.FC<FlyoutLinkProps> = ({ children, href, FlyoutContent }
 
       <AnimatePresence>
         {open && FlyoutContent && (
-          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 15 }} transition={{ duration: 0.3, ease: "easeOut" }} className="absolute top-12 bg-white shadow-lg border border-[#080808]/25 overflow-hidden" style={{ maxWidth: "100%", minWidth: "200px" }}>
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 15 }} transition={{ duration: 0.3, ease: "easeOut" }} className="absolute top-12 bg-white shadow-lg border border-[#080808]/25 overflow-hidden" style={{ maxWidth: "100%", minWidth: "180px" }}>
             <div className="absolute -top-6 left-0 right-0 h-6 bg-transparent" />
             <div className="p-2 space-y-1 overflow-hidden w-full">
               {FlyoutContent.map((link) => (

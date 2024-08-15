@@ -8,10 +8,10 @@ import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer';
 import Aside from '@/components/Aside';
 import Detail from '@/components/Detail';
-import LineSection from '@/components/LineSection/LineSection';
+import LineSection from '@/components/LineSection';
 import SocialsButtons from '@/components/SocialsButtons';
 import Contact from '@/components/Contact';
-import Courses from '@/components/Courses';
+import Courses from '@/components/Courses/Courses';
 
 
 type Params = {
@@ -50,9 +50,9 @@ export default function CategoriesPages({ params }: { params: Params }) {
                     ))}
                 </Aside>
                 <Detail>
-                    <h2 className='m-0 text-[24px] font-bold text-[#17822e] break-words whitespace-normal'>Posty</h2>
-                    <h1 className='text-3xl font-bold mt-0 mb-2 break-words whitespace-normal'>Śledź najnowsze wiadomości</h1>
-                    <div className='flex flex-row'>
+                    <h2 className='m-0 text-[18px] md:text-[24px] font-bold text-[#17822e] break-words whitespace-normal'>Posty</h2>
+                    <h1 className='text-xl md:text-3xl font-bold mt-0 mb-2 break-words whitespace-normal'>Śledź najnowsze wiadomości</h1>
+                    <div className='flex flex-row gap-2'>
                         <SocialsButtons />
                     </div>
                     <div className='mt-3'>
