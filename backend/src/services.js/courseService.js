@@ -39,25 +39,25 @@ class CourseService {
   }
   async getCoursesWithUser(){
     try {
-      const [rows] = await pool.query("SELECT user_courses.id, users.email, users.username, courses.name, courses.description, courses.date, courses.course_link, user_courses.certificate, user_courses.status, user_courses.date_completed FROM `user_courses` JOIN `users` ON users.id = user_courses.user_id JOIN `courses` ON courses.id = user_courses.id");
+      const [rows] = await pool.query("SELECT user_courses.id, users.email, users.username, courses.name, courses.description, courses.date, courses.course_link, user_courses.certificate, user_courses.course_status, user_courses.date_completed FROM `user_courses` JOIN `users` ON users.id = user_courses.user_id JOIN `courses` ON courses.id = user_courses.id");
       return rows;
     } catch (error) {
       console.error("Error detected ad fetching NavItems");
       throw error;
     }
   }
-  async getCourseByUser(){
+  async getCourseByUser(userID){
     try{
-      const [rows] = await pool.query("SELECT * FROM user_courses JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id = $userID");
+      const [rows] = await pool.query("SELECT * FROM user_courses JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id = ?",[userID]);
       return rows;
     }catch(error){
       console.error("Error detected ad fetching NavItems");
       throw error;
     }
   }
-  async getCorusesByStatus(status='Ukończony'){
+  async getCorusesByStatus(userID,status='Ukończony'){
     try{
-      const [rows] = await pool.query("SELECT * FROM user_courses JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id = $userID AND user_courses.status = ?",[status]);
+      const [rows] = await pool.query("SELECT * FROM user_courses JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id = ? AND user_courses.course_status = ?",[userID,status]);
       return rows;
     }catch(error){
       console.error("Error detected ad fetching NavItems");
@@ -98,7 +98,7 @@ class CourseService {
         UPDATE user_courses 
         JOIN courses ON courses.id = user_courses.course_id 
         SET user_courses.certificate = ?, 
-            user_courses.status = ?, 
+            user_courses.course_status = ?, 
             user_courses.date_completed = ? 
         WHERE user_courses.id = ?`;
 
@@ -174,7 +174,7 @@ class CourseService {
   async assignCourse(userId, courseId, certificate, status, dateCompleted) {
     try {
       const query = `
-        INSERT INTO user_courses (user_id, course_id, certificate, status, date_completed) 
+        INSERT INTO user_courses (user_id, course_id, certificate, course_status, date_completed) 
         VALUES (?, ?, ?, ?, ?)`;
 
       const [result] = await pool.query(query, [

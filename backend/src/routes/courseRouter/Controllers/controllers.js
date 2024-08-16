@@ -1,9 +1,8 @@
-import CourseService from '../services/CourseService.js';
-import AppError from '../utils/AppError.js';
-
+import AppError from '../../../../utils/ErrorHandler.js';
+import courseService from '../../../services.js/courseService.js';
 const getAllCourses = async (req, res, next) => {
     try {
-        const courses = await CourseService.getAllCourses();
+        const courses = await courseService.getAllCourses();
         res.json({ data: courses });
     } catch (error) {
         console.error("Error detected at fetching all courses", error);
@@ -14,7 +13,7 @@ const getAllCourses = async (req, res, next) => {
 const deleteCourse = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const result = await CourseService.DeleteCourse(id);
+        const result = await courseService.DeleteCourse(id);
         if (result) {
             res.json({ message: "Course deleted successfully" });
         } else {
@@ -28,7 +27,7 @@ const deleteCourse = async (req, res, next) => {
 
 const getAllUsers = async (req, res, next) => {
     try {
-        const users = await CourseService.getAllUsers();
+        const users = await courseService.getAllUsers();
         res.json({ data: users });
     } catch (error) {
         console.error("Error detected at fetching all users", error);
@@ -38,7 +37,7 @@ const getAllUsers = async (req, res, next) => {
 
 const getCoursesWithUser = async (req, res, next) => {
     try {
-        const courses = await CourseService.getCoursesWithUser();
+        const courses = await courseService.getCoursesWithUser();
         res.json({ data: courses });
     } catch (error) {
         console.error("Error detected at fetching courses with users", error);
@@ -49,7 +48,7 @@ const getCoursesWithUser = async (req, res, next) => {
 const checkUserActivity = async (req, res, next) => {
     try {
         const { userID } = req.params;
-        const { redirect, location } = await CourseService.checkUserActivity(userID);
+        const { redirect, location } = await courseService.checkUserActivity(userID);
         if (redirect) {
             res.redirect(location);
         } else {
@@ -64,7 +63,7 @@ const checkUserActivity = async (req, res, next) => {
 const getCourseName = async (req, res, next) => {
     try {
         const { courseId } = req.params;
-        const courseName = await CourseService.getCourseName(courseId);
+        const courseName = await courseService.getCourseName(courseId);
         res.json({ data: courseName });
     } catch (error) {
         console.error("Error detected at fetching course name", error);
@@ -75,7 +74,7 @@ const getCourseName = async (req, res, next) => {
 const courseExists = async (req, res, next) => {
     try {
         const { courseName } = req.params;
-        const exists = await CourseService.courseExists(courseName);
+        const exists = await courseService.courseExists(courseName);
         res.json({ exists });
     } catch (error) {
         console.error("Error detected at checking if course exists", error);
@@ -86,7 +85,7 @@ const courseExists = async (req, res, next) => {
 const addCourse = async (req, res, next) => {
     try {
         const { name, date, description, link } = req.body;
-        const result = await CourseService.addCourse(name, date, description, link);
+        const result = await courseService.addCourse(name, date, description, link);
         res.json({ success: result });
     } catch (error) {
         console.error("Error detected at adding course", error);
@@ -97,7 +96,7 @@ const addCourse = async (req, res, next) => {
 const editCourse = async (req, res, next) => {
     try {
         const course = req.body;
-        const result = await CourseService.getEditCourse(course);
+        const result = await courseService.getEditCourse(course);
         res.json({ success: result });
     } catch (error) {
         console.error("Error detected at editing course", error);
@@ -108,7 +107,7 @@ const editCourse = async (req, res, next) => {
 const editUpdateCourse = async (req, res, next) => {
     try {
         const { userCourseCert, userCourseStatus, userCourseDateCompleted, userCourseId } = req.body;
-        const result = await CourseService.editUpdateCourse(userCourseCert, userCourseStatus, userCourseDateCompleted, userCourseId);
+        const result = await courseService.editUpdateCourse(userCourseCert, userCourseStatus, userCourseDateCompleted, userCourseId);
         res.json({ success: result });
     } catch (error) {
         console.error("Error detected at updating course", error);
@@ -119,7 +118,7 @@ const editUpdateCourse = async (req, res, next) => {
 const deleteUsername = async (req, res, next) => {
     try {
         const { userCourseId } = req.params;
-        const username = await CourseService.deleteUsername(userCourseId);
+        const username = await courseService.deleteUsername(userCourseId);
         res.json({ data: username });
     } catch (error) {
         console.error("Error detected at deleting username", error);
@@ -130,7 +129,7 @@ const deleteUsername = async (req, res, next) => {
 const deleteCourseName = async (req, res, next) => {
     try {
         const { userCourseId } = req.params;
-        const courseName = await CourseService.deleteCourseName(userCourseId);
+        const courseName = await courseService.deleteCourseName(userCourseId);
         res.json({ data: courseName });
     } catch (error) {
         console.error("Error detected at deleting course name", error);
@@ -141,7 +140,7 @@ const deleteCourseName = async (req, res, next) => {
 const isCourseAssigned = async (req, res, next) => {
     try {
         const { userId, courseId } = req.params;
-        const assigned = await CourseService.isCourseAssigned(userId, courseId);
+        const assigned = await courseService.isCourseAssigned(userId, courseId);
         res.json({ assigned });
     } catch (error) {
         console.error("Error detected at checking if course is assigned", error);
@@ -152,7 +151,7 @@ const isCourseAssigned = async (req, res, next) => {
 const assignCourse = async (req, res, next) => {
     try {
         const { userId, courseId, certificate, status, dateCompleted } = req.body;
-        const result = await CourseService.assignCourse(userId, courseId, certificate, status, dateCompleted);
+        const result = await courseService.assignCourse(userId, courseId, certificate, status, dateCompleted);
         res.json({ success: result });
     } catch (error) {
         console.error("Error detected at assigning course", error);
@@ -163,7 +162,7 @@ const assignCourse = async (req, res, next) => {
 const deleteUserCourse = async (req, res, next) => {
     try {
         const { userCourseId } = req.params;
-        const result = await CourseService.deleteUserCourse(userCourseId);
+        const result = await courseService.deleteUserCourse(userCourseId);
         res.json({ success: result });
     } catch (error) {
         console.error("Error detected at deleting user course", error);

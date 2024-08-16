@@ -7,6 +7,7 @@ import { securityService } from './utils/utills.js';
 import postRouter from './src/routes/postRouter/postRouter.js';
 import authRouter from './src/routes/authRouter/authRouter.js';
 import emailRouter from './src/routes/emailRoute/emailRoute.js';
+import courseRouter from './src/routes/courseRouter/courseRouter.js';
 const app = express();
 
 app.use(cors({
@@ -21,7 +22,8 @@ app.use(cookieParser())
 // Routery                                                                                  
 app.use(postRouter);             
 app.use(authRouter)             
-app.use(emailRouter)                                                        
+app.use(emailRouter)       
+app.use(courseRouter)                                                 
 app.use((err, req, res, next) => {                                                                                  
     err.status = err.status || "fail";                                                                                  
     err.statusCode = err.statusCode || 500;                                                                                  

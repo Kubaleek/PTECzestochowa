@@ -62,4 +62,4 @@ authRouter.get('/user/delete', VerifyRole, DeleteUser);  // Assuming role-based 
 authRouter.get('/user/edit/:userCourseId', Verify, EditUsername);
 authRouter.get('/users/role/:role', Verify, VerifyRole, GetUserByRole);
 
-export default authRouter;
+export default authRouter;  

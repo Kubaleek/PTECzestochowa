@@ -1,7 +1,6 @@
 import express from 'express'
 import { Controllers } from './Controllers/controllers.js';
 import data from '../../../utils/constants.js'
-
 const { 
     getAllCourses, 
     deleteCourse, 
@@ -20,7 +19,6 @@ const {
     deleteUserCourse
 } = Controllers;
 const courseRouter = express.Router();
-
 courseRouter.get(`${data.courses}/all`, getAllCourses);
 courseRouter.delete(`${data.courses}/delete/:id`, deleteCourse);
 courseRouter.get(`${data.courses}/all`, getAllUsers);
@@ -28,7 +26,7 @@ courseRouter.get(`${data.courses}/with-users`, getCoursesWithUser);
 courseRouter.get(`${data.users}/check-activity/:userID`, checkUserActivity);
 courseRouter.get(`${data.courses}/name/:courseId`, getCourseName);
 courseRouter.get(`${data.courses}/exists/:courseName`, courseExists);
-courseRouter.post(`${data.courses}/add`, addCourse);
+courseRouter.post(`/add`, addCourse);
 courseRouter.put(`${data.courses}/edit`, editCourse);
 courseRouter.put(`${data.courses}/update`, editUpdateCourse);
 courseRouter.delete(`${data.courses}/username/:userCourseId`, deleteUsername);
