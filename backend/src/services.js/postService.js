@@ -3,7 +3,7 @@ import { pool } from "../database/database.js";
 class PostService {
   async getNavItems() {
     try {
-      const [rows] = await pool.query("SELECT id, subtitle FROM `posts`");
+      const [rows] = await pool.query("SELECT id, subtitle, category FROM `posts`");
       return rows;
     } catch (error) {
       console.error("Error detected ad fetching NavItems");

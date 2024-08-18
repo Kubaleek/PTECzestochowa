@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import PTECzestochowaLogo from "../assets/PTECzęstochowa/Logo_PTE_poziome_Czestochowa_e271bd3c00.png";
-import PTESiedziba from "../assets/PTECzęstochowa/pte_siedziba.jpg";
+import PTECzestochowaLogo from "../../assets/PTECzęstochowa/Logo_PTE_poziome_Czestochowa_e271bd3c00.png";
+import PTESiedziba from "../../assets/PTECzęstochowa/pte_siedziba.jpg";
 
 const Header = () => {
 
