@@ -5,15 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { homeAPI } from "../../services/homeAPI";
 import { useQuery } from '@tanstack/react-query';
 import NavWrapper from "./NavbarMobile";
-
-
-// Typy danych
-interface NavItem {
-  id: number;
-  subtitle: string;
-  category: string;
-}
-
+import { NavItem } from "./ts/types";
 const Navbar: React.FC = () => {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const pathname = usePathname();

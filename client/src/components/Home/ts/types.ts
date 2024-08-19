@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export interface Article {
   subpost_id: number;
   id: number;
@@ -11,3 +13,12 @@ export interface Article {
 export interface ArticlesResponse {
   data: Article[];
 }
+
+export type SocialMediaLink = [string, string, ReactElement];
+
+export type SocialIconsProps = {
+  label: string;
+  icon: ReactElement;
+  className: string;
+  href: string;
+};

@@ -8,12 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { motion, Variants } from "framer-motion";
 import { usePathname } from "next/navigation";
 import PTECzestochowaLogo from "../../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
-
-interface NavItem {
-  id: number;
-  subtitle: string;
-  category: string;
-}
+import { NavItem } from "./ts/types";
 
 const menuVariants: Variants = {
   open: { opacity: 1, x: 0, transition: { duration: 0.3 } },
