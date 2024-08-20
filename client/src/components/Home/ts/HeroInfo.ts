@@ -8,15 +8,8 @@ import Hero7 from "../../../assets/PTE/Hero7.webp";
 import Hero8 from "../../../assets/PTE/Hero8.webp";
 import Hero9 from "../../../assets/PTE/Hero9.webp";
 import Hero10 from "../../../assets/PTE/Hero10.webp";
+import { HeroInfosType } from "./types";
 
-import { StaticImageData } from 'next/image';
-
-export type HeroInfosType = {
-    id: number;
-    href: string;
-    src: string | StaticImageData;
-    alt: string;
-}
 
 const HeroInfos: HeroInfosType[] = [
     {

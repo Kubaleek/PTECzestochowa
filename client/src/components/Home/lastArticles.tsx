@@ -49,7 +49,7 @@ export default function LastArticles() {
             ) : (
               <div className="flex flex-col gap-4">
                 {articles.map((item) => (
-                  <div key={item.subpost_id} className="bg-[#f8f8f8] rounded relative overflow-hidden p-3 bg-opacity-50 border border-[#333]/25 shadow">
+                  <div key={item.subpost_id} className="bg-[#f8f8f8] shadow-lg rounded relative overflow-hidden p-3 bg-opacity-50 border border-[#333]/25 shadow">
                     <div className="grid grid-cols-12 gap-3 sm:gap-6">
                       <div className="col-span-12 sm:col-span-4">
                         <Image

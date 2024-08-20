@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { StaticImageData } from 'next/image';
 
 export interface BaseContent {
   subpost_id: number;
@@ -36,3 +37,17 @@ export type SocialIconsProps = {
   className: string;
   href: string;
 };
+
+export type HeroInfosType = {
+  id: number;
+  href: string;
+  src: string | StaticImageData;
+  alt: string;
+}
+
+export type PartnerType = {
+  id: number;
+  url: string;
+  src: string | StaticImageData;
+  name: string;
+}

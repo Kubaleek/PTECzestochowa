@@ -36,7 +36,7 @@ export default function LastPosts() {
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-4 justify-center items-center">
                 {posts.map((item) => (
-                <div key={item.subpost_id} className="bg-[#f8f8f8] rounded-lg group relative overflow-hidden p-3 border border-[#333]/15 shadow">
+                <div key={item.subpost_id} className="bg-[#f8f8f8] rounded-lg group relative overflow-hidden p-3 border border-[#333]/15 shadow-lg">
                     <div className="flex flex-col gap-3">
                       <div>
                         <h2 className="font-semibold text-sm">
@@ -70,6 +70,7 @@ export default function LastPosts() {
           <LastNews />
         </div>
       </div>
+      <hr className="h-[2px] w-full bg-[#17822e] mt-6" />
     </section>
   );
 }
