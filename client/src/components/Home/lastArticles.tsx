@@ -1,9 +1,8 @@
 "use client";
-import Link from "next/link";
 import Image from "next/image";
 import { homeAPI } from "../../services/homeAPI";
 import { useQuery } from "@tanstack/react-query";
-import { Article, ArticlesResponse } from "./ts/types";
+import { ArticlesResponse } from "./ts/types";
 import { format, parseISO } from "date-fns";
 import { pl } from "date-fns/locale";
 import Test from "../../assets/PTECzęstochowa/pte_siedziba.jpg";
@@ -11,17 +10,15 @@ import SocialIcons from "./Icons";
 import Newslatter from "./Newslatter";
 
 export default function LastArticles() {
-  const { data, error, isLoading } = useQuery<ArticlesResponse>({
+  const { data: { data: articles = [] } = {}, error, isLoading } = useQuery<ArticlesResponse>({
     queryKey: ["lastArticles"],
     queryFn: homeAPI.GetArticles,
   });
 
-  const articles: Article[] = data?.data || [];
-
   return (
     <>
       <section>
-        <div className="grid grid-cols-12 lg:gap-12">
+        <div className="grid grid-cols-12 gap-6 lg:gap-12">
           <div className="col-span-12 lg:col-span-7 xl:col-span-8">
             <h2 className="flex items-center mb-5">
               <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="square" className="inline-block text-[#17822e] text-[12px] text-sm mr-3 h-3 align-middle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -50,9 +47,9 @@ export default function LastArticles() {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-4">
                 {articles.map((item) => (
-                  <div key={item.subpost_id} className="bg-[#f8f8f8] rounded relative mb-4 overflow-hidden p-3 bg-opacity-50 border border-[#333]/25 shadow">
+                  <div key={item.subpost_id} className="bg-[#f8f8f8] rounded relative overflow-hidden p-3 bg-opacity-50 border border-[#333]/25 shadow">
                     <div className="grid grid-cols-12 gap-3 sm:gap-6">
                       <div className="col-span-12 sm:col-span-4">
                         <Image
@@ -81,11 +78,9 @@ export default function LastArticles() {
                             {item.subtext}
                           </p>
                         </div>
-                        <Link
-                          href={""}
-                          className="hover:underline text-[#2d2f2d] text-base">
+                        <a href="" className="hover:underline text-[#2d2f2d] text-base">
                           Czytaj dalej
-                        </Link>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -204,7 +199,7 @@ export default function LastArticles() {
             </div>
           </div>
         </div>
-        <hr className="h-[2px] w-full bg-[#17822e]" />
+        <hr className="h-[2px] w-full bg-[#17822e] mt-6" />
       </section>
     </>
   );

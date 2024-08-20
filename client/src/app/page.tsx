@@ -2,6 +2,7 @@
 import Header from "@/components/Home/Header";
 import Hero from "@/components/Home/Hero";
 import LastArticles from "@/components/Home/lastArticles";
+import LastPosts from "@/components/Home/lastPosts";
 import Navbar from "@/components/common/Navbar";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <main className="flex flex-col max-w-[1360px] mx-auto justify-center items-stretch gap-6 p-6">
         <Hero />
         <LastArticles /> 
+        <LastPosts />
       </main>
     </>
   );

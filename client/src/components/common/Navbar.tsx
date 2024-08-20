@@ -58,7 +58,7 @@ const Navbar: React.FC = () => {
                         <div className="absolute -top-6 left-0 right-0 h-6 bg-transparent" />
                         <div className="p-2 space-y-1 overflow-hidden w-full">
                           {groupedNavItems[category].map((item) => (
-                            <Link key={item.id} href={`/${item.subtitle.toLowerCase().replace(/\s+/g, '-')}`} className={`flex flex-col transition-all ease-out duration-150 p-2 ${pathname === `/${item.subtitle.toLowerCase().replace(/\s+/g, '-')}` ? "bg-[#17822e] text-[#FFF]" : "hover:bg-[#17822e] hover:text-[#fff]"}`}>
+                            <Link key={item.id} href={`/${item.subtitle.toLowerCase().replace(/\s+/g, '-')}`} className={`flex flex-col transition-all ease-out duration-150 p-2 text-xs ${pathname === `/${item.subtitle.toLowerCase().replace(/\s+/g, '-')}` ? "bg-[#17822e] text-[#FFF]" : "hover:bg-[#17822e] hover:text-[#fff]"}`}>
                               {item.subtitle}
                             </Link>
                           ))}
