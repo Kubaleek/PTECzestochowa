@@ -9,7 +9,7 @@ import Partners8 from "../../../assets/PTE/Partners8.webp";
 import Partners9 from "../../../assets/PTE/Partners9.webp";
 import { PartnerType } from "./types";
 
-const PartnersTypes: PartnerType[] = [
+const PartnersInfo: PartnerType[] = [
     {
         id: 1,
         url: "https://www.gov.pl/",
@@ -66,4 +66,4 @@ const PartnersTypes: PartnerType[] = [
     },
 ];
 
-export default PartnersTypes
+export default PartnersInfo

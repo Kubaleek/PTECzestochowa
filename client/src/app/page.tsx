@@ -1,6 +1,7 @@
 "use client";
 import Header from "@/components/Home/Header";
 import Hero from "@/components/Home/Hero";
+import MapCityContent from "@/components/Home/MapCityContent";
 import Partners from "@/components/Home/Partners";
 import LastArticles from "@/components/Home/lastArticles";
 import LastPosts from "@/components/Home/lastPosts";
@@ -16,6 +17,7 @@ export default function Home() {
         <LastArticles /> 
         <LastPosts />
         <Partners />
+        <MapCityContent />
       </main>
     </>
   );

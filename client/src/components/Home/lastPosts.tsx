@@ -36,10 +36,10 @@ export default function LastPosts() {
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 gap-4 justify-center items-center">
                 {posts.map((item) => (
-                <div key={item.subpost_id} className="bg-[#f8f8f8] rounded-lg group relative overflow-hidden p-3 border border-[#333]/15 shadow-lg">
+                <div key={item.subpost_id} className="bg-[#f8f8f8] hover:font-bold group rounded-lg group relative overflow-hidden p-3 border border-[#333]/15 shadow-lg transition-all duration-200 ease-linear">
                     <div className="flex flex-col gap-3">
                       <div>
-                        <h2 className="font-semibold text-sm">
+                        <h2 className="group-hover:underline font-semibold text-sm">
                           {item.title}
                         </h2>
                         <p className="text-xs">
