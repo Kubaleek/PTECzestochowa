@@ -5,6 +5,7 @@ import MapCityContent from "@/components/Home/MapCityContent";
 import Partners from "@/components/Home/Partners";
 import LastArticles from "@/components/Home/lastArticles";
 import LastPosts from "@/components/Home/lastPosts";
+import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
         <Partners />
         <MapCityContent />
       </main>
+      <Footer />
     </>
   );
 }
