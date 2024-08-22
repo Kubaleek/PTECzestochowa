@@ -1,6 +1,6 @@
 import { MapProps } from "./ts/types";
 
-const Map: React.FC<MapProps> = ({ activeCircles }) => {
+const Maps: React.FC<MapProps> = ({ activeCircles }) => {
   return (
     <>
     <svg width="100%" viewBox="0 0 687 613" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full sm:w-2/4 md:w-3/4 lg:w-3/4 xl:w-2/4 px-8 justify-center items-center place-items-center pointer-events-auto">
@@ -477,4 +477,4 @@ const Map: React.FC<MapProps> = ({ activeCircles }) => {
   );
 };
 
-export default Map;
+export default Maps;
