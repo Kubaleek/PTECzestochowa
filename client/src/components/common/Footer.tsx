@@ -1,15 +1,29 @@
 import { homeAPI } from "../../services/homeAPI";
 import { useQuery } from '@tanstack/react-query';
 import Link from "next/link";
-import { NavItem } from "./ts/types";
+import { NavItem } from './ts/types';
+import Logo from "../../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
+import Image from "next/image";
 
 export default function Footer() {
-    const { data: { data: Item = [] } = {}, error, isLoading } = useQuery({
-        queryKey: ["FooterLists"],
-        queryFn: homeAPI.GetNavs,
-    });
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["footer"],
+    queryFn: homeAPI.GetNavs,
+  });
+
+  const navItems: NavItem[] = data?.data || [];
+
+  const groupedNavItems = navItems.reduce((acc, item) => {
+    if (!acc[item.category]) {
+      acc[item.category] = [];
+    }
+    acc[item.category].push(item);
+    return acc;
+  }, {} as Record<string, NavItem[]>);
+
     return (
-        <footer className={`hidden lg:flex flex-col mx-auto gap-6 justify-center items-center p-4 max-w-[1360px]`}>
+        <footer className={`mx-auto gap-6 justify-center items-center p-6 max-w-[1360px]`}>
             {isLoading ? (
                 <div className="text-black">
                   <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-2 text-[#333] animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,16 +39,35 @@ export default function Footer() {
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                   </svg>
                   <div className="ms-3 text-sm font-medium">
-                    Błąd podczas pobierania danych stopki...
+                    Błąd podczas pobierania danych nawigacji...
                   </div>
                 </div>
             ) : (
                 <>
-                <div className="footerDesktop lg:flex hidden">
-
+                <div className="footerDesktop md:flex hidden flex-col gap-3">
+                  <div className="grid md:grid-cols-4 lg:grid-cols-5 gap-6">
+                  {Object.keys(groupedNavItems).map((category) => (
+                    <div key={category}>
+                      <h4 className="text-lg font-bold mb-2">{category}</h4>
+                      <ul className="space-y-1">
+                        {groupedNavItems[category].map((item) => (
+                          <li key={item.id}>
+                            <Link key={item.id} href={`/${item.subtitle.toLowerCase().replace(/\s+/g, '-')}`} className="text-xs text-[#2d2f2d] hover:underline transition-all ease-in duration-300">
+                              {item.subtitle}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                  </div>
+                  <div className="f__copyright p-2">
+                    <p className="text-end text-sm">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone | <a href="/aktualnosci/polityka-prywatnosci-pte" className="text-[#17822e] font-bold" aria-label="politykaPrywatności">Polityka prywatności</a></p>
+                  </div>
                 </div>
-                <div className="footerMobile lg:hidden flex">
-                    
+                <div className="footerMobile md:hidden grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <Image src={Logo} alt="Logo_PTE_pionowe_Czestochowa" width={440} height={418}/>
+                  <p className="text-end text-[14px]">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone | <Link href={"/aktualnosci/polityka-prywatnosci-pte"} className="text-[#17822e] font-bold" aria-label="politykaPrywatności">Polityka prywatności</Link></p>
                 </div>
                 </>
             )}
