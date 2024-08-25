@@ -9,6 +9,7 @@ import { motion, Variants } from "framer-motion";
 import { usePathname } from "next/navigation";
 import PTECzestochowaLogo from "../../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
 import { NavItem } from "./ts/types";
+import { useNavsQuery } from "@/services/queryHooks";
 
 const menuVariants: Variants = {
   open: { opacity: 1, x: 0, transition: { duration: 0.3 } },
@@ -67,14 +68,15 @@ const AnimatedHamburgerButton: React.FC<{
 );
 
 const MobileMenu: React.FC<{ isOpen: boolean; setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>; }> = ({ isOpen, setMobileMenuOpen }) => {
-  const { data } = useQuery({
-    queryKey: ["navsMobile"],
-    queryFn: homeAPI.GetNavs,
-  });
+   const { data, error, isLoading } = useNavsQuery();
 
   const pathname = usePathname();
+
+
+  // Uzyskanie tablicy elementów nawigacyjnych
   const navItems: NavItem[] = data?.data || [];
 
+  // Grupowanie eleme
   const groupedNavItems = navItems.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];

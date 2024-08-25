@@ -3,12 +3,12 @@ import { pl } from "date-fns/locale";
 import { homeAPI } from "../../services/homeAPI";
 import { useQuery } from "@tanstack/react-query";
 import { NewsResponse } from "./ts/types";
+import { useNewsQuery } from "@/services/queryHooks";
 
 export default function LastNews() {
-    const { data: { data: news = [] } = {}, error, isLoading } = useQuery<NewsResponse>({
-        queryKey: ["lastNews"],
-        queryFn: homeAPI.GetNews,
-      });
+    const { data, error, isLoading } = useNewsQuery();
+    
+    const news = data?.data ?? [];
     return (
         <>
             {isLoading ? (

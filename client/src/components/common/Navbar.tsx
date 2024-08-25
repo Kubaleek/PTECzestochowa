@@ -2,20 +2,16 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { homeAPI } from "../../services/homeAPI";
 import { useQuery } from '@tanstack/react-query';
 import NavWrapper from "./NavbarMobile";
 import { NavItem } from "./ts/types";
+import { useNavsQuery } from "@/services/queryHooks";
 const Navbar: React.FC = () => {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const pathname = usePathname();
 
-  // Pobieranie danych nawigacji
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["navs"],
-    queryFn: homeAPI.GetNavs,
-  });
-  
+  const { data, error, isLoading } = useNavsQuery();
+
   // Uzyskanie tablicy elementów nawigacyjnych
   const navItems: NavItem[] = data?.data || [];
 

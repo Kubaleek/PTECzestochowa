@@ -1,17 +1,16 @@
-import { homeAPI } from "../../services/homeAPI";
-import { useQuery } from '@tanstack/react-query';
+
 import Link from "next/link";
 import { NavItem } from './ts/types';
 import Logo from "../../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
 import Image from "next/image";
+import { useNavsQuery } from "@/services/queryHooks";
 
 export default function Footer() {
 
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["footer"],
-    queryFn: homeAPI.GetNavs,
-  });
+ 
+  const { data, error, isLoading } = useNavsQuery();
 
+  // Uzyskanie tablicy elementów nawigacyjnych
   const navItems: NavItem[] = data?.data || [];
 
   const groupedNavItems = navItems.reduce((acc, item) => {

@@ -1,49 +1,21 @@
+// api.ts
 import axios from 'axios';
 
+const apiClient = axios.create({
+  baseURL: 'http://localhost:5000/pte/posts',
+});
 
-const GetNavs = async () => {
+const fetchData = async (endpoint: string) => {
   try {
-    const response = await axios.get('http://localhost:5000/pte/posts/menu');
-    return response.data
+    const response = await apiClient.get(endpoint);
+    return response.data;
   } catch (error) {
-    console.error('Błąd podczas pobierania danych nawigacji:', error);
-    return [];
+    console.error(`Błąd podczas pobierania danych z ${endpoint}:`, error);
+    throw error;
   }
-}
+};
 
-const GetArticles = async () => {
-  try {
-    const response = await axios.get('http://localhost:5000/pte/posts/lastArticles');
-    return response.data
-  } catch (error) {
-    console.error('Błąd podczas pobierania danych nawigacji:', error);
-    return [];
-  }
-}
-
-const GetPosts = async () => {
-  try {
-    const response = await axios.get('http://localhost:5000/pte/posts/lastPosts');
-    return response.data
-  } catch (error) {
-    console.error('Błąd podczas pobierania danych nawigacji:', error);
-    return [];
-  }
-}
-
-const GetNews = async () => {
-  try {
-    const response = await axios.get('http://localhost:5000/pte/posts/lastNews');
-    return response.data
-  } catch (error) {
-    console.error('Błąd podczas pobierania danych nawigacji:', error);
-    return [];
-  }
-}
-
-export const homeAPI = {
-    GetNavs,
-    GetArticles,
-    GetPosts,
-    GetNews,
-}
+export const GetNavs = () => fetchData('/menu');
+export const GetArticles = () => fetchData('/lastArticles');
+export const GetPosts = () => fetchData('/lastPosts');
+export const GetNews = () => fetchData('/lastNews');

@@ -2,16 +2,15 @@
 
 import { format, parseISO } from "date-fns";
 import { pl } from "date-fns/locale";
-import { homeAPI } from "../../services/homeAPI";
 import { useQuery } from "@tanstack/react-query";
 import { PostsResponse } from "./ts/types";
 import LastNews from './lastNews';
+import { usePostsQuery } from "@/services/queryHooks";
 
 export default function LastPosts() {
-  const { data: { data: posts = [] } = {}, error, isLoading } = useQuery<PostsResponse>({
-    queryKey: ["lastPosts"],
-    queryFn: homeAPI.GetPosts,
-  });
+  const { data, error, isLoading } = usePostsQuery();
+
+  const posts = data?.data ?? [];
 
   return (
     <section>
