@@ -46,7 +46,7 @@ class PostService {
    async GetPosts (category,subcategory){
     
     try {
-        const [rows] = await pool.query("SELECT posts.id, posts.title, posts.subtitle, posts.content, posts.created_at, posts.views,posts.category AS post_category,subposts.category AS subposts_category FROM subposts JOIN posts ON subposts.post_id = posts.id WHERE LOWER(subposts.category) =LOWER(?) AND LOWER(posts.category) = LOWER(?)", [category, subcategory]);
+        const [rows] = await pool.query("SELECT posts.id, posts.title, posts.subtitle, posts.content, posts.created_at, posts.views,posts.category AS post_category,subposts.category AS subposts_category FROM subposts JOIN posts ON subposts.post_id = posts.id WHERE LOWER(subposts.category) = LOWER(?) AND LOWER(posts.subtitle) = LOWER(?)", [category, subcategory]);
         //console.log('Query parameters:', { type, subtitle }); optional thing to check query paramets :> 
         return rows;
     } catch (error) {
