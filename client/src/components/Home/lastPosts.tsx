@@ -2,10 +2,9 @@
 
 import { format, parseISO } from "date-fns";
 import { pl } from "date-fns/locale";
-import { useQuery } from "@tanstack/react-query";
-import { PostsResponse } from "./ts/types";
 import LastNews from './lastNews';
 import { usePostsQuery } from "@/services/queryHooks";
+import slugify from 'slugify';
 
 export default function LastPosts() {
   const { data, error, isLoading } = usePostsQuery();
@@ -52,7 +51,7 @@ export default function LastPosts() {
                       <p className="text-xs leading-relaxed text-justify break-words overflow-hidden text-ellipsis line-clamp-3">
                         {item.subtext}
                       </p>
-                      <a href="" className="hover:underline text-[#2d2f2d] text-sm">
+                      <a href={`aktualnosci/${slugify(`${item.subtitle.toLowerCase()}`)}/${slugify(`${item.title.toLowerCase()}`)}`} className="hover:underline text-[#2d2f2d] text-sm">
                         Czytaj dalej
                       </a>
                     </div>

@@ -1,13 +1,12 @@
 "use client";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
-import { ArticlesResponse } from "./ts/types";
 import { format, parseISO } from "date-fns";
 import { pl } from "date-fns/locale";
 import Test from "../../assets/PTECzęstochowa/pte_siedziba.jpg";
 import SocialIcons from "./Icons";
 import Newslatter from "./Newslatter";
 import { useArticlesQuery } from "@/services/queryHooks";
+import slugify from 'slugify';
 
 export default function LastArticles() {
 
@@ -109,9 +108,8 @@ export default function LastArticles() {
                           </p>
                         </div>
                         <a
-                          href=""
-                          className="hover:underline text-[#2d2f2d] text-base"
-                        >
+                          href={`aktualnosci/${slugify(`${item.subtitle.toLowerCase()}`)}/${slugify(`${item.title.toLowerCase()}`)}`}
+                          className="hover:underline text-[#2d2f2d] text-base">
                           Czytaj dalej
                         </a>
                       </div>

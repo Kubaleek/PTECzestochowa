@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <Header />
       <Navbar />
-      <main className="flex flex-col max-w-[1360px] mx-auto justify-center items-stretch gap-6 p-6">
+      <main className="flex flex-col max-w-[1360px] mx-auto justify-center gap-6 p-6">
         <Hero />
         <LastArticles /> 
         <LastPosts />

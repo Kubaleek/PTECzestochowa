@@ -5,8 +5,12 @@ import Logo from "../../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5
 import Image from "next/image";
 import { useNavsQuery } from "@/services/queryHooks";
 import slugify from 'slugify';
+import { usePathname } from "next/navigation";
+
 
 export default function Footer() {
+  const pathname = usePathname();
+
   const { data, error, isLoading } = useNavsQuery();
 
   // Uzyskanie tablicy elementów nawigacyjnych
@@ -21,7 +25,7 @@ export default function Footer() {
   }, {} as Record<string, NavItem[]>);
 
     return (
-        <footer className={`mx-auto gap-6 justify-center items-center p-6 max-w-[1360px]`}>
+        <footer className={`${pathname === "/" ? 'max-w-[1360px]' : 'max-w-[1800px]'} mx-auto gap-6 justify-center items-center p-6 max-w-[1360px]`}>
             {isLoading ? (
                 <div className="text-black">
                   <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-2 text-[#333] animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,7 +47,7 @@ export default function Footer() {
             ) : (
                 <>
                 <div className="footerDesktop md:flex hidden flex-col gap-3">
-                  <div className="grid md:grid-cols-4 lg:grid-cols-5 gap-6">
+                  <div className={`grid md:grid-cols-4 gap-6 ${pathname === "/" ? 'lg:grid-cols-5' : 'lg:grid-cols-6'}`}>
                   {Object.keys(groupedNavItems).map((category) => (
                     <div key={category}>
                       <h4 className="text-lg font-bold mb-2">{category}</h4>
