@@ -2,7 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { useQuery } from '@tanstack/react-query';
+import slugify from 'slugify';
 import NavWrapper from "./NavbarMobile";
 import { NavItem } from "./ts/types";
 import { useNavsQuery } from "@/services/queryHooks";
@@ -54,9 +54,7 @@ const Navbar: React.FC = () => {
                         <div className="absolute -top-6 left-0 right-0 h-6 bg-transparent" />
                         <div className="p-2 space-y-1 overflow-hidden w-full">
                           {groupedNavItems[category].map((item) => (
-                            <Link key={item.id} href={`/${item.subtitle.toLowerCase().replace(/\s+/g, '-')}`} className={`flex flex-col transition-all ease-out duration-150 p-2 text-xs ${pathname === `/${item.subtitle.toLowerCase().replace(/\s+/g, '-')}` ? "bg-[#17822e] text-[#FFF]" : "hover:bg-[#17822e] hover:text-[#fff]"}`}>
-                              {item.subtitle}
-                            </Link>
+                            <Link key={item.id} href={`/${slugify(item.category.toLowerCase())}/${slugify(item.subtitle.toLowerCase())}`} className={`flex flex-col transition-all ease-out duration-150 p-2 text-xs ${pathname === `/${slugify(item.subtitle.toLowerCase())}` ? "bg-[#17822e] text-[#FFF]" : "hover:bg-[#17822e] hover:text-[#fff]"}`}>{item.subtitle}</Link>
                           ))}
                         </div>
                       </motion.div>

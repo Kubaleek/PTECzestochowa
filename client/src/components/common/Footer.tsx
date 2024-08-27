@@ -4,10 +4,9 @@ import { NavItem } from './ts/types';
 import Logo from "../../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
 import Image from "next/image";
 import { useNavsQuery } from "@/services/queryHooks";
+import slugify from 'slugify';
 
 export default function Footer() {
-
- 
   const { data, error, isLoading } = useNavsQuery();
 
   // Uzyskanie tablicy elementów nawigacyjnych
@@ -51,7 +50,7 @@ export default function Footer() {
                       <ul className="space-y-1">
                         {groupedNavItems[category].map((item) => (
                           <li key={item.id}>
-                            <Link key={item.id} href={`/${item.subtitle.toLowerCase().replace(/\s+/g, '-')}`} className="text-xs text-[#2d2f2d] hover:underline transition-all ease-in duration-300">
+                            <Link key={item.id} href={`/${slugify(item.category.toLowerCase())}/${slugify(item.subtitle.toLowerCase())}`} className="text-xs text-[#2d2f2d] hover:underline transition-all ease-in duration-300">
                               {item.subtitle}
                             </Link>
                           </li>
