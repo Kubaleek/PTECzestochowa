@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: 'Polskie Towarzystwo Ekonomiczne - Oddział w Częstochowie',
   description: 'Polskie Towarzystwo Ekonomiczne - Oddział w Częstochowie',
   authors: [
-    { name: 'Kubalek' },
+    { name: 'Kuba `Kubalek` Król' },
     { name: 'danyPL' },
   ],
   keywords: 'PTE, Polskie Towarzystwo Ekonomiczne, Ekonomia, Strona Internetowa, Biznes, Podstawy Przedsiębiorczości',
