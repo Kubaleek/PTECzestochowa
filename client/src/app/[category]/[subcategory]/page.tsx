@@ -12,7 +12,7 @@ export default function SubPage({ params } : {params: Params}) {
             <main className='max-w-[1800px] mx-auto justify-center items-center p-6'>
                 <div className="grid grid-cols-12 gap-6 lg:gap-12">
                     <Aside />
-                    <Details />
+                    <Details params={params} />
                 </div>
                 <hr className="h-[2px] w-full bg-[#17822e] mt-6" />
             </main>

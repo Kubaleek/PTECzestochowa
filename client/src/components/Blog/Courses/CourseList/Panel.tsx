@@ -5,7 +5,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import { PanelListProps } from "./ts/paneldata";
+import { PanelListProps } from "./ts/panelData";
 import { courses } from "./ts/courseData";
 import CourseListComponent from "./CorseList";
 

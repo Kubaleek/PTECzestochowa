@@ -1,12 +1,21 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
-import { GetNavs, GetArticles, GetPosts, GetNews } from './homeAPI';
-import { PostsResponse, ArticlesResponse, NewsResponse } from '../components/Home/ts/types';
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { GetNavs, GetArticles, GetPosts, GetNews, GetPages } from "./homeAPI";
+import {
+  PostsResponse,
+  ArticlesResponse,
+  NewsResponse,
+} from "../components/Home/ts/types";
 
-const createQueryFn = <T>(fn: () => Promise<T>) => async () => await fn();
+const createQueryFn =
+  <T>(fn: () => Promise<T>) =>
+  async () =>
+    await fn();
 
-export const usePostsQuery = (options?: UseQueryOptions<PostsResponse, Error>) =>
+export const usePostsQuery = (
+  options?: UseQueryOptions<PostsResponse, Error>
+) =>
   useQuery({
-    queryKey: ['lastPosts'],
+    queryKey: ["lastPosts"],
     queryFn: createQueryFn(GetPosts),
     staleTime: 60000,
     ...options,
@@ -14,15 +23,17 @@ export const usePostsQuery = (options?: UseQueryOptions<PostsResponse, Error>) =
 
 export const useNavsQuery = (options?: UseQueryOptions<any, Error>) =>
   useQuery({
-    queryKey: ['menu'],
+    queryKey: ["menu"],
     queryFn: createQueryFn(GetNavs),
     staleTime: 60000,
     ...options,
   });
 
-export const useArticlesQuery = (options?: UseQueryOptions<ArticlesResponse, Error>) =>
+export const useArticlesQuery = (
+  options?: UseQueryOptions<ArticlesResponse, Error>
+) =>
   useQuery({
-    queryKey: ['lastArticles'],
+    queryKey: ["lastArticles"],
     queryFn: createQueryFn(GetArticles),
     staleTime: 60000,
     ...options,
@@ -30,8 +41,20 @@ export const useArticlesQuery = (options?: UseQueryOptions<ArticlesResponse, Err
 
 export const useNewsQuery = (options?: UseQueryOptions<NewsResponse, Error>) =>
   useQuery({
-    queryKey: ['lastNews'],
+    queryKey: ["lastNews"],
     queryFn: createQueryFn(GetNews),
+    staleTime: 60000,
+    ...options,
+  });
+
+export const useSubPostsQuery = (
+  category: string,
+  subcategory: string,
+  options?: UseQueryOptions<NewsResponse, Error>
+) =>
+  useQuery({
+    queryKey: ["Posts", category, subcategory],
+    queryFn: createQueryFn(() => GetPages(category, subcategory)),
     staleTime: 60000,
     ...options,
   });

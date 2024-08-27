@@ -1,4 +1,5 @@
 // api.ts
+import slugify from 'slugify';
 import axios from 'axios';
 
 const apiClient = axios.create({
@@ -19,3 +20,5 @@ export const GetNavs = () => fetchData('/menu');
 export const GetArticles = () => fetchData('/lastArticles');
 export const GetPosts = () => fetchData('/lastPosts');
 export const GetNews = () => fetchData('/lastNews');
+export const GetPages = (category: string, subcategory: string) =>
+  fetchData(`/${slugify(category).toLowerCase()}/${slugify(subcategory).toLowerCase()}`);
