@@ -92,15 +92,15 @@ const MobileMenu: React.FC<{ isOpen: boolean; setMobileMenuOpen: React.Dispatch<
       <ul className="list-none w-full flex-col flex gap-4 text-center pb-6">
           {Object.entries(groupedNavItems).map(([category, items]) => (
             <li key={category} className="flex flex-col gap-2">
-              <h2 className="text-[28px] font-bold">{category}</h2>
+              <h2 className="text-xl font-bold">{category}</h2>
               <div className="flex flex-col gap-2">
                 {items.map((item) => (
                   <div key={item.id}>
                     <Link
                       href={`/${slugify(item.category.toLowerCase())}/${slugify(item.subtitle.toLowerCase())}`}
-                      className={`flex flex-col transition-all ease-out duration-150 py-2 px-6 ${
-                        pathname === `/${item.subtitle.toLowerCase().replace(/\s+/g, "-")}`
-                          ? "bg-[#17822e] text-[#FFF]"
+                      className={`text-sm flex flex-col transition-all ease-out duration-150 py-2 px-6 ${
+                        pathname === `/${slugify(item.category.toLowerCase())}/${slugify(item.subtitle.toLowerCase())}`
+                          ? "bg-[#17822e] text-[#FFF] font-bold"
                           : "hover:bg-[#17822e] hover:text-[#fff]"
                       }`}
                     >
