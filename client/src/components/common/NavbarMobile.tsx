@@ -3,8 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { homeAPI } from "../../services/homeAPI";
-import { useQuery } from "@tanstack/react-query";
+import slugify from 'slugify';
 import { motion, Variants } from "framer-motion";
 import { usePathname } from "next/navigation";
 import PTECzestochowaLogo from "../../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
@@ -98,7 +97,7 @@ const MobileMenu: React.FC<{ isOpen: boolean; setMobileMenuOpen: React.Dispatch<
                 {items.map((item) => (
                   <div key={item.id}>
                     <Link
-                      href={`/${item.subtitle.toLowerCase().replace(/\s+/g, "-")}`}
+                      href={`/${slugify(item.category.toLowerCase())}/${slugify(item.subtitle.toLowerCase())}`}
                       className={`flex flex-col transition-all ease-out duration-150 py-2 px-6 ${
                         pathname === `/${item.subtitle.toLowerCase().replace(/\s+/g, "-")}`
                           ? "bg-[#17822e] text-[#FFF]"
