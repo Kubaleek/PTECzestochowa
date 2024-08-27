@@ -25,7 +25,7 @@ const Aside = () => {
 
   return (
     <>
-      <aside className="col-span-12 lg:col-span-4 xl:col-span-3">
+      <aside className="col-span-12 md:col-span-4 xl:col-span-3">
         <div className="w-full h-fit mb-0 flex flex-col gap-2">
           <p>
             <a
@@ -90,7 +90,7 @@ const Aside = () => {
                 return (
                   <div key={category} id={category} className="flex flex-col gap-2">
                     {filteredItems.map((e) => (
-                        <Link key={category}
+                        <Link key={e.subtitle}
                           href={`/${slugify(
                             e.category.toLowerCase()
                           )}/${slugify(e.subtitle.toLowerCase())}`}
