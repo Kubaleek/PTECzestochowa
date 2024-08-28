@@ -117,7 +117,7 @@ const CourseTable: React.FC = () => {
   return (
     <>
     <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
+      <Table aria-label="collapsible table " className='border-2 border-[#333]/25 shadow-md'>
         <TableHead>
           <TableRow>
             <TableCell />
