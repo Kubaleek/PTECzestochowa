@@ -47,10 +47,10 @@ const GetLastPosts = async (req, res) => {
 }
 
 const GetPosts = async (req, res,next) => {
-    const { category: type, subcategory: subtitle } = req.params;
-    
+    const { category,subtitle} = req.params;
     try {
-        const result = await postService.GetPosts(type,subtitle);
+        console.log(category,subtitle)
+        const result = await postService.GetPosts(category,subtitle);
         res.json({data: result});
     } catch (error) {
         console.error("Błąd przy pobraniu danych z bazy danych", error);

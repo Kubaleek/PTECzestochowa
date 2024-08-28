@@ -14,6 +14,12 @@ const transporter = nodemailer.createTransport({
         pass: "TEST@!#$@412dsa" // Zamień na hasło do swojego e-maila
     }
 });
+export function convertSlugToTitle(slug) {
+    // Replace hyphens with spaces and capitalize the first letter of each word
+    return slug
+        .replace(/-/g, ' ') // Replace hyphens with spaces
+        .replace(/\b\w/g, char => char.toUpperCase()); // Capitalize the first letter of each word
+}
 export const securityService = {
     limiter,
     transporter

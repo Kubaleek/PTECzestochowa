@@ -47,14 +47,17 @@ export const useNewsQuery = (options?: UseQueryOptions<NewsResponse, Error>) =>
     ...options,
   });
 
-export const useSubPostsQuery = (
-  category: string,
-  subcategory: string,
-  options?: UseQueryOptions<NewsResponse, Error>
-) =>
-  useQuery({
-    queryKey: ["Posts", category, subcategory],
-    queryFn: createQueryFn(() => GetPages(category, subcategory)),
-    staleTime: 60000,
-    ...options,
-  });
+
+
+  export const useSubPostsQuery = (
+    category: string,
+    subcategory: string,
+    options?: UseQueryOptions<NewsResponse, Error>
+  ) => {
+    return useQuery<NewsResponse, Error>({
+      queryKey: ["Posts", category, subcategory], // Klucz zapytania
+      queryFn: () => GetPages({ category, subcategory }), // Funkcja do pobrania danych
+      staleTime: 60000, // Czas, po którym dane są traktowane jako "stare"
+      ...options, // Rozwinięcie dodatkowych opcji przekazanych do hooka
+    });
+  };
