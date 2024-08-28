@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { GetNavs, GetArticles, GetPosts, GetNews, GetPages } from "./homeAPI";
+import { GetNavs, GetArticles, GetPosts, GetNews } from "./homeAPI";
 import {
   PostsResponse,
   ArticlesResponse,
@@ -47,14 +47,14 @@ export const useNewsQuery = (options?: UseQueryOptions<NewsResponse, Error>) =>
     ...options,
   });
 
-export const useSubPostsQuery = (
-  category: string,
-  subcategory: string,
-  options?: UseQueryOptions<NewsResponse, Error>
-) =>
-  useQuery({
-    queryKey: ["Posts", category, subcategory],
-    queryFn: createQueryFn(() => GetPages(category, subcategory)),
-    staleTime: 60000,
-    ...options,
-  });
+// export const useSubPostsQuery = (
+//   category: string,
+//   subcategory: string,
+//   options?: UseQueryOptions<NewsResponse, Error>
+// ) =>
+//   useQuery({
+//     queryKey: ["Posts", category, subcategory],
+//     queryFn: createQueryFn(() => GetPages(category, subcategory)),
+//     staleTime: 60000,
+//     ...options,
+//   });

@@ -2,22 +2,22 @@ import { Params } from "@/app/[category]/[subcategory]/ts/types";
 import Courses from "./Courses/Courses";
 import SocialsButtons from "./SocialsButtons";
 import { usePathname } from "next/navigation";
-import { useSubPostsQuery } from "@/services/queryHooks";
+// import { useSubPostsQuery } from "@/services/queryHooks";
 
 export default function Details({ params }: { params: Params }) {
   const paths = usePathname();
   const { category, subcategory } = params;
-  const {
-    data: PostsResponse,
-    error,
-    isLoading,
-  } = useSubPostsQuery(category, subcategory);
-  const posts = PostsResponse?.data || [];
+  // const {
+  //   data: PostsResponse,
+  //   error,
+  //   isLoading,
+  // } // = useSubPostsQuery(category, subcategory);
+  // const posts = PostsResponse?.data || [];
 
   return (
     <section className="col-span-12 md:col-span-8 xl:col-span-9">
       <article className="flex flex-col gap-3 mb-20 h-fit bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25">
-        {isLoading ? (
+        {/* {isLoading ? (
           <div className="text-black">
             <svg
               aria-hidden="true"
@@ -50,18 +50,16 @@ export default function Details({ params }: { params: Params }) {
             <div className="ms-3 text-sm font-medium">
               Błąd: Nie udało się wczytać informacji.
             </div>
-          </div>
-        ) : (
+          </div> */}
+        // ) : (
           <>
-            {posts.map(((item) => (
-            <>
-            <div key={item.id} className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2">
               <div>
                 <h2 className="text-lg font-bold text-[#17822e] break-words whitespace-normal text-pretty leading-relaxed">
-                  {item.subtitle}
+                  Lorem
                 </h2>
                 <h1 className="text-xl md:text-3xl font-bold break-words whitespace-normal text-pretty leading-relaxed">
-                  {item.title}
+                  Lorem
                 </h1>
               </div>
               <div className="flex flex-row gap-2">
@@ -74,12 +72,10 @@ export default function Details({ params }: { params: Params }) {
               ) : paths === "/kursy/szkolenia" ? (
                 <Courses />
               ) : null}
-              {item.subtext}
+              <p>Test</p>
             </div>
-            </>
-            )))}
           </>
-        )}
+       {/* )} */}
       </article>
     </section>
   );
