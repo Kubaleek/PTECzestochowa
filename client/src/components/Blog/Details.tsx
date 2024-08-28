@@ -71,8 +71,9 @@ export default function Details({ params }: { params: Params }) {
                 <p>Kontakt</p>
               ) : paths === "/kursy/szkolenia" ? (
                 <Courses />
-              ) : null}
-              <p>Test</p>
+              ) : (
+                <p>Test</p>
+              )}
             </div>
           </>
        {/* )} */}
