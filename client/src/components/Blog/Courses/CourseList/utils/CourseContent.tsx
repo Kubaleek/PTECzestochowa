@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from '@nextui-org/react';
 const CourseContent = () => {
-
   return (
     <>
       <div className="bg-green-700 bg-opacity-95 rounded shadow-lg p-1">
