@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from '@nextui-org/react';
 
 export const CoursesLogin = () => {
     // Stan Błędów
@@ -81,9 +82,9 @@ export const CoursesLogin = () => {
                         />
                     </div>
                 </form>
-                <button className="bg-green-700 text-white text-pretty text-base py-2 rounded cursor-pointer transition-all ease-in duration-200">
+                <Button className="text-base font-medium bg-green-700 text-white rounded-lg px-4 py-2 shadow-sm transition-all duration-200">
                     Zaloguj się
-                </button>
+                </Button>
             </div>
         </div>
     );
