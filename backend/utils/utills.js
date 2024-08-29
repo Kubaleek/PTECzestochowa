@@ -13,13 +13,22 @@ const transporter = nodemailer.createTransport({
         user: "testowypte@o2.pl", // Zamień na swój e-mail
         pass: "TEST@!#$@412dsa" // Zamień na hasło do swojego e-maila
     }
-});
-export function convertSlugToTitle(slug) {
-    // Replace hyphens with spaces and capitalize the first letter of each word
-    return slug
+});export function convertSlugToTitle(slug) {
+    // Replace hyphens with spaces
+    // Normalize characters to remove diacritics
+    // Capitalize the first letter of each word
+    const title = slug
         .replace(/-/g, ' ') // Replace hyphens with spaces
-        .replace(/\b\w/g, char => char.toUpperCase()); // Capitalize the first letter of each word
+        .normalize('NFD') // Normalize characters to separate base characters and diacritics
+        .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+        .replace(/\b\w/g, char => char.toUpperCase()) // Capitalize the first letter of each word
+        .replace(/\bPte\b/g, 'PTE'); // Ensure 'PTE' is in uppercase
+
+    // Capitalize the first letter of the whole title
+    return title.charAt(0).toUpperCase() + title.slice(1);
 }
+
+
 export const securityService = {
     limiter,
     transporter

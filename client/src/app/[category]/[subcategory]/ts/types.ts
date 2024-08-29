@@ -5,4 +5,5 @@ export interface IProps {
 export type Params = {
     category: string;
     subcategory: string;
+    
 };

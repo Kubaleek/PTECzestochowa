@@ -12,13 +12,13 @@ interface PageProps {
   subcategory: string;
 }
 
-// Pobieranie danych na serwerze przed renderowaniem strony
+// Server-side data fetching
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { category, subcategory } = params as { category: string; subcategory: string };
 
   const queryClient = new QueryClient();
   
-  // Prefetch danych na serwerze
+  // Prefetch data on the server
   await queryClient.prefetchQuery({
     queryKey: ['Posts', category, subcategory],
     queryFn: async () => {
@@ -36,18 +36,19 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   };
 };
 
-// Komponent renderujący szczegóły postu
+// Component to render post details
 export default function Details({ params }: { params: Params }) {
   const paths = usePathname();
   const { category, subcategory } = params;
 
-  // Hook do pobierania postów na podstawie kategorii i podkategorii
+  // Fetch posts based on category and subcategory
   const {
     data: PostsResponse,
     error,
     isLoading,
   } = useSubPostsQuery(category, subcategory);
 
+  // Extract posts from the API response
   const posts = PostsResponse?.data || [];
 
   return (
@@ -56,36 +57,47 @@ export default function Details({ params }: { params: Params }) {
         {isLoading ? (
           <div className="text-black">
             {/* ...loading spinner... */}
+            Ładowanie danych...
           </div>
         ) : error ? (
           <div className="flex items-center p-4 mb-4 text-red-800 border-4 border-red-300 bg-red-50 rounded-lg">
             {/* ...error message... */}
+            Wystąpił błąd podczas ładowania danych.
           </div>
         ) : (
           <>
-            {posts.map(((item) => (
-              <div key={item.id} className="flex flex-col gap-2">
-                <div>
-                  <h2 className="text-lg font-bold text-[#17822e] break-words whitespace-normal text-pretty leading-relaxed">
-                    {item.subtitle}
-                  </h2>
-                  <h1 className="text-xl md:text-3xl font-bold break-words whitespace-normal text-pretty leading-relaxed">
-                    {item.title}
-                  </h1>
-                </div>
-                <div className="flex flex-row gap-2">
-                  <SocialsButtons />
-                </div>
-                <div>
-                  {paths === "/kontakt/kontakt" ? (
-                    <p>Kontakt</p>
-                  ) : paths === "/kursy/szkolenia" ? (
-                    <Courses />
-                  ) : null}
-                  {item.subtext}
-                </div>
+            {posts.length > 0 ? (
+              posts.map((item) => (
+                <div key={item.id} className="flex flex-col gap-2">
+                  <div>
+                    <h2 className="text-lg font-bold text-[#17822e] break-words whitespace-normal text-pretty leading-relaxed">
+                      {item.subtitle}
+                    </h2>
+                    <h1 className="text-xl md:text-3xl font-bold break-words whitespace-normal text-pretty leading-relaxed">
+                      {item.title}
+                    </h1>
+                  </div>
+                  {
+                    item.post_id
+                  }
+                  <div className="flex flex-row gap-2">
+                    <SocialsButtons />
+                  </div>
+                  <div>
+                    {paths === "/kontakt/kontakt" ? (
+                      <p>Kontakt</p>
+                    ) : paths === "/kursy/szkolenia" ? (
+                      <Courses />
+                    ) : null}
+          <div dangerouslySetInnerHTML={{ __html: item.post_content }} />
               </div>
-            )))}
+                </div>
+              ))
+            ) : (
+              <div>
+                <p>Brak postów do wyświetlenia.</p>
+              </div>
+            )}
           </>
         )}
       </article>

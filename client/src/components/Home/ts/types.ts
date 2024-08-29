@@ -2,11 +2,11 @@ import { ReactElement } from "react";
 import { StaticImageData } from 'next/image';
 
 export interface BaseContent {
-  subpost_id: number;
   id: number;
+  subpost_id: number;
   title: string;
   subtitle: string;
-  subtext: string;
+  post_content: string;
   created_at: string;
 }
 
