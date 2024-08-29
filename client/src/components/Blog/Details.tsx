@@ -14,20 +14,23 @@ interface PageProps {
 
 // Server-side data fetching
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { category, subcategory } = params as { category: string; subcategory: string };
+  const { category, subcategory } = params as {
+    category: string;
+    subcategory: string;
+  };
 
   const queryClient = new QueryClient();
-  
+
   // Prefetch data on the server
   await queryClient.prefetchQuery({
-    queryKey: ['Posts', category, subcategory],
+    queryKey: ["Posts", category, subcategory],
     queryFn: async () => {
       return await GetPages({ category, subcategory });
     },
-    staleTime: 1000 * 60, 
+    staleTime: 1000 * 60,
   });
 
-  return {  
+  return {
     props: {
       dehydratedState: dehydrate(queryClient),
       category,
@@ -53,7 +56,7 @@ export default function Details({ params }: { params: Params }) {
 
   return (
     <section className="col-span-12 md:col-span-8 xl:col-span-9">
-      <article className="flex flex-col gap-3 mb-20 h-fit bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25">
+      <article className="mm_article flex flex-col gap-3 mb-20 h-fit bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25">
         {isLoading ? (
           <div className="text-black">
             {/* ...loading spinner... */}
@@ -77,9 +80,7 @@ export default function Details({ params }: { params: Params }) {
                       {item.title}
                     </h1>
                   </div>
-                  {
-                    item.post_id
-                  }
+                  {item.post_id}
                   <div className="flex flex-row gap-2">
                     <SocialsButtons />
                   </div>
@@ -89,8 +90,10 @@ export default function Details({ params }: { params: Params }) {
                     ) : paths === "/kursy/szkolenia" ? (
                       <Courses />
                     ) : null}
-          <div dangerouslySetInnerHTML={{ __html: item.post_content }} />
-              </div>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: item.post_content }}
+                    />
+                  </div>
                 </div>
               ))
             ) : (
