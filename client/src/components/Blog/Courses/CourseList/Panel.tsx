@@ -5,8 +5,8 @@ import Test2 from './Content/Test2';
 
 export const Panel: React.FC = () => {
   return (
-    <div className="bg-green-700 bg-opacity-95 rounded shadow-lg p-1">
-      <div className="bg-white rounded p-2 flex flex-col gap-3">
+    <div className="shadow-lg border border-green-700">
+      <div className="bg-white flex flex-col gap-3">
         <div className="rounded max-w-full bg-[#f5f1ec] border-2 border-[#333]/25 p-2 shadow-lg">
           <div className="bg-white flex flex-col gap-1 p-2 border-2 border-[#333]/25 shadow-lg">
             <Tabs aria-label="Options" color="primary" variant="underlined" classNames={{ tabList: "gap-3 w-full relative rounded-none p-0 border-b border-divider", cursor: "w-full bg-[#17822e]", tab: "max-w-fit h-12", tabContent: "group-data-[selected=true]:text-[#17822e]"}}>

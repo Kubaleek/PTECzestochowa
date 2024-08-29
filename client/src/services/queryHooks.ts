@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { GetNavs, GetArticles, GetPosts, GetNews } from "./homeAPI";
+import { GetNavs, GetArticles, GetPosts, GetNews, GetPages } from "./homeAPI";
 import {
   PostsResponse,
   ArticlesResponse,
@@ -47,9 +47,6 @@ export const useNewsQuery = (options?: UseQueryOptions<NewsResponse, Error>) =>
     ...options,
   });
 
-<<<<<<< HEAD
-
-
   export const useSubPostsQuery = (
     category: string,
     subcategory: string,
@@ -62,16 +59,3 @@ export const useNewsQuery = (options?: UseQueryOptions<NewsResponse, Error>) =>
       ...options, // Rozwinięcie dodatkowych opcji przekazanych do hooka
     });
   };
-=======
-// export const useSubPostsQuery = (
-//   category: string,
-//   subcategory: string,
-//   options?: UseQueryOptions<NewsResponse, Error>
-// ) =>
-//   useQuery({
-//     queryKey: ["Posts", category, subcategory],
-//     queryFn: createQueryFn(() => GetPages(category, subcategory)),
-//     staleTime: 60000,
-//     ...options,
-//   });
->>>>>>> 7ea432945b3b827f95cc7a457476715732b88260
