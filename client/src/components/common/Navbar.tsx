@@ -7,6 +7,7 @@ import NavWrapper from "./NavbarMobile";
 import { NavItem } from "./ts/types";
 import { useNavsQuery } from "@/services/queryHooks";
 import NavbarLogo from "./NavbarLogo";
+
 const Navbar: React.FC = () => {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const pathname = usePathname();
