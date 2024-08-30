@@ -6,6 +6,8 @@ import { useSubPostsQuery } from "@/services/queryHooks";
 import { GetServerSideProps } from "next";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetPages } from "@/services/homeAPI";
+import { Skeleton } from "@nextui-org/skeleton";
+
 
 interface PageProps {
   category: string;
@@ -58,9 +60,17 @@ export default function Details({ params }: { params: Params }) {
     <section className="col-span-12 md:col-span-8 xl:col-span-9">
       <article className="mm_article flex flex-col gap-3 mb-20 h-fit bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25">
         {isLoading ? (
-          <div className="text-black">
-            {/* ...loading spinner... */}
-            Ładowanie danych...
+          <div className="flex flex-col gap-3">
+            <Skeleton className="h-8 w-3/4 bg-[#ccc]" />
+            <Skeleton className="h-6 w-2/3 bg-[#ccc]" />
+            <Skeleton className="h-4 w-full bg-[#ccc]" />
+            <Skeleton className="h-4 w-5/6 bg-[#ccc]" />
+            <Skeleton className="h-4 w-4/5 bg-[#ccc]" />
+            <div className="flex flex-row gap-2">
+              <Skeleton className="h-10 w-10 bg-[#ccc] rounded-full" />
+              <Skeleton className="h-10 w-10 bg-[#ccc] rounded-full" />
+              <Skeleton className="h-10 w-10 bg-[#ccc] rounded-full" />
+            </div>
           </div>
         ) : error ? (
           <div className="flex items-center p-4 mb-4 text-red-800 border-4 border-red-300 bg-red-50 rounded-lg">
