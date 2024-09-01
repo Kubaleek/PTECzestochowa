@@ -93,12 +93,10 @@ const Aside = () => {
                         <Link key={e.subtitle}
                           href={`/${slugify(
                             e.category.toLowerCase()
-                          )}/${slugify(e.subtitle.toLowerCase())}`}
+                          )}?id=${e.id}`}
                           className={`text-sm p-2 relative transition-all ease-linear duration-300 rounded ${
                             pathname ===
-                            `/${slugify(e.category.toLowerCase())}/${slugify(
-                              e.subtitle.toLowerCase()
-                            )}`
+                            `/${slugify(e.category.toLowerCase())}?id=${e.id}`
                               ? "bg-[#17822e] text-[#FFF] font-bold"
                               : "hover:bg-[#17822e] hover:text-[#fff]"
                           }`}>

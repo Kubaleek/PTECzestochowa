@@ -1,4 +1,4 @@
-import { Params } from "@/app/[category]/[subcategory]/ts/types";
+import { Params } from "@/app/[category]/types";
 import Courses from "./Courses/Courses";
 import SocialsButtons from "./SocialsButtons";
 import { usePathname } from "next/navigation";
@@ -7,61 +7,54 @@ import { GetServerSideProps } from "next";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetPages } from "@/services/homeAPI";
 
-interface PageProps {
-  category: string;
-  subcategory: string;
-}
 
-// Server-side data fetching
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { category, subcategory } = params as { category: string; subcategory: string };
+// Server-side props fetching
+export const getServerSideProps: GetServerSideProps = async ({ params, query }) => {
+  const { category } = params as { category: string };
+  const id = Array.isArray(query.id) ? query.id[0] : query.id;
 
   const queryClient = new QueryClient();
   
   // Prefetch data on the server
   await queryClient.prefetchQuery({
-    queryKey: ['Posts', category, subcategory],
-    queryFn: async () => {
-      return await GetPages({ category, subcategory });
-    },
-    staleTime: 1000 * 60, 
+    queryKey: ['Posts', category, id],
+    queryFn: async () => GetPages({ category, id }),
+    staleTime: 1000 * 60,
   });
 
   return {  
     props: {
       dehydratedState: dehydrate(queryClient),
       category,
-      subcategory,
+      id: id ?? null, // Ensure id is either a string or null
     },
   };
 };
+// Define the type for props
+interface DetailsProps {
+  category: string;
+  id: string | null;
+}
 
-// Component to render post details
-export default function Details({ params }: { params: Params }) {
+export default function Details({ category, id }: DetailsProps) {
   const paths = usePathname();
-  const { category, subcategory } = params;
 
-  // Fetch posts based on category and subcategory
+  // Fetch posts using a custom hook
   const {
     data: PostsResponse,
     error,
     isLoading,
-  } = useSubPostsQuery(category, subcategory);
+  } = useSubPostsQuery(category, id ?? "");
 
-  // Extract posts from the API response
   const posts = PostsResponse?.data || [];
 
   return (
     <section className="col-span-12 md:col-span-8 xl:col-span-9">
       <article className="flex flex-col gap-3 mb-20 h-fit bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25">
         {isLoading ? (
-          <div className="text-black">
-            {/* ...loading spinner... */}
-            Ładowanie danych...
-          </div>
+          <div className="text-black">Ładowanie danych...</div>
         ) : error ? (
           <div className="flex items-center p-4 mb-4 text-red-800 border-4 border-red-300 bg-red-50 rounded-lg">
-            {/* ...error message... */}
             Wystąpił błąd podczas ładowania danych.
           </div>
         ) : (
@@ -77,9 +70,6 @@ export default function Details({ params }: { params: Params }) {
                       {item.title}
                     </h1>
                   </div>
-                  {
-                    item.post_id
-                  }
                   <div className="flex flex-row gap-2">
                     <SocialsButtons />
                   </div>
@@ -89,8 +79,8 @@ export default function Details({ params }: { params: Params }) {
                     ) : paths === "/kursy/szkolenia" ? (
                       <Courses />
                     ) : null}
-          <div dangerouslySetInnerHTML={{ __html: item.post_content }} />
-              </div>
+                    <div dangerouslySetInnerHTML={{ __html: item.post_content }} />
+                  </div>
                 </div>
               ))
             ) : (
