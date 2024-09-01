@@ -25,6 +25,7 @@ export const GetArticles = () => fetchData('/lastArticles');
 export const GetPosts = () => fetchData('/lastPosts');
 export const GetNews = () => fetchData('/lastNews');
 
+
 export const GetPages = ({ category, id }: { category: string; id?: string }) => {
   const formattedCategory = slugify(category, { lower: true });
   const endpoint = `/${formattedCategory}?id=${id || ''}`;

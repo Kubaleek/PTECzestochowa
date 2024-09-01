@@ -6,15 +6,16 @@ import { useSubPostsQuery } from "@/services/queryHooks";
 import { GetServerSideProps } from "next";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetPages } from "@/services/homeAPI";
+import { Skeleton } from "@nextui-org/skeleton";
 
 
-// Server-side props fetching
+
 export const getServerSideProps: GetServerSideProps = async ({ params, query }) => {
   const { category } = params as { category: string };
   const id = Array.isArray(query.id) ? query.id[0] : query.id;
 
   const queryClient = new QueryClient();
-  
+
   // Prefetch data on the server
   await queryClient.prefetchQuery({
     queryKey: ['Posts', category, id],
@@ -22,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, query }) 
     staleTime: 1000 * 60,
   });
 
-  return {  
+  return {
     props: {
       dehydratedState: dehydrate(queryClient),
       category,
@@ -50,9 +51,21 @@ export default function Details({ category, id }: DetailsProps) {
 
   return (
     <section className="col-span-12 md:col-span-8 xl:col-span-9">
-      <article className="flex flex-col gap-3 mb-20 h-fit bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25">
+      <article className="mm_article flex flex-col gap-3 mb-20 h-fit bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25">
         {isLoading ? (
-          <div className="text-black">Ładowanie danych...</div>
+
+          <div className="flex flex-col gap-3">
+            <Skeleton className="h-8 w-3/4 bg-[#ccc]" />
+            <Skeleton className="h-6 w-2/3 bg-[#ccc]" />
+            <Skeleton className="h-4 w-full bg-[#ccc]" />
+            <Skeleton className="h-4 w-5/6 bg-[#ccc]" />
+            <Skeleton className="h-4 w-4/5 bg-[#ccc]" />
+            <div className="flex flex-row gap-2">
+              <Skeleton className="h-10 w-10 bg-[#ccc] rounded-full" />
+              <Skeleton className="h-10 w-10 bg-[#ccc] rounded-full" />
+              <Skeleton className="h-10 w-10 bg-[#ccc] rounded-full" />
+            </div>
+          </div>
         ) : error ? (
           <div className="flex items-center p-4 mb-4 text-red-800 border-4 border-red-300 bg-red-50 rounded-lg">
             Wystąpił błąd podczas ładowania danych.
@@ -70,6 +83,7 @@ export default function Details({ category, id }: DetailsProps) {
                       {item.title}
                     </h1>
                   </div>
+                  {item.post_id}
                   <div className="flex flex-row gap-2">
                     <SocialsButtons />
                   </div>
@@ -79,7 +93,10 @@ export default function Details({ category, id }: DetailsProps) {
                     ) : paths === "/kursy/szkolenia" ? (
                       <Courses />
                     ) : null}
-                    <div dangerouslySetInnerHTML={{ __html: item.post_content }} />
+
+                    <div
+                      dangerouslySetInnerHTML={{ __html: item.post_content }}
+                    />
                   </div>
                 </div>
               ))
