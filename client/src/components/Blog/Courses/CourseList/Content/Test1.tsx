@@ -1,21 +1,30 @@
-import { Button } from "@nextui-org/react";
 import {
+  MaterialReactTable,
+  useMaterialReactTable,
+  type MRT_ColumnDef,
+} from 'material-react-table'; // https://v3.material-react-table.com/docs/guides/expanding-sub-rows
+import { useMemo } from 'react';
+import {
+  Button,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Divider,
 } from "@nextui-org/react";
-import { Divider } from "@nextui-org/react";
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableColumn,
-  TableRow,
-  TableCell
-} from "@nextui-org/table";
+
+export type DataType = {
+  id: number;
+  subRows?: DataType[];
+};
+
+export const data = [
+  {
+    id: 1,
+  },
+];
 
 export default function Test1() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -36,7 +45,7 @@ export default function Test1() {
             niepotrzebne.
           </p>
         </div>
-        <div className="bg-white flex flex-col gap-3 border-2 p-3 border-[#333]/25 shadow-lg">
+        <div className="bg-white flex flex-col border-2 gap-3 p-3 border-[#333]/25 shadow-lg">
           <div className="flex justify-end items-center">
             <Button
               onPress={onOpen}
@@ -116,9 +125,11 @@ export default function Test1() {
               </ModalContent>
             </Modal>
           </div>
-          <Divider className="h-[2px] w-full" />
           <div>
-            Informacje 
+            <Divider className="h-[1px] w-full" />
+            <div>
+              {/* Tu będzie tabelka */}
+            </div>
           </div>
         </div>
       </div>
