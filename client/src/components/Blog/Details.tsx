@@ -1,14 +1,12 @@
 import { Params } from "@/app/[category]/types";
 import Courses from "./Courses/Courses";
 import SocialsButtons from "./SocialsButtons";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useSubPostsQuery } from "@/services/queryHooks";
 import { GetServerSideProps } from "next";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetPages } from "@/services/homeAPI";
 import { Skeleton } from "@nextui-org/skeleton";
-
-
 
 export const getServerSideProps: GetServerSideProps = async ({ params, query }) => {
   const { category } = params as { category: string };
@@ -39,6 +37,8 @@ interface DetailsProps {
 
 export default function Details({ category, id }: DetailsProps) {
   const paths = usePathname();
+  const searchParams = useSearchParams();
+  const currentId = searchParams.get('id');
 
   // Fetch posts using a custom hook
   const {
@@ -88,15 +88,9 @@ export default function Details({ category, id }: DetailsProps) {
                     <SocialsButtons />
                   </div>
                   <div>
-                    {paths === "/kontakt/kontakt" ? (
-                      <p>Kontakt</p>
-                    ) : paths === "/kursy/szkolenia" ? (
-                      <Courses />
-                    ) : null}
-
-                    <div
-                      dangerouslySetInnerHTML={{ __html: item.post_content }}
-                    />
+                    {paths === "/kontakt" && currentId === "52" ? (<p>Kontakt</p>) : null}
+                    {paths === "/kursy" && currentId === "51" ? (<Courses />) : null}
+                    <div dangerouslySetInnerHTML={{ __html: item.post_content }}/>
                   </div>
                 </div>
               ))

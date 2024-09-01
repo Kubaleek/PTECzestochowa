@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import slugify from "slugify";
 import NavWrapper from "./NavbarMobile";
@@ -11,6 +11,11 @@ import NavbarLogo from "./NavbarLogo";
 const Navbar: React.FC = () => {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Uzyskujemy bieżące id z parametrów zapytania
+  const currentId = searchParams.get('id');
+  const currentIdNumber = currentId ? Number(currentId) : null;
 
   const { data, error, isLoading } = useNavsQuery();
 
@@ -28,11 +33,12 @@ const Navbar: React.FC = () => {
 
   const handleMouseEnter = (category: string) => setOpenCategory(category);
   const handleMouseLeave = () => setOpenCategory(null);
+
   return (
     <>
       <nav className="hidden lg:flex mx-auto bg-[#17822e] sticky top-0 w-full z-50 border border-[#333]/15 shadow px-5 py-3">
         <div className="container max-w-[1320px] mx-auto flex justify-between items-center">
-          {pathname != "/" && <NavbarLogo />}
+          {pathname !== "/" && <NavbarLogo />}
           {isLoading ? (
             <div className="text-white flex justify-center items-center">
               <svg
@@ -67,7 +73,7 @@ const Navbar: React.FC = () => {
                   onMouseLeave={handleMouseLeave}
                   className="relative"
                 >
-                  <button type="button" className="relative text-white">
+                  <button type="button" className="relative text-white uppercase">
                     {category}
                     <span
                       style={{
@@ -89,24 +95,23 @@ const Navbar: React.FC = () => {
                       >
                         <div className="absolute -top-6 left-0 right-0 h-6 bg-transparent" />
                         <div className="p-2 space-y-1 overflow-hidden w-full">
-                          {groupedNavItems[category].map((item) => (
-                            <Link
-                              key={item.id}
-                              href={`/${slugify(
-                                item.category.toLowerCase()
-                              )}?id=${item.id}`}
-                              className={`flex flex-col transition-all ease-out duration-150 p-2 text-sm ${
-                                pathname ===
-                                `/${slugify(item.category.toLowerCase())}?id=${
-                                  item.id
-                                }`
-                                  ? "bg-[#17822e] text-[#FFF] font-bold"
-                                  : "hover:bg-[#17822e] hover:text-[#fff]"
-                              }`}
-                            >
-                              {item.subtitle.replace("-", " ")}
-                            </Link>
-                          ))}
+                          {groupedNavItems[category].map((item) => {
+                            const itemUrl = `/${slugify(item.category.toLowerCase())}?id=${item.id}`;
+                            const isActive = pathname === `/${slugify(item.category.toLowerCase())}` && currentIdNumber === item.id;
+                            return (
+                              <Link
+                                key={item.id}
+                                href={itemUrl}
+                                className={`flex flex-col transition-all ease-out duration-150 p-2 text-sm ${
+                                  isActive
+                                    ? "bg-[#17822e] text-[#FFF] font-bold"
+                                    : "hover:bg-[#17822e] hover:text-[#fff]"
+                                }`}
+                              >
+                                {item.subtitle.replace("-", " ")}
+                              </Link>
+                            );
+                          })}
                         </div>
                       </motion.div>
                     )}

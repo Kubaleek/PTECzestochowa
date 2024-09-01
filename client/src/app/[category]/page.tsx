@@ -10,7 +10,6 @@ export default function SubPage() {
   const { category } = useParams();
   const searchParams = useSearchParams()
   // Handle if category or id is not available
-
   const id = searchParams.get('id')
 
   // Ensure category and id are strings
