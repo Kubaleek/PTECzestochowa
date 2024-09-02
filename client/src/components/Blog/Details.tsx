@@ -8,18 +8,17 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetPages } from "@/services/homeAPI";
 import { Skeleton } from "@nextui-org/skeleton";
 
-
-
 export const getServerSideProps: GetServerSideProps = async ({ params, query }) => {
   const { category } = params as { category: string };
   const id = Array.isArray(query.id) ? query.id[0] : query.id;
+  const subid = Array.isArray(query.subid) ? query.subid[0] : query.subid;
 
   const queryClient = new QueryClient();
 
   // Prefetch data on the server
   await queryClient.prefetchQuery({
-    queryKey: ['Posts', category, id],
-    queryFn: async () => GetPages({ category, id }),
+    queryKey: ['Posts', category, id, subid],
+    queryFn: async () => GetPages({ category, id, subid }),
     staleTime: 1000 * 60,
   });
 
@@ -28,16 +27,20 @@ export const getServerSideProps: GetServerSideProps = async ({ params, query }) 
       dehydratedState: dehydrate(queryClient),
       category,
       id: id ?? null, // Ensure id is either a string or null
+      subid: subid ?? null,
     },
   };
 };
+
 // Define the type for props
 interface DetailsProps {
   category: string;
   id: string | null;
+  subid: string | null;
 }
 
-export default function Details({ category, id }: DetailsProps) {
+
+export default function Details({ category, id, subid }: DetailsProps) {
   const paths = usePathname();
 
   // Fetch posts using a custom hook
@@ -45,7 +48,7 @@ export default function Details({ category, id }: DetailsProps) {
     data: PostsResponse,
     error,
     isLoading,
-  } = useSubPostsQuery(category, id ?? "");
+  } = useSubPostsQuery(category, id ?? "", subid ?? "");
 
   const posts = PostsResponse?.data || [];
 
@@ -53,11 +56,10 @@ export default function Details({ category, id }: DetailsProps) {
     <section className="col-span-12 md:col-span-8 xl:col-span-9">
       <article className="mm_article flex flex-col gap-3 mb-20 h-fit bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25">
         {isLoading ? (
-
           <div className="flex flex-col gap-3">
             <Skeleton className="h-8 w-3/4 bg-[#ccc]" />
             <Skeleton className="h-6 w-2/3 bg-[#ccc]" />
-            <Skeleton className="h-4 w-full bg-[#ccc]" />
+            <Skeleton className="h-4 w/full bg-[#ccc]" />
             <Skeleton className="h-4 w-5/6 bg-[#ccc]" />
             <Skeleton className="h-4 w-4/5 bg-[#ccc]" />
             <div className="flex flex-row gap-2">
@@ -83,7 +85,8 @@ export default function Details({ category, id }: DetailsProps) {
                       {item.title}
                     </h1>
                   </div>
-                  {item.post_id}
+                  {item.post_id && <div>ID: {item.post_id}</div>}
+                  {item.subpost_id && <div>SubID: {item.post_content}</div>}
                   <div className="flex flex-row gap-2">
                     <SocialsButtons />
                   </div>
@@ -95,7 +98,7 @@ export default function Details({ category, id }: DetailsProps) {
                     ) : null}
 
                     <div
-                      dangerouslySetInnerHTML={{ __html: item.post_content }}
+                      dangerouslySetInnerHTML={{ __html: item.post_content || item.subpost_content }}
                     />
                   </div>
                 </div>

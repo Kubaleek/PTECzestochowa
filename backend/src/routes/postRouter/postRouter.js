@@ -14,34 +14,65 @@ postRouter.get(`${data.posts}/lastPosts`, GetLastPosts);
 postRouter.get(`${data.posts}/lastNews`, GetLastNews);
 postRouter.get(`${data.posts}/:category/`, async (req, res, next) => {
     const { category } = req.params;
-    const { id } = req.query;
+    const { id, subid } = req.query;
 
     try {
         // Użyj funkcji convertSlugToTitle do sformatowania kategorii
-        const formattedCategory = slugify(convertSlugToTitle(category), { lower: true }).replace("-"," ");
-        
-        console.log(formattedCategory);
-        
-        let query = `
-            SELECT 
-                posts.id, 
-                subposts.subpost_id,  
-                posts.subtitle, 
-                posts.title, 
-                posts.content AS post_content, 
-                posts.category AS post_category 
-            FROM 
-                posts 
-            LEFT JOIN 
-                subposts ON posts.id = subposts.subpost_id 
-            WHERE 
-                LOWER(posts.category) = LOWER(?)`;
-
+        let formattedCategory = slugify(convertSlugToTitle(category), { lower: true }).replace("-", " ");
+        if(formattedCategory == "czlonkostwo"){
+            formattedCategory = "Członkostwo"
+        }
+        let query;
         let queryParams = [formattedCategory];
 
-        if (id) {
-            query += ` AND id = ?`;
+        console.log(formattedCategory);
+
+        if (id && subid) {
+            query = `
+                SELECT 
+                    posts.id, 
+                    subposts.subpost_id,  
+                    posts.subtitle, 
+                    posts.title, 
+                    subposts.content AS subposts_content, 
+                    posts.category AS post_category 
+                FROM 
+                    posts 
+                LEFT JOIN 
+                    subposts ON posts.id = subposts.post_id 
+                WHERE 
+                    LOWER(posts.category) = LOWER(?) 
+                    AND posts.id = ? 
+                    AND subposts.subpost_id = ?`;
+
+            queryParams.push(id, subid);
+        } else if (id) {
+            query = `
+                SELECT 
+                    posts.id, 
+                    posts.subtitle, 
+                    posts.title, 
+                    posts.content AS post_content, 
+                    posts.category AS post_category 
+                FROM 
+                    posts 
+                WHERE 
+                    LOWER(posts.category) = LOWER(?) 
+                    AND posts.id = ?`;
+
             queryParams.push(id);
+        } else {
+            query = `
+                SELECT 
+                    posts.id, 
+                    posts.subtitle, 
+                    posts.title, 
+                    posts.content AS post_content, 
+                    posts.category AS post_category 
+                FROM 
+                    posts 
+                WHERE 
+                    LOWER(posts.category) = LOWER(?)`;
         }
 
         const [result] = await pool.query(query, queryParams);

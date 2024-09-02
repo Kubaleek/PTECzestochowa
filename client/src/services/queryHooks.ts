@@ -51,13 +51,15 @@ export const useNewsQuery = (options?: UseQueryOptions<NewsResponse, Error>) =>
 export const useSubPostsQuery = (
   category: string,
   id?: string | null,
+  subid?: string | null,
   options?: UseQueryOptions<NewsResponse, Error>
 ) => {
   const queryId = id ?? '';
+  const querySubId = subid ?? '';
   
   return useQuery<NewsResponse, Error>({
-    queryKey: ["Posts", category, queryId],
-    queryFn: () => GetPages({ category, id: queryId }), // Pass queryId, which is never null
+    queryKey: ["Posts", category, queryId, querySubId],
+    queryFn: () => GetPages({ category, id: queryId, subid: querySubId }), // Pass subid along with id
     staleTime: 60000,
     ...options,
   });
