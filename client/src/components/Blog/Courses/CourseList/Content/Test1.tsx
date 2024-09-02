@@ -1,10 +1,4 @@
 import {
-  MaterialReactTable,
-  useMaterialReactTable,
-  type MRT_ColumnDef,
-} from 'material-react-table'; // https://v3.material-react-table.com/docs/guides/expanding-sub-rows
-import { useMemo } from 'react';
-import {
   Button,
   Modal,
   ModalContent,
@@ -14,6 +8,7 @@ import {
   useDisclosure,
   Divider,
 } from "@nextui-org/react";
+import { Accordion, AccordionItem } from "@nextui-org/react";
 
 export type DataType = {
   id: number;
@@ -45,92 +40,88 @@ export default function Test1() {
             niepotrzebne.
           </p>
         </div>
-        <div className="bg-white flex flex-col border-2 gap-3 p-3 border-[#333]/25 shadow-lg">
-          <div className="flex justify-end items-center">
-            <Button
-              onPress={onOpen}
-              className="w-full lg:w-auto rounded text-white bg-green-700"
-              endContent={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-book-plus">
-                  <path d="M12 7v6" />
-                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
-                  <path d="M9 10h6" />
-                </svg>
-              }>
-              Dodaj Szkolenie
-            </Button>
-            <Modal
-              isOpen={isOpen}
-              onOpenChange={onOpenChange}
-              placement="center"
-              classNames={{
-                backdrop:
-                  "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
-              }}>
-              <ModalContent>
-                {(onClose) => (
-                  <>
-                    <ModalHeader className="flex flex-col gap-1">
+        <div className="flex justify-end items-center">
+          <Button
+            onPress={onOpen}
+            className="w-full lg:w-auto rounded text-white bg-green-700"
+            endContent={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-book-plus">
+                <path d="M12 7v6" />
+                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
+                <path d="M9 10h6" />
+              </svg>
+            }>
+            Dodaj Szkolenie
+          </Button>
+          <Modal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            placement="center"
+            classNames={{
+              backdrop:
+                "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+            }}>
+            <ModalContent>
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    Dodaj Szkolenie
+                  </ModalHeader>
+                  <ModalBody>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Nullam pulvinar risus non risus hendrerit venenatis.
+                      Pellentesque sit amet hendrerit risus, sed porttitor
+                      quam.
+                    </p>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Nullam pulvinar risus non risus hendrerit venenatis.
+                      Pellentesque sit amet hendrerit risus, sed porttitor
+                      quam.
+                    </p>
+                    <p>
+                      Magna exercitation reprehenderit magna aute tempor
+                      cupidatat consequat elit dolor adipisicing. Mollit dolor
+                      eiusmod sunt ex incididunt cillum quis. Velit duis sit
+                      officia eiusmod Lorem aliqua enim laboris do dolor
+                      eiusmod. Et mollit incididunt nisi consectetur esse
+                      laborum eiusmod pariatur proident Lorem eiusmod et.
+                      Culpa deserunt nostrud ad veniam.
+                    </p>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      color="danger"
+                      className="w-full lg:w-auto rounded text-white bg-red-700"
+                      onPress={onClose}>
+                      Zamknij
+                    </Button>
+                    <Button
+                      color="success"
+                      className="w-full lg:w-auto rounded text-white bg-green-700"
+                      onPress={onClose}>
                       Dodaj Szkolenie
-                    </ModalHeader>
-                    <ModalBody>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Nullam pulvinar risus non risus hendrerit venenatis.
-                        Pellentesque sit amet hendrerit risus, sed porttitor
-                        quam.
-                      </p>
-                      <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Nullam pulvinar risus non risus hendrerit venenatis.
-                        Pellentesque sit amet hendrerit risus, sed porttitor
-                        quam.
-                      </p>
-                      <p>
-                        Magna exercitation reprehenderit magna aute tempor
-                        cupidatat consequat elit dolor adipisicing. Mollit dolor
-                        eiusmod sunt ex incididunt cillum quis. Velit duis sit
-                        officia eiusmod Lorem aliqua enim laboris do dolor
-                        eiusmod. Et mollit incididunt nisi consectetur esse
-                        laborum eiusmod pariatur proident Lorem eiusmod et.
-                        Culpa deserunt nostrud ad veniam.
-                      </p>
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button
-                        color="danger"
-                        className="w-full lg:w-auto rounded text-white bg-red-700"
-                        onPress={onClose}>
-                        Zamknij
-                      </Button>
-                      <Button
-                        color="success"
-                        className="w-full lg:w-auto rounded text-white bg-green-700"
-                        onPress={onClose}>
-                        Dodaj Szkolenie
-                      </Button>
-                    </ModalFooter>
-                  </>
-                )}
-              </ModalContent>
-            </Modal>
-          </div>
-          <div>
-            <Divider className="h-[1px] w-full" />
-            <div>
-              {/* Tu będzie tabelka */}
-            </div>
-          </div>
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
+        </div>
+        <div>
+          <Divider className="h-[1px] w-full" />
+          <div></div>
         </div>
       </div>
     </>
