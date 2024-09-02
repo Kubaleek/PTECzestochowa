@@ -11,19 +11,11 @@ import {
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 
-export type DataType = {
-  id: number;
-  subRows?: DataType[];
-};
-
-export const data = [
-  {
-    id: 1,
-  },
-];
-
 export default function Test1() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  // Hooki dla różnych modali
+  const addModal = useDisclosure();
+  const editModal = useDisclosure();
+
   return (
     <>
       <div className="bg-[#f5f1ec] flex flex-col gap-3 tems-center justify-between border-2 border-[#333]/25 p-4 shadow-lg">
@@ -46,7 +38,7 @@ export default function Test1() {
       <div className="flex flex-col gap-3">
         <div className="flex justify-end items-center">
           <Button
-            onPress={onOpen}
+            onPress={addModal.onOpen}
             className="w-full lg:w-auto rounded text-white bg-green-700"
             endContent={
               <svg
@@ -68,8 +60,8 @@ export default function Test1() {
             Dodaj Szkolenie
           </Button>
           <Modal
-            isOpen={isOpen}
-            onOpenChange={onOpenChange}
+            isOpen={addModal.isOpen}
+            onOpenChange={addModal.onOpenChange}
             placement="center"
             classNames={{
               backdrop:
@@ -154,45 +146,120 @@ export default function Test1() {
             </CardHeader>
             <Divider className="h-[1px] w-full" />
             <CardBody>
-              <Accordion className="px-0" isCompact={true} keepContentMounted={true} fullWidth={true}>
+              <Accordion
+                className="px-0"
+                isCompact={true}
+                keepContentMounted={true}
+                fullWidth={true}>
                 <AccordionItem
                   key={1}
                   aria-label="CourseDetail-1"
-                  title="Sprawdż Informacje" className="text-small text-justify">
-                    <div className="flex flex-col gap-3">
-                      <p className="flex flex-col">
-                        <span className="font-medium text-medium">Opis Szkolenia: </span>
-                        <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum iste ab dicta tempore totam, asperiores hic sunt quos repudiandae, laboriosam commodi perspiciatis labore quas earum nam esse quidem? Rerum, debitis.</span>
-                      </p>
-                      <p className="flex flex-col">
-                        <span className="font-medium text-medium">Data Szkolenia: </span>
-                        <span>24 wrześia 2024</span>
-                      </p>
-                      <p className="flex flex-col">
-                        <span className="font-medium text-medium">Plik Szkoleniowy: </span>
-                        <span>Link do Kursów typu pdf np</span>
-                      </p>
-                      <p className="flex flex-col">
-                        <span className="font-medium text-medium">Status Szkolenia: </span>
-                        <span>Status Szkolenia</span>
-                      </p>
-                      <p className="flex flex-col">
-                        <span className="font-medium text-medium">Data Zakończenia Szkolenia: </span>
-                        <span>31 września 2024</span>
-                      </p>
-                      <p className="flex flex-col">
-                        <span className="font-medium text-medium">Certyfikat Szkolenia: </span>
-                        <span>Niedostępny</span>
-                      </p>
-                      <div className="flex gap-3">
-                        <Button color="primary" variant="flat" className="rounded w-full">
-                          Edytuj
-                        </Button>
-                        <Button color="danger" variant="flat" className="rounded w-full">
-                          Usuń
-                        </Button>
-                      </div>
+                  title="Sprawdż Informacje"
+                  className="text-small text-justify">
+                  <div className="flex flex-col gap-3">
+                    <p className="flex flex-col">
+                      <span className="font-medium text-medium">
+                        Opis Szkolenia:{" "}
+                      </span>
+                      <span>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Ipsum iste ab dicta tempore totam, asperiores hic sunt
+                        quos repudiandae, laboriosam commodi perspiciatis labore
+                        quas earum nam esse quidem? Rerum, debitis.
+                      </span>
+                    </p>
+                    <p className="flex flex-col">
+                      <span className="font-medium text-medium">
+                        Data Szkolenia:{" "}
+                      </span>
+                      <span>24 wrześia 2024</span>
+                    </p>
+                    <p className="flex flex-col">
+                      <span className="font-medium text-medium">
+                        Plik Szkoleniowy:{" "}
+                      </span>
+                      <span>Link do Kursów typu pdf np</span>
+                    </p>
+                    <p className="flex flex-col">
+                      <span className="font-medium text-medium">
+                        Status Szkolenia:{" "}
+                      </span>
+                      <span>Status Szkolenia</span>
+                    </p>
+                    <p className="flex flex-col">
+                      <span className="font-medium text-medium">
+                        Data Zakończenia Szkolenia:{" "}
+                      </span>
+                      <span>31 września 2024</span>
+                    </p>
+                    <p className="flex flex-col">
+                      <span className="font-medium text-medium">
+                        Certyfikat Szkolenia:{" "}
+                      </span>
+                      <span>Niedostępny</span>
+                    </p>
+                    <div className="flex gap-3">
+                      <Button
+                        color="primary"
+                        variant="flat"
+                        className="rounded w-full"
+                        onPress={editModal.onOpen}>
+                        Edytuj
+                      </Button>
+                      <Modal
+                        isOpen={editModal.isOpen}
+                        onOpenChange={editModal.onOpenChange}
+                        placement="center"
+                        classNames={{
+                          backdrop:
+                            "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+                        }}>
+                        <ModalContent>
+                          {(onClose) => (
+                            <>
+                              <ModalHeader className="flex flex-col gap-1">
+                                Edytuj Szkolenie
+                              </ModalHeader>
+                              <ModalBody>
+                                <p>
+                                  Lorem ipsum dolor sit amet, consectetur
+                                  adipiscing elit. Nullam pulvinar risus non
+                                  risus hendrerit venenatis. Pellentesque sit
+                                  amet hendrerit risus, sed porttitor quam.
+                                </p>
+                                <p>
+                                  Lorem ipsum dolor sit amet, consectetur
+                                  adipiscing elit. Nullam pulvinar risus non
+                                  risus hendrerit venenatis. Pellentesque sit
+                                  amet hendrerit risus, sed porttitor quam.
+                                </p>
+                              </ModalBody>
+                              <ModalFooter>
+                                <Button
+                                  color="danger"
+                                  className="w-full lg:w-auto rounded text-white bg-red-700"
+                                  onPress={onClose}>
+                                  Zamknij
+                                </Button>
+                                <Button
+                                  color="success"
+                                  className="w-full lg:w-auto rounded text-white bg-green-700"
+                                  onPress={onClose}>
+                                  Edytuj Szkolenie
+                                </Button>
+                              </ModalFooter>
+                            </>
+                          )}
+                        </ModalContent>
+                      </Modal>
+                      <Button
+                        color="danger"
+                        variant="flat"
+                        className="rounded w-full">
+                        Usuń
+                      </Button>
                     </div>
+                  </div>
                 </AccordionItem>
               </Accordion>
             </CardBody>
