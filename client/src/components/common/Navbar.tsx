@@ -73,7 +73,7 @@ const Navbar: React.FC = () => {
                   onMouseLeave={handleMouseLeave}
                   className="relative"
                 >
-                  <button type="button" className="relative text-white uppercase">
+                  <button type="button" className="relative text-white">
                     {category}
                     <span
                       style={{
