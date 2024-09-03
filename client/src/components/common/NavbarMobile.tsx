@@ -4,11 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import PTECzestochowaLogo from "../../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
 import { NavItem } from "./ts/types";
 import { useNavsQuery } from "@/services/queryHooks";
-
+import slugify from "slugify";
 const menuVariants: Variants = {
   open: { opacity: 1, x: 0, transition: { duration: 0.3 } },
   closed: { opacity: 0, x: "-100%", transition: { duration: 0.3 } },
@@ -66,15 +66,18 @@ const AnimatedHamburgerButton: React.FC<{
 );
 
 const MobileMenu: React.FC<{ isOpen: boolean; setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>; }> = ({ isOpen, setMobileMenuOpen }) => {
-   const { data, error, isLoading } = useNavsQuery();
-
+  const { data, error, isLoading } = useNavsQuery();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
+  // Uzyskujemy bieżące id z parametrów zapytania
+  const currentId = searchParams.get('id');
+  const currentIdNumber = currentId ? Number(currentId) : null;
 
   // Uzyskanie tablicy elementów nawigacyjnych
   const navItems: NavItem[] = data?.data || [];
 
-  // Grupowanie eleme
+  // Grupowanie elementów według kategorii
   const groupedNavItems = navItems.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
@@ -91,15 +94,15 @@ const MobileMenu: React.FC<{ isOpen: boolean; setMobileMenuOpen: React.Dispatch<
       <ul className="list-none w-full flex-col flex gap-4 text-center pb-6">
           {Object.entries(groupedNavItems).map(([category, items]) => (
             <li key={category} className="flex flex-col gap-2">
-              <h2 className="text-[28px] font-bold">{category}</h2>
+              <h2 className="text-xl font-bold">{category}</h2>
               <div className="flex flex-col gap-2">
                 {items.map((item) => (
                   <div key={item.id}>
                     <Link
-                      href={`/${item.subtitle.toLowerCase().replace(/\s+/g, "-")}`}
-                      className={`flex flex-col transition-all ease-out duration-150 py-2 px-6 ${
-                        pathname === `/${item.subtitle.toLowerCase().replace(/\s+/g, "-")}`
-                          ? "bg-[#17822e] text-[#FFF]"
+                      href={`/${slugify(item.category.toLowerCase())}/${slugify(item.subtitle.toLowerCase())}`}
+                      className={`text-sm flex flex-col transition-all ease-out duration-150 py-2 px-6 ${
+                        pathname === `/${slugify(item.category.toLowerCase())}/${slugify(item.subtitle.toLowerCase())}`
+                          ? "bg-[#17822e] text-[#FFF] font-bold"
                           : "hover:bg-[#17822e] hover:text-[#fff]"
                       }`}
                     >

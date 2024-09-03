@@ -5,7 +5,7 @@ import Test1 from './Content/Test1';
 
 export const Panel: React.FC = () => {
   return (
-    <div className="shadow-lg border border-green-700">
+    <div className="shadow-lg">
       <div className="bg-white flex flex-col gap-3">
         <div className="bg-[#f5f1ec] border-2 border-[#333]/25 p-2 shadow-lg">
           <div className="bg-white flex flex-col gap-1 p-2 border-2 border-[#333]/25 shadow-lg">

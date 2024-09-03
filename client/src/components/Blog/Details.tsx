@@ -1,7 +1,7 @@
 import { Params } from "@/app/[category]/types";
 import Courses from "./Courses/Courses";
 import SocialsButtons from "./SocialsButtons";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useSubPostsQuery } from "@/services/queryHooks";
 import { GetServerSideProps } from "next";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
@@ -42,6 +42,8 @@ interface DetailsProps {
 
 export default function Details({ category, id, subid }: DetailsProps) {
   const paths = usePathname();
+  const searchParams = useSearchParams();
+  const currentId = searchParams.get('id');
 
   // Fetch posts using a custom hook
   const {
@@ -54,7 +56,7 @@ export default function Details({ category, id, subid }: DetailsProps) {
 
   return (
     <section className="col-span-12 md:col-span-8 xl:col-span-9">
-      <article className="mm_article flex flex-col gap-3 mb-20 h-fit bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25">
+      <article className="mm_article flex flex-col gap-3 mb-20 bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25 text-pretty overflow-hidden">
         {isLoading ? (
           <div className="flex flex-col gap-3">
             <Skeleton className="h-8 w-3/4 bg-[#ccc]" />
@@ -97,9 +99,10 @@ export default function Details({ category, id, subid }: DetailsProps) {
                       <Courses />
                     ) : null}
 
-                    <div
-                      dangerouslySetInnerHTML={{ __html: item.post_content || item.subpost_content }}
-                    />
+                   
+                    {paths === "/kontakt" && currentId === "52" ? (<p>Kontakt</p>) : null}
+                    {paths === "/kursy" && currentId === "51" ? (<Courses />) : null}
+                    <div dangerouslySetInnerHTML={{ __html: item.post_content }}/>
                   </div>
                 </div>
               ))
