@@ -7,8 +7,12 @@ import { GetServerSideProps } from "next";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetPages } from "@/services/homeAPI";
 import { Skeleton } from "@nextui-org/skeleton";
+import Contact from "./Contact/Contact";
 
-export const getServerSideProps: GetServerSideProps = async ({ params, query }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  params,
+  query,
+}) => {
   const { category } = params as { category: string };
   const id = Array.isArray(query.id) ? query.id[0] : query.id;
   const subid = Array.isArray(query.subid) ? query.subid[0] : query.subid;
@@ -19,6 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, query }) 
   await queryClient.prefetchQuery({
     queryKey: ['Posts', category, id, subid],
     queryFn: async () => GetPages({ category, id, subid }),
+
     staleTime: 1000 * 60,
   });
 
@@ -43,7 +48,7 @@ interface DetailsProps {
 export default function Details({ category, id, subid }: DetailsProps) {
   const paths = usePathname();
   const searchParams = useSearchParams();
-  const currentId = searchParams.get('id');
+  const currentId = searchParams.get("id");
 
   // Fetch posts using a custom hook
   const {
@@ -92,23 +97,23 @@ export default function Details({ category, id, subid }: DetailsProps) {
                   <div className="flex flex-row gap-2">
                     <SocialsButtons />
                   </div>
-                  <div>
-                    {paths === "/kontakt/kontakt" ? (
-                      <p>Kontakt</p>
-                    ) : paths === "/kursy/szkolenia" ? (
+
+                  <div className="py-2">
+                    {paths === "/kontakt" && currentId === "52" ? (
+                      <Contact />
+                    ) : null}
+                    {paths === "/kursy" && currentId === "51" ? (
                       <Courses />
                     ) : null}
-
-                   
-                    {paths === "/kontakt" && currentId === "52" ? (<p>Kontakt</p>) : null}
-                    {paths === "/kursy" && currentId === "51" ? (<Courses />) : null}
-                    <div dangerouslySetInnerHTML={{ __html: item.post_content }}/>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: item.post_content }}
+                    />
                   </div>
                 </div>
               ))
             ) : (
               <div>
-                <p>Brak postów do wyświetlenia.</p>
+                <p>Niebawem się pojawią informacje.</p>
               </div>
             )}
           </>
