@@ -71,12 +71,12 @@ export default function Footer() {
                   ))}
                   </div>
                   <div className="f__copyright p-2">
-                    <p className="text-end text-sm">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone | <a href="/aktualnosci/polityka-prywatnosci-pte" className="text-[#17822e] font-bold" aria-label="politykaPrywatności">Polityka prywatności</a></p>
+                    <p className="text-end text-sm">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone | <Link href={"/aktualnosci?id=7"}  className="text-[#17822e] font-bold" aria-label="politykaPrywatności">Polityka prywatności</Link></p>
                   </div>
                 </div>
                 <div className="footerMobile md:hidden grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <Image src={Logo} alt="Logo_PTE_pionowe_Czestochowa" width={440} height={418}/>
-                  <p className="text-end text-[14px]">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone | <Link href={"/aktualnosci/polityka-prywatnosci-pte"} className="text-[#17822e] font-bold" aria-label="politykaPrywatności">Polityka prywatności</Link></p>
+                  <p className="text-end text-[14px]">&copy; Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone | <Link href={"/aktualnosci?id=7"} className="text-[#17822e] font-bold" aria-label="politykaPrywatności">Polityka prywatności</Link></p>
                 </div>
                 </>
             )}

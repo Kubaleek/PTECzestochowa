@@ -7,8 +7,12 @@ import { GetServerSideProps } from "next";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetPages } from "@/services/homeAPI";
 import { Skeleton } from "@nextui-org/skeleton";
+import Contact from "./Contact/Contact";
 
-export const getServerSideProps: GetServerSideProps = async ({ params, query }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  params,
+  query,
+}) => {
   const { category } = params as { category: string };
   const id = Array.isArray(query.id) ? query.id[0] : query.id;
 
@@ -16,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params, query }) 
 
   // Prefetch data on the server
   await queryClient.prefetchQuery({
-    queryKey: ['Posts', category, id],
+    queryKey: ["Posts", category, id],
     queryFn: async () => GetPages({ category, id }),
     staleTime: 1000 * 60,
   });
@@ -38,7 +42,7 @@ interface DetailsProps {
 export default function Details({ category, id }: DetailsProps) {
   const paths = usePathname();
   const searchParams = useSearchParams();
-  const currentId = searchParams.get('id');
+  const currentId = searchParams.get("id");
 
   // Fetch posts using a custom hook
   const {
@@ -53,7 +57,6 @@ export default function Details({ category, id }: DetailsProps) {
     <section className="col-span-12 md:col-span-8 xl:col-span-9">
       <article className="mm_article flex flex-col gap-3 mb-20 bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25 text-pretty overflow-hidden">
         {isLoading ? (
-
           <div className="flex flex-col gap-3">
             <Skeleton className="h-8 w-3/4 bg-[#ccc]" />
             <Skeleton className="h-6 w-2/3 bg-[#ccc]" />
@@ -87,16 +90,22 @@ export default function Details({ category, id }: DetailsProps) {
                   <div className="flex flex-row gap-2">
                     <SocialsButtons />
                   </div>
-                  <div>
-                    {paths === "/kontakt" && currentId === "52" ? (<p>Kontakt</p>) : null}
-                    {paths === "/kursy" && currentId === "51" ? (<Courses />) : null}
-                    <div dangerouslySetInnerHTML={{ __html: item.post_content }}/>
+                  <div className="py-2">
+                    {paths === "/kontakt" && currentId === "52" ? (
+                      <Contact />
+                    ) : null}
+                    {paths === "/kursy" && currentId === "51" ? (
+                      <Courses />
+                    ) : null}
+                    <div
+                      dangerouslySetInnerHTML={{ __html: item.post_content }}
+                    />
                   </div>
                 </div>
               ))
             ) : (
               <div>
-                <p>Brak postów do wyświetlenia.</p>
+                <p>Niebawem się pojawią informacje.</p>
               </div>
             )}
           </>
