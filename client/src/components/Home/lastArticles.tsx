@@ -87,7 +87,7 @@ export default function LastArticles() {
                     <div className="grid grid-cols-12 gap-3 sm:gap-6">
                       <div className="col-span-12 sm:col-span-4">
                         <Image
-                          src={Test}
+                          src={item.image.startsWith('/') ? item.image : `/${item.image}`}
                           alt="Aktualności"
                           width={400}
                           height={400}
@@ -113,7 +113,7 @@ export default function LastArticles() {
                           </p>
                         </div>
                         <a
-                          href={`aktualnosci/${slugify(`${item.subtitle.toLowerCase()}`)}/${slugify(`${item.title.toLowerCase()}`)}`}
+                          href={`aktualnosci?id=${item.id}&subid=${item.subpost_id}`}
                           className="hover:underline text-[#2d2f2d] text-base">
                           Czytaj dalej
                         </a>

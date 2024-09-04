@@ -105,7 +105,16 @@ export default function Details({ category, id }: DetailsProps) {
               ))
             ) : (
               <div>
-                <p>Niebawem się pojawią informacje.</p>
+                <p>
+                  Niedługo pojawią się informacje od oddziału w Częstochowie.
+                  Zalecamy w międzyczasie zapoznanie się z innymi stronami.
+                </p>
+                <div class="flex flex-col gap-3">
+                  <p>
+                    Przedstawiciele Polskiego Towarzystwa Ekonomicznego biorą udział w rozpoczynającym się dzisiaj XXXIII Forum Ekonomicznym w Karpaczu. Moderatorem panelu "Czy powinniśmy się martwić poziomem edukacji ekonomicznej w Polsce?", zaplanowanego na 3 września 2024 r. godz. 14:20-15:20, jest prof. dr hab. Marek Kośny, przewodniczący Rady Naukowej PTE.
+                  </p>
+                  <img src="https://cms.pte.pl/uploads/FE_2024_960_x_100_px_602eaf2af9.png" alt="forumEkonomiczne" class="rounded-md" />
+                </div>
               </div>
             )}
           </>

@@ -52,18 +52,19 @@ export default function LastPosts() {
                           {item.title}
                         </h2>
                         <p className="text-xs">
-                          {/*format(
+                          {
+                          format(
                             parseISO(item.created_at),
                             "EEEE, d MMMM yyyy",
                             { locale: pl }
-                          )*/}
-                          data
+                          )
+                          }
                         </p>
                       </div>
                       <p className="text-xs leading-relaxed text-justify break-words overflow-hidden text-ellipsis line-clamp-3">
                         {item.post_content}
                       </p>
-                      <a href={`aktualnosci/${slugify(`${item.subtitle.toLowerCase()}`)}/${slugify(`${item.title.toLowerCase()}`)}`} className="hover:underline text-[#2d2f2d] text-sm">
+                      <a href={`aktualnosci/?id=${item.id}&subid=${item.subpost_id}`} className="hover:underline text-[#2d2f2d] text-sm">
                         Czytaj dalej
                       </a>
                     </div>

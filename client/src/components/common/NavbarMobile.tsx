@@ -6,7 +6,8 @@ import Image from "next/image";
 import slugify from 'slugify';
 import { motion, Variants } from "framer-motion";
 import { usePathname, useSearchParams } from "next/navigation";
-import PTECzestochowaLogo from "../../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
+// import PTECzestochowaLogo from "../../public/assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
+import PTECzestochowaLogo from "../../../public/assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
 import { NavItem } from "./ts/types";
 import { useNavsQuery } from "@/services/queryHooks";
 

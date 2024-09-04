@@ -1,16 +1,22 @@
 
 import Link from "next/link";
 import { NavItem } from './ts/types';
-import Logo from "../../assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
+import Logo from "../../../public/assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
 import Image from "next/image";
 import { useNavsQuery } from "@/services/queryHooks";
 import slugify from 'slugify';
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Skeleton } from "@nextui-org/skeleton";
 
 
 export default function Footer() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Uzyskujemy bieżące id z parametrów zapytania
+  const currentId = searchParams.get('id');
+  const currentIdNumber = currentId ? Number(currentId) : null;
+
 
   const { data, error, isLoading } = useNavsQuery();
 
@@ -59,13 +65,16 @@ export default function Footer() {
                     <div key={category}>
                       <h4 className="text-lg font-bold mb-2">{category}</h4>
                       <ul className="space-y-1">
-                        {groupedNavItems[category].map((item) => (
+                        {groupedNavItems[category].map((item) => {
+                          const itemUrl = `/${slugify(item.category.toLowerCase())}?id=${item.id}`;
+                          return(
                           <li key={item.id}>
-                            <Link key={item.id} href={`/${slugify(item.category.toLowerCase())}/${slugify(item.subtitle.toLowerCase())}`} className="text-xs text-[#2d2f2d] hover:underline transition-all ease-in duration-300">
-                              {item.subtitle}
+                            <Link key={item.id} href={itemUrl} className="text-xs text-[#2d2f2d] hover:underline transition-all ease-in duration-300">
+                              {item.subtitle.replace("-", " ")}
                             </Link>
                           </li>
-                        ))}
+                          )
+                      })}
                       </ul>
                     </div>
                   ))}

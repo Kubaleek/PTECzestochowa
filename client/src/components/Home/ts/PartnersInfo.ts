@@ -1,12 +1,12 @@
-import Partners1 from "../../../assets/PTE/Partners1.webp";
-import Partners2 from "../../../assets/PTE/Partners2.webp";
-import Partners3 from "../../../assets/PTE/Partners3.webp";
-import Partners4 from "../../../assets/PTE/Partners4.webp";
-import Partners5 from "../../../assets/PTE/Partners5.webp";
-import Partners6 from "../../../assets/PTE/Partners6.webp";
-import Partners7 from "../../../assets/PTE/Partners7.webp";
-import Partners8 from "../../../assets/PTE/Partners8.webp";
-import Partners9 from "../../../assets/PTE/Partners9.webp";
+import Partners1 from "../../../../public/assets/PTE/Partners1.webp";
+import Partners2 from "../../../../public/assets/PTE/Partners2.webp";
+import Partners3 from "../../../../public/assets/PTE/Partners3.webp";
+import Partners4 from "../../../../public/assets/PTE/Partners4.webp";
+import Partners5 from "../../../../public/assets/PTE/Partners5.webp";
+import Partners6 from "../../../../public/assets/PTE/Partners6.webp";
+import Partners7 from "../../../../public/assets/PTE/Partners7.webp";
+import Partners8 from "../../../../public/assets/PTE/Partners8.webp";
+import Partners9 from "../../../../public/assets/PTE/Partners9.webp";
 import { PartnerType } from "./types";
 
 const PartnersInfo: PartnerType[] = [
