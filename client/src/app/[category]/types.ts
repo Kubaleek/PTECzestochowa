@@ -4,4 +4,5 @@ export interface IProps {
 export type Params = {
     category: string;  // The main category
     id?: string | null; // The specific item ID for detailed views
+    subid?:string | null;
 };

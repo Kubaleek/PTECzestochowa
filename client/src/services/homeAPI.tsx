@@ -1,4 +1,3 @@
-// api.ts
 import slugify from 'slugify';
 import axios from 'axios';
 
@@ -25,9 +24,11 @@ export const GetArticles = () => fetchData('/lastArticles');
 export const GetPosts = () => fetchData('/lastPosts');
 export const GetNews = () => fetchData('/lastNews');
 
-
-export const GetPages = ({ category, id }: { category: string; id?: string }) => {
+export const GetPages = ({ category, id, subid }: { category: string; id?: string; subid?: string }) => {
   const formattedCategory = slugify(category, { lower: true });
-  const endpoint = `/${formattedCategory}?id=${id || ''}`;
+  let endpoint = `/${formattedCategory}?id=${id || ''}${subid ? `&subid=${subid}` : ""}`;
+  
+ 
+
   return fetchData(endpoint);
 };

@@ -17,6 +17,7 @@ const transporter = nodemailer.createTransport({
 
 export function convertSlugToTitle(slug) {
     // Zamień wszelkie myślniki na spacje
+    
     const title = slug
         .replace(/-/g, ' ') // Zamień wszystkie myślniki na spacje
         .normalize('NFD') // Normalizuj znaki diakrytyczne

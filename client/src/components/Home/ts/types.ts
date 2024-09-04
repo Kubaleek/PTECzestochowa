@@ -7,7 +7,8 @@ export interface BaseContent {
   title: string;
   subtitle: string;
   post_content: string;
-  created_at: string;
+  subpost_content:string;
+  post_category: string;
 }
 
 export interface Article extends BaseContent {
