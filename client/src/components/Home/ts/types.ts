@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, ReactNode } from "react";
 import { StaticImageData } from 'next/image';
 
 export interface BaseContent {
@@ -12,14 +12,17 @@ export interface BaseContent {
 }
 
 export interface Article extends BaseContent {
+  [x: string]: ReactNode;
   image: string;
 }
 
 export interface Posts extends BaseContent {
+  [x: string]: string;
   post_id: number;
 }
 
 export interface News extends BaseContent {
+  [x: string]: string;
   post_id: number;
 }
 export interface Response<T> {
