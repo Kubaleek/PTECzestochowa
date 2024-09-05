@@ -1,5 +1,5 @@
 export default function Contact() {
     return (
-        <div>Kontakt</div>
+        <div>Strona jest w trakcie budowy</div>
     );
 }

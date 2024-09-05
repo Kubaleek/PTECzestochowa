@@ -6,6 +6,7 @@ import SocialIcons from "./Icons";
 import Newslatter from "./Newslatter";
 import { useArticlesQuery } from "@/services/queryHooks";
 import { Skeleton } from "@nextui-org/skeleton";
+import { Divider } from "@nextui-org/react";
 
 export default function LastArticles() {
   const { data: articlesResponse, error, isLoading } = useArticlesQuery();
@@ -104,6 +105,7 @@ export default function LastArticles() {
                             )}
                           </p>
                         </div>
+                        <Divider className="h-[1px] w-full" />
                         <p className="text-xs leading-relaxed text-justify break-words overflow-hidden text-ellipsis line-clamp-3">
                           {item.subtext}
                         </p>

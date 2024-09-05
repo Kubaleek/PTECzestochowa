@@ -59,6 +59,10 @@ export const CoursesLogin = () => {
                 <p className="text-xs text-pretty leading-relaxed text-justify">
                     Aby zobaczyć listę szkoleń, zaloguj się, używając tymczasowego hasła otrzymanego od PTE Częstochowa. Hasło będzie ważne do czasu jego zmiany. W razie problemów skontaktuj się z administratorem.
                 </p>
+                <hr />
+                <p className="text-xs text-pretty leading-relaxed text-justify">
+                    Strona Szkolenia jest w trakcie budowy
+                </p>
             </div>
             <div className="w-full lg:w-3/5 flex flex-col gap-3 lg:gap-6 p-4 bg-[#f7f3ef]">
                 <h2 className="text-lg md:text-2xl font-bold text-pretty leading-relaxed">Logowanie do Szkoleń</h2>

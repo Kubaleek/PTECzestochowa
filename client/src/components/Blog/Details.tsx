@@ -109,12 +109,10 @@ export default function Details({ category, id, subid }: DetailsProps) {
                 </div>
               ))
             ) : (
-              <div>
-                <p>
-                  Niedługo pojawią się informacje od oddziału w Częstochowie.
-                  Zalecamy w międzyczasie zapoznanie się z innymi stronami.
-                </p>
-              </div>
+              <p class="text-xs sm:text-sm text-pretty leading-relaxed text-justify">
+                Niedługo pojawią się informacje od oddziału w Częstochowie.
+                Zalecamy w międzyczasie zapoznanie się z innymi stronami.
+              </p>
             )}
           </>
         )}

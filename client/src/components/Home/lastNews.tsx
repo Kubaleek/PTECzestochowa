@@ -30,7 +30,7 @@ export default function LastNews() {
             ) : (
             <div className="grid grid-cols-1 gap-4">
                 {news.map(((item) => (
-                    <a href={`aktualnosci/?id=${item.id}&subid=${item.subpost_id}`} key={item.post_id} className="border-2 group border-[#17822e]/50 shadow-lg opacity-70 p-2 rounded-lg hover:opacity-100 lg:hover:bg-[#f9f2eb] lg:hover:border-[#17822e] transition-all duration-200 ease-linear">
+                    <a href={`aktualnosci?id=2&subid=${item.subpost_id}`} key={item.post_id} className="border-2 group border-[#17822e]/50 shadow-lg opacity-70 p-2 rounded-lg hover:opacity-100 lg:hover:bg-[#f9f2eb] lg:hover:border-[#17822e] transition-all duration-200 ease-linear">
                         <h3 className="text-sm font-semibold leading-relaxed break-words overflow-hidden text-ellipsis line-clamp-3">{item.title}</h3>
                         <p className="text-xs group-hover:text-[#17822e] group-hover:font-bold transition-colors duration-300">
                           {format(parseISO(item.created_at),"d MMMM, yyyy",{ locale: pl })}

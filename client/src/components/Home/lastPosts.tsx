@@ -4,8 +4,8 @@ import { format, parseISO } from "date-fns";
 import { pl } from "date-fns/locale";
 import LastNews from './lastNews';
 import { usePostsQuery } from "@/services/queryHooks";
-import slugify from 'slugify';
 import { Skeleton } from "@nextui-org/skeleton";
+import { Divider } from "@nextui-org/react";
 
 export default function LastPosts() {
   const { data, error, isLoading } = usePostsQuery();
@@ -61,10 +61,11 @@ export default function LastPosts() {
                           }
                         </p>
                       </div>
+                      <Divider className="h-[1px] w-full" />
                       <p className="text-xs leading-relaxed text-justify break-words overflow-hidden text-ellipsis line-clamp-3">
-                        {item.post_content}
+                        {item.subtext}
                       </p>
-                      <a href={`aktualnosci/?id=${item.id}&subid=${item.subpost_id}`} className="hover:underline text-[#2d2f2d] text-sm">
+                      <a href={`aktualnosci/?id=3&subid=${item.subpost_id}`} className="hover:underline text-[#2d2f2d] text-sm">
                         Czytaj dalej
                       </a>
                     </div>
