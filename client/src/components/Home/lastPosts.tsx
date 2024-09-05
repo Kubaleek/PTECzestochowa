@@ -51,7 +51,7 @@ export default function LastPosts() {
                         <h2 className="group-hover:underline font-semibold text-sm">
                           {item.title}
                         </h2>
-                        <p className="text-xs">
+                        {/* <p className="text-xs">
                           {
                           format(
                             parseISO(item.created_at),
@@ -59,7 +59,7 @@ export default function LastPosts() {
                             { locale: pl }
                           )
                           }
-                        </p>
+                        </p> */}
                       </div>
                       <Divider className="h-[1px] w-full" />
                       <p className="text-xs leading-relaxed text-justify break-words overflow-hidden text-ellipsis line-clamp-3">
