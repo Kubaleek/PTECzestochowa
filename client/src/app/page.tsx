@@ -15,13 +15,11 @@ export default function Home() {
       <Header />
       <Navbar />
       <main className="flex flex-col max-w-[1360px] mx-auto justify-center gap-6 p-6">
-        <Suspense>
           <Hero />
           <LastArticles /> 
           <LastPosts />
           <Partners />
           <MapCityContent />
-        </Suspense>
       </main>
       <Footer />
     </>

@@ -97,13 +97,13 @@ export default function LastArticles() {
                           <h2 className="font-semibold text-base">
                             {item.title}
                           </h2>
-                          {/* <p className="text-xs">
+                          <p className="text-xs">
                             {format(
                               parseISO(item.created_at),
                               "EEEE, d MMMM yyyy",
                               { locale: pl }
                             )}
-                          </p> */}
+                          </p>
                         </div>
                         <Divider className="h-[1px] w-full" />
                         <p className="text-xs leading-relaxed text-justify break-words overflow-hidden text-ellipsis line-clamp-3">
