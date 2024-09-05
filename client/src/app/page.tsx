@@ -7,6 +7,7 @@ import LastArticles from "@/components/Home/lastArticles";
 import LastPosts from "@/components/Home/lastPosts";
 import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
+import { Suspense } from 'react'
 
 export default function Home() {
   return (
@@ -14,11 +15,13 @@ export default function Home() {
       <Header />
       <Navbar />
       <main className="flex flex-col max-w-[1360px] mx-auto justify-center gap-6 p-6">
-        <Hero />
-        <LastArticles /> 
-        <LastPosts />
-        <Partners />
-        <MapCityContent />
+        <Suspense>
+          <Hero />
+          <LastArticles /> 
+          <LastPosts />
+          <Partners />
+          <MapCityContent />
+        </Suspense>
       </main>
       <Footer />
     </>
