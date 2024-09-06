@@ -8,6 +8,7 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetPages } from "@/services/homeAPI";
 import { Skeleton } from "@nextui-org/skeleton";
 import Contact from "./Contact/Contact";
+import { useEffect } from "react";
 
 export const getServerSideProps: GetServerSideProps = async ({
   params,
@@ -58,7 +59,11 @@ export default function Details({ category, id, subid }: DetailsProps) {
   } = useSubPostsQuery(category, id ?? "", subid ?? "");
 
   const posts = PostsResponse?.data || [];
-
+  useEffect(()=>{
+    posts.map(e=>{
+      console.log(e.subposts_content);
+    })
+  },[posts])
   return (
     <section className="col-span-12 md:col-span-8 xl:col-span-9">
       <article className="mm_article flex flex-col gap-3 mb-20 bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25 text-pretty overflow-hidden">
@@ -103,13 +108,11 @@ export default function Details({ category, id, subid }: DetailsProps) {
                     {paths === "/kursy" && currentId === "51" ? (
                       <Courses />
                     ) : null}
-                    <div dangerouslySetInnerHTML={{ __html: item.post_content }} />
-                    {item.subpost_id && <div>SubID: {item.subpost_content}</div>}
-                  </div>
+                    <div dangerouslySetInnerHTML={{ __html: item.subposts_content ? item.subposts_content : item.post_content }} /></div>
                 </div>
               ))
             ) : (
-              <p className="text-xs sm:text-sm text-pretty leading-relaxed text-justify">
+              <p class="text-xs sm:text-sm text-pretty leading-relaxed text-justify">
                 Niedługo pojawią się informacje od oddziału w Częstochowie.
                 Zalecamy w międzyczasie zapoznanie się z innymi stronami.
               </p>
