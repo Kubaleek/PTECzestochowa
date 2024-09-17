@@ -3,7 +3,7 @@ import { Controllers } from './Controllers/controllers.js'
 import data from "../../../utils/constants.js";
 import { check,validationResult } from "express-validator";
 import { Validate, Verify, VerifyRole } from '../../../utils/middlewares.js'
-const { Register, Login, Logout, DeleteUser, EditUsername, GetUserByRole } = Controllers;
+const { Register, Login, Logout,GetUserByEmail, DeleteUser,saveBlacklist, EditUsername, GetUserByRole } = Controllers;
 
 const authRouter = express.Router();
 
@@ -41,14 +41,14 @@ authRouter.post(
   Validate,
   Login
 );
-authRouter.get(`/user`, Verify, (req, res) => {
-  res.status(200).json({
-    status: "success",
-    message: "Welcome user!",
-    user: req.user,
-  });
-});
-
+// authRouter.get(`/user`, Verify, (req, res) => {
+//   res.status(200).json({
+//     status: "success",
+//     message: "Welcome user!",
+//     user: req.user,
+//   });
+// });
+authRouter.post('/create-session',saveBlacklist)
 authRouter.get(`/admin/user`, Verify, VerifyRole, (req, res) => {
   res.status(200).json({
     status: "success",
@@ -57,7 +57,7 @@ authRouter.get(`/admin/user`, Verify, VerifyRole, (req, res) => {
 });
 
 authRouter.get("/logout", Logout);
-
+authRouter.get('/user',GetUserByEmail)
 authRouter.get('/user/delete', VerifyRole, DeleteUser);  // Assuming role-based access control
 authRouter.get('/user/edit/:userCourseId', Verify, EditUsername);
 authRouter.get('/users/role/:role', Verify, VerifyRole, GetUserByRole);

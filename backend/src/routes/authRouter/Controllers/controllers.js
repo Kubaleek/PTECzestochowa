@@ -3,7 +3,7 @@ const Register = async (req,res,next)=>{
     await authService.register(req,res,next);
 }
 const Login = async (req,res,next) =>{
-    await authService.login(req,res,next);    
+     await authService.login(req,res,next);    
 }
 const Logout = async (req,res)=>{
     await authService.logout(req,res); 
@@ -12,7 +12,14 @@ const Logout = async (req,res)=>{
 const DeleteUser = async (req, res, next) => {
     await authService.deleteUser(req, res, next);
 };
-
+const saveBlacklist = async (req,res,next) => {
+    const {date,userId} = req.body;
+    const data = await authService.saveBlacklist({
+        date,
+        userId
+    });
+    res.json({data:data})
+}
 const EditUsername = async (req, res, next) => {
     const { userCourseId } = req.params;
     const username = await authService.editUsername(userCourseId);
@@ -39,12 +46,22 @@ const GetUserByRole = async (req, res, next) => {
         message: "Users fetched successfully."
     });
 };
-
+const GetUserByEmail = async (req, res, next) => {
+    const { email } = req.body;
+    const user = await authService.getUserEmail(email);
+    res.status(200).json({
+        status: "success",
+        data: user,
+        message: "Users fetched successfully."
+    });
+};
 export const Controllers = {
     Register,
     Login,
+    GetUserByEmail,
     Logout,
     DeleteUser,
     EditUsername,
-    GetUserByRole
+    GetUserByRole,
+    saveBlacklist
 };

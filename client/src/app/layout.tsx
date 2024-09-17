@@ -1,3 +1,5 @@
+ 
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
@@ -28,9 +30,9 @@ export default function RootLayout({ children}: IProps) {
   return (
     <html lang="pl">
       <body className={`${inter.className} bg-[#f8f4f2] text-[#2d2d2d] text-xs sm:text-sm !text-pretty !leading-relaxed relative`}>
-        <ReactQueryProvider >
-          {children}
-        </ReactQueryProvider>
+  <ReactQueryProvider>
+    {children}
+  </ReactQueryProvider>
       </body>
     </html>
   );

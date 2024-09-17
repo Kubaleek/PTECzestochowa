@@ -197,7 +197,15 @@ class UserService {
       return error;
     }
   }
-  
+  async getUserEmail(email){
+    try{
+      const [rows] = await pool.query("SELECT `id`, `username`, `role` FROM `users` WHERE `email` = ?",[email])
+      return rows;
+    }catch(error){
+      console.error("Error detected at fetchgnig getUserByEmail")
+      return error;
+    }
+  }
   async register(req, res, next) {
     const { email, username, password,role } = req.body;
 
@@ -232,7 +240,7 @@ class UserService {
 
   async login(req, res, next) {
     const { email, password } = req.body;
-  
+
     try {
       const existingUser = await this.findOne(email);
       if (!existingUser) {
@@ -242,7 +250,7 @@ class UserService {
           message: "Invalid email or password. Please try again with the correct credentials.",
         });
       }
-  
+
       const isPasswordValid = await bcrypt.compare(password, existingUser.password);
       if (!isPasswordValid) {
         return res.status(401).json({
@@ -251,10 +259,7 @@ class UserService {
           message: "Invalid email or password. Please try again with the correct credentials.",
         });
       }
-  
-      // Zaktualizuj pole last_login
-      await this.updateLastLogin(existingUser.id);
-  
+
       const options = {
         maxAge: 20 * 60 * 1000, 
         httpOnly: true, 
@@ -262,15 +267,20 @@ class UserService {
         sameSite: "None",
       };
       const token = this.generateAccessJWT(existingUser.id); 
+      
       res.cookie("SessionID", token, options); 
       res.status(200).json({
         status: "success",
         message: "You have successfully logged in.",
+        user:existingUser,
+        token:token
+        ,
       });
     } catch (err) {
-      next(new AppError(err, 404));
+      next(new AppError(err,404));
     }
   }
+
   
   async updateLastLogin(userId) {
     try {
@@ -293,41 +303,32 @@ class UserService {
     if (!newBlacklist) {
       return new AppError("Blacklist was not passed");
     }
+    const token = this.generateAccessJWT(newBlacklist.userId);
 
     const [result] = await pool.query(
-      'INSERT INTO blacklist (token, date) VALUES (?, ?)',
-      [newBlacklist.token, newBlacklist.date]
+      'INSERT INTO blacklist (token, date,userId) VALUES (?, ?,?)',
+      [token, newBlacklist.date,newBlacklist.userId]
     );
     return result;
   }
   async logout(req, res) {
     try {
-        const authHeader = req.headers['cookie']; 
-        if (!authHeader) return res.sendStatus(204);
+        const authHeader = req.headers["authorization"];
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.sendStatus(204); // no token found, already logged out
+        }
 
-        const cookieParts = authHeader.split(';').find(c => c.trim().startsWith('SessionID='));
-        if (!cookieParts) return res.sendStatus(204);
-
-        const accessToken = cookieParts.split('=')[1];
-        if (!accessToken) return res.sendStatus(204);
-
-        // TODO 
-        // USUWANIE TOKENA JESLI ISTNIEJE
+        const accessToken = authHeader.split(' ')[1]; // Extract token from "Bearer <token>"
 
         const checkIfBlacklisted = await this.FindOneBlackist(accessToken);
-        if (checkIfBlacklisted) return res.sendStatus(204);
+        if (checkIfBlacklisted) return res.sendStatus(204); // Token already blacklisted
 
+        // Dodanie tokena do czarnej listy
         const newBlacklist = {
             token: accessToken,
             date: new Date()
         };
         await this.saveBlacklist(newBlacklist);
-
-        res.clearCookie('SessionID', {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'None'
-        });
 
         res.status(200).json({ message: 'You are logged out!' });
     } catch (err) {
@@ -338,6 +339,8 @@ class UserService {
         });
     }
 }
+
+
 }
 
 export default new UserService();

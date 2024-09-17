@@ -13,7 +13,7 @@ export default function Hero() {
       </h1>
       <div className="bg-white rounded-lg relative p-6 border border-[#333]/25 shadow">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 items-center w-full">
-          {HeroInfos.map((item, index) => (
+          {HeroInfos.map((item) => (
             <a key={item.alt} href={item.href} className="flex items-center justify-center">
               <Image src={item.src} alt={item.alt} className="rounded-lg hover:scale-110 transition-all ease duration-300"/>
             </a>

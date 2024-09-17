@@ -9,44 +9,45 @@ export const Validate = (req, res, next) => {
     }
     next();
 };
+    export const Verify = async (req, res, next) => {
+        try {
+            const authHeader = req.headers["authorization"]; // get the authorization header
+            
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                return res.sendStatus(401); // no token found
+            }
 
-export const Verify = async (req, res, next) => {
-    try {
-      const authHeader = req.headers["cookie"]; // get the session cookie from request header
-  
-      if (!authHeader) return res.sendStatus(401); // if there is no cookie from request header, send an unauthorized response.
-      const cookie = authHeader.split("=")[1]; // If there is, split the cookie string to get the actual jwt
-      const accessToken = cookie.split(";")[0];
-      const checkIfBlacklisted = await authService.FindOneBlackist(accessToken); // Check if that token is blacklisted
-      if (checkIfBlacklisted)
-        return res
-            .status(401)
-            .json({ message: "This session has expired. Please login" });
-      // Verify using jwt to see if token has been tampered with or if it has expired.
-      // that's like checking the integrity of the cookie
-      jwt.verify(cookie, process.env.SECRET_ACCESS_TOKEN, async (err, decoded) => {
-        if (err) {
-          // if token has been altered or has expired, return an unauthorized error
-          return res
-            .status(401)
-            .json({ message: "This session has expired. Please login" });
+            const accessToken = authHeader.split(' ')[1]; // extract token from "Bearer <token>"
+            const checkIfBlacklisted = await authService.FindOneBlackist(accessToken); // Check if token is blacklisted
+            if (checkIfBlacklisted) {
+                return res.status(401).json({ message: "This session has expired. Please login again." });
+            }
+
+            // Verify the token
+            jwt.verify(accessToken, process.env.SECRET_ACCESS_TOKEN, async (err, decoded) => {
+                if (err) {
+                    return res.status(401).json({ message: "This session has expired. Please login again." });
+                }
+
+                const { id } = decoded; // get user id from the decoded token
+                const user = await service.findByID(id); // find user by that `id`
+                if (!user) {
+                    return res.status(401).json({ message: "User not found. Please login again." });
+                }
+
+                const { password, ...data } = user; // return user object without the password
+                req.user = data; // put the data object into req.user
+                next();
+            });
+        } catch (err) {
+            res.status(500).json({
+                status: "error",
+                code: 500,
+                data: [],
+                message: "Internal Server Error",
+            });
         }
-  
-        const { id } = decoded; // get user id from the decoded token
-        const user = await service.findByID(id); // find user by that `id`
-        const { password, ...data } = user; // return user object without the password
-        req.user = data; // put the data object into req.user
-        next();
-      });
-    } catch (err) {
-      res.status(500).json({
-        status: "error",
-        code: 500,
-        data: [],
-        message: "Internal Server Error",
-      });
-    }
-};
+    };
 
 // można stworzyć osobne middleware dla każdej z roli albo przepuszczać przez next() odpowiednie komunikaty
 export const VerifyRole = (req, res, next)=> {
