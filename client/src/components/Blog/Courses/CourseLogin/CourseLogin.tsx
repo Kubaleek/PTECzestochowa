@@ -17,28 +17,7 @@ export const CoursesLogin = () => {
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        const formData = new FormData(event.currentTarget);
-        const email = formData.get('email') as string;
-        const password = formData.get('password') as string;
-
-        setIsLoading(true);
-
-        const result = await signIn('credentials', {
-            redirect: false,
-            email,
-            password,
-        });
-
-        setIsLoading(false);
-
-        if (result?.ok) {
-            router.push('/courses');
-        } else {
-            setErrors({
-                email: result?.error?.includes('email') ? result.error : null,
-                password: result?.error?.includes('password') ? result.error : null,
-            });
-        }
+        
     }
 
     return (
