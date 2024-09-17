@@ -17,12 +17,12 @@ export interface Article extends BaseContent {
 }
 
 export interface Posts extends BaseContent {
-  [x: string]: string;
+  [x: string]: any;
   post_id: number;
 }
 
 export interface News extends BaseContent {
-  [x: string]: string;
+  [x: string]: any;
   post_id: number;
 }
 export interface Response<T> {
