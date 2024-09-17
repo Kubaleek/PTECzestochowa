@@ -10,7 +10,7 @@ const DynamicInput = ({
   error,
   name,
   type,
-}) => {
+}  : any) => {
   const getValidationRules = () => {
     switch (type) {
       case "email":

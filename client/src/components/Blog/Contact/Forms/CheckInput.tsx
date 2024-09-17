@@ -8,7 +8,7 @@ export const CheckInput = ({
   error,
   name,
   validation,
-}) => {
+}  : any) => {
   return (
     <div className="flex flex-col gap-2">
       <Tooltip

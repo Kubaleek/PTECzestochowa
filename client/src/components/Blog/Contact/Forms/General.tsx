@@ -5,7 +5,7 @@ import TextareaBox from "./TextareaBox";
 import FileInput from "./FileInput";
 import CheckInput from "./CheckInput";
 
-export default function General({ formType }) {
+export default function General({ formType  } : any) {
   const {
     handleSubmit,
     register,
@@ -13,7 +13,7 @@ export default function General({ formType }) {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = (data : any) => {
     console.log(data);
   };
   return (
