@@ -4,6 +4,7 @@ import slugify from "slugify";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Skeleton } from "@nextui-org/skeleton";
+import { Suspense } from "react";
 
 const Aside = () => {
   const pathname = usePathname();
@@ -34,6 +35,7 @@ const Aside = () => {
   };
 
   return (
+
     <aside className="col-span-12 md:col-span-4 xl:col-span-3">
       <div className="w-full h-fit mb-0 flex flex-col gap-2">
         <p>
@@ -56,6 +58,8 @@ const Aside = () => {
             Powrót do strony głównej
           </a>
         </p>
+        <Suspense fallback={<div>Loading....</div>}>
+
         {isLoading ? (
           <div className="flex flex-col gap-3">
             <Skeleton className="h-6 w-3/4 bg-[#ccc]" />
@@ -108,7 +112,10 @@ const Aside = () => {
             })}
           </div>
         )}
+            </Suspense>
+
       </div>
+
     </aside>
   );
 };

@@ -7,6 +7,7 @@ import { useNavsQuery } from "@/services/queryHooks";
 import slugify from 'slugify';
 import { usePathname, useSearchParams } from "next/navigation";
 import { Skeleton } from "@nextui-org/skeleton";
+import { Suspense } from "react";
 
 
 export default function Footer() {
@@ -32,6 +33,8 @@ export default function Footer() {
   }, {} as Record<string, NavItem[]>);
 
     return (
+      <Suspense>
+
         <footer className={`${pathname === "/" ? 'max-w-[1360px]' : 'max-w-[1800px]'} mx-auto gap-6 justify-center items-center p-6 max-w-[1360px]`}>
             {isLoading ? (
               <div className="flex flex-col gap-6">
@@ -90,5 +93,7 @@ export default function Footer() {
                 </>
             )}
         </footer>
+        </Suspense>
+
     );
 }

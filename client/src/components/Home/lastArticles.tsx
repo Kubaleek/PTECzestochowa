@@ -7,7 +7,7 @@ import Newslatter from "./Newslatter";
 import { useArticlesQuery } from "@/services/queryHooks";
 import { Skeleton } from "@nextui-org/skeleton";
 import { Divider } from "@nextui-org/react";
-
+import { Suspense } from "react";
 export default function LastArticles() {
   const { data: articlesResponse, error, isLoading } = useArticlesQuery();
   const articles = articlesResponse?.data || [];
@@ -34,6 +34,8 @@ export default function LastArticles() {
             </svg>
             <span className="text-[26px] font-bold m-0">Aktualności</span>
           </h2>
+          <Suspense fallback={<div>Loading...</div>}>
+
           {isLoading ? (
             <div className="flex flex-col gap-4">
               {Array.from({ length: 3 }).map((_, index) => (
@@ -118,6 +120,8 @@ export default function LastArticles() {
               ))}
             </div>
           )}
+                    </Suspense>
+
         </div>
         <div className="col-span-12 lg:col-span-5 xl:col-span-4">
           <h2 className="hidden lg:flex items-center mb-5">

@@ -3,6 +3,7 @@ import { pl } from "date-fns/locale";
 import { useNewsQuery } from "@/services/queryHooks";
 import slugify from 'slugify';
 import { Skeleton } from "@nextui-org/skeleton";
+import { Suspense } from "react";
 
 
 export default function LastNews() {
@@ -11,6 +12,8 @@ export default function LastNews() {
     const news = data?.data ?? [];
     return (
         <>
+        <Suspense fallback={<div>Loading....</div>}>
+
             {isLoading ? (
             <div className="grid grid-cols-1 gap-4">
                 {[...Array(5)].map((_, index) => (
@@ -39,6 +42,8 @@ export default function LastNews() {
                 )))}
             </div>
             )}
+                    </Suspense>
+
         </>
     );
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -66,6 +66,7 @@ const Navbar: React.FC = () => {
             </p>
           ) : (
             <ul className="flex flex-row gap-3 xl:gap-4">
+              <Suspense fallback={<div>Loading...</div>}>
               {Object.keys(groupedNavItems).map((category) => (
                 <li
                   key={category}
@@ -118,8 +119,12 @@ const Navbar: React.FC = () => {
                   </AnimatePresence>
                 </li>
               ))}
+                            </Suspense>
+
             </ul>
+            
           )}
+          
           <Link
             href="https://panel.pte.pl/adm_program/overview.php?id="
             className="text-white hover:underline flex items-center border-2 border-[#fff] rounded-lg py-1.5 pr-2 pl-2"

@@ -8,7 +8,7 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetPages } from "@/services/homeAPI";
 import { Skeleton } from "@nextui-org/skeleton";
 import Contact from "./Contact/Contact";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 export const getServerSideProps: GetServerSideProps = async ({
   params,
@@ -67,6 +67,8 @@ export default function Details({ category, id, subid }: DetailsProps) {
   return (
     <section className="col-span-12 md:col-span-8 xl:col-span-9">
       <article className="mm_article flex flex-col gap-3 mb-20 bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25 text-pretty overflow-hidden">
+      <Suspense fallback={<div>Loading...</div>}>
+
         {isLoading ? (
           <div className="flex flex-col gap-3">
             <Skeleton className="h-8 w-3/4 bg-[#ccc]" />
@@ -119,6 +121,7 @@ export default function Details({ category, id, subid }: DetailsProps) {
             )}
           </>
         )}
+        </Suspense>
       </article>
     </section>
   );

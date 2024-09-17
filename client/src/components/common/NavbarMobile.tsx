@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
@@ -93,6 +93,8 @@ const MobileMenu: React.FC<{ isOpen: boolean; setMobileMenuOpen: React.Dispatch<
         <AnimatedHamburgerButton isMobileMenuOpen={isOpen} setMobileMenuOpen={setMobileMenuOpen}/>
       </div>
       <ul className="list-none w-full flex-col flex gap-4 text-center pb-6">
+      <Suspense fallback={<div>Loading...</div>}>
+
           {Object.entries(groupedNavItems).map(([category, items]) => (
             <li key={category} className="flex flex-col gap-2">
               <h2 className="text-xl font-bold">{category}</h2>
@@ -114,6 +116,7 @@ const MobileMenu: React.FC<{ isOpen: boolean; setMobileMenuOpen: React.Dispatch<
               </div>
             </li>
           ))}
+          </Suspense>
         </ul>
     </motion.div>
   );
