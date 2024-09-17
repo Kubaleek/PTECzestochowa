@@ -2,7 +2,7 @@ import slugify from 'slugify';
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'https://pte-czestochowa-official-backend.vercel.app/pte/posts',
+  baseURL: 'http://localhost:5000/pte/posts',
 });
 
 const fetchData = async (endpoint: string, options?: any) => {
