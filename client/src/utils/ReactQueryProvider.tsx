@@ -2,7 +2,6 @@
 
 import { ReactNode, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { NextUIProvider } from '@nextui-org/react';
 
 interface ReactQueryProviderProps {
@@ -16,7 +15,6 @@ export default function ReactQueryProvider({ children }: ReactQueryProviderProps
     <NextUIProvider>
       <QueryClientProvider client={queryClient}>
         {children}
-        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </NextUIProvider>
   );

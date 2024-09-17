@@ -105,8 +105,8 @@ const Navbar: React.FC = () => {
                                 href={itemUrl}
                                 className={`flex flex-col transition-all ease-out duration-150 p-2 text-sm ${
                                   isActive
-                                    ? "bg-[#17822e] text-[#FFF] font-bold"
-                                    : "hover:bg-[#17822e] hover:text-[#fff]"
+                                    ? "underline hover:text-[#17822e] font-bold"
+                                    : "hover:underline hover:text-[#17822e]"
                                 }`}
                               >
                                 {item.subtitle.replace("-", " ")}
