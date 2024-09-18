@@ -14,7 +14,7 @@ interface FormData {
 
 export default function General() {
   const methods = useForm<FormData>(); 
-  const [loading, setLoading] = useState(false); // Stan ładowania
+  const [loading, setLoading] = useState(false); 
 
   const {
     handleSubmit,
@@ -24,15 +24,14 @@ export default function General() {
   } = methods;
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    setLoading(true); // Ustawienie stanu ładowania przed wysłaniem
+    setLoading(true); 
     try {
       console.log(data);
-      // Symulacja wysyłania formularza
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Symulacja opóźnienia
+      await new Promise((resolve) => setTimeout(resolve, 2000)); 
     } catch (error) {
       console.error("Błąd podczas wysyłania:", error);
     } finally {
-      setLoading(false); // Zatrzymanie stanu ładowania po wysłaniu
+      setLoading(false); 
     }
   };
 
