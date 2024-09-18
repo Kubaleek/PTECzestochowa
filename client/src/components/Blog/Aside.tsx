@@ -100,8 +100,8 @@ const Aside = () => {
                         href={itemUrl}
                         className={`text-sm p-2 relative transition-all ease-linear duration-300 rounded ${
                           isActive
-                            ? "bg-[#17822e] text-[#FFF] font-bold"
-                            : "hover:bg-[#17822e] hover:text-[#fff]"
+                            ? "text-[#17822e] underline font-bold"
+                            : "hover:text-[#17822e] hover:underline"
                         }`}>
                         {e.subtitle}
                       </Link>

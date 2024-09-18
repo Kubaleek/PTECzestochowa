@@ -25,7 +25,7 @@ export const CoursesLogin = () => {
             <div className="w-full lg:w-2/5 bg-green-700 p-4 flex flex-col gap-3 text-white">
                 <div className="flex items-center">
                     <svg version="1.1" viewBox="139.31 0 92.39 92.39" xmlns="http://www.w3.org/2000/svg" width="36px" height="36px" style={{ zIndex: 1 }}>
-                        <path id="mark" d="..." style={{ fill: "rgb(255, 255, 255)", fillRule: "evenodd" }} />
+                        <path id="mark" d="..." style={{ fill: "#fff", fillRule: "evenodd" }} />
                     </svg>
                     <div className="pl-2">
                         <p className="m-0 font-arrus text-xs font-bold text-white">Oddział w</p>
