@@ -26,7 +26,16 @@ export default function General() {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setLoading(true); 
     try {
-      console.log(data);
+      await fetch("http://localhost:3001/api/mail", {
+        method: "POST", // Specify the method (POST)
+        headers: {
+          "Content-Type": "application/json", // Set the correct content type for JSON
+        },
+        body: JSON.stringify({
+          email: data.email,
+          userFirstname: data.fullname, // Make sure the property name matches in your API
+        }),
+      });
       await new Promise((resolve) => setTimeout(resolve, 2000)); 
     } catch (error) {
       console.error("Błąd podczas wysyłania:", error);
