@@ -3,6 +3,7 @@ import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
 import DynamicFormInput from "../FormsInput/DynamicInput";
 import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import { toast } from 'react-hot-toast';
 
 interface FormData {
   fullname: string;
@@ -35,10 +36,13 @@ export default function General() {
           email: data.email,
           userFirstname: data.fullname, // Make sure the property name matches in your API
         }),
-      });
+      }).then(e=>{
+        toast.success('Email został wysłany!'); // Displays a success message
+
+      })
       await new Promise((resolve) => setTimeout(resolve, 2000)); 
     } catch (error) {
-      console.error("Błąd podczas wysyłania:", error);
+        toast.error('Wystąpił błąd podczas wysyłania emaila!'); // Displays an error message
     } finally {
       setLoading(false); 
     }

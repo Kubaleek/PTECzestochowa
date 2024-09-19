@@ -11,7 +11,7 @@ export async function POST(request: Request, res: Response) {
 	const { email, userFirstname } = await request.json();
 
 	const { data, error } = await resend.emails.send({
-        from: "Acme <no-reply@kuba.test.com>", // Update to a valid email address
+		from: 'Acme <onboarding@resend.dev>',
         to: [email],
         subject: "Thank you",
         html: render(KoalaWelcomeEmail({ userFirstname })),
