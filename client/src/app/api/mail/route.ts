@@ -14,7 +14,7 @@ export async function POST(request: Request, res: Response) {
 		from: 'Acme <onboarding@resend.dev>',
         to: [email],
         subject: "Thank you",
-        html: render(KoalaWelcomeEmail({ userFirstname })),
+        html: render(KoalaWelcomeEmail()),
       });
 	if (error) {
 		return Response.json(error);
