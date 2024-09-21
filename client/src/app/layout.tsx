@@ -5,6 +5,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import ReactQueryProvider from '../utils/ReactQueryProvider';
 import { Toaster } from "react-hot-toast";
+import AuthProvider from './context/AuthProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -31,10 +32,13 @@ export default function RootLayout({ children}: IProps) {
   return (
     <html lang="pl" className='bg-[#f8f4f2]'>
       <body className={`${inter.className} bg-[#f8f4f2] text-[#2d2d2d] text-xs sm:text-sm !text-pretty !leading-relaxed relative`}>
+      <AuthProvider>
+
         <ReactQueryProvider>
           <Toaster position={'bottom-right'}/>
           {children}
         </ReactQueryProvider>
+        </AuthProvider>
       </body>
     </html>
   );

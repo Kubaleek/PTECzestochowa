@@ -1,3 +1,5 @@
+"use client"; // Add this line to make the component a Client Component
+
 import { Suspense, useState } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";

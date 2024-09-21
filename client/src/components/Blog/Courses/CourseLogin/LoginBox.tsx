@@ -1,18 +1,19 @@
-
-export const LoginBox = ({
-    label,
-    type,
-    placeholder,
-    name,
-    error,
-    autocomplete
-}: {
+interface LoginBoxProps {
     label: string;
     type: string;
     placeholder: string;
     name: string;
     error: string | null;
     autocomplete: string;
+}
+
+export const LoginBox: React.FC<LoginBoxProps> = ({
+    label,
+    type,
+    placeholder,
+    name,
+    error,
+    autocomplete = "off"  // Default to "off" if not provided
 }) => (
     <div className="flex flex-col gap-2">
         <label htmlFor={name} className="text-base font-semibold">
@@ -28,10 +29,8 @@ export const LoginBox = ({
         />
         {error && (
             <p className="text-sm text-red-500 mt-1">
-                {/* Wiadomość o błędzie */}
                 {error}
             </p>
         )}
     </div>
-
 );

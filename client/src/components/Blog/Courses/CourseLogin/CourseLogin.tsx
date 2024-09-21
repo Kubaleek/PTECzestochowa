@@ -16,8 +16,34 @@ export const CoursesLogin = () => {
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        setIsLoading(true);
 
-        
+        const form = event.currentTarget;
+        const email = form.email.value;
+        const password = form.password.value;
+
+        // Reset any previous errors
+        setErrors({ email: null, password: null });
+
+        // Call NextAuth signIn function using credentials provider
+        const result = await signIn('credentials', {
+            redirect: false, // Prevent automatic redirect
+            email,
+            password,
+        });
+
+        setIsLoading(false);
+
+        if (result?.error) {
+            // Handle error and display error messages
+            setErrors({
+                email: result.error.includes('email') ? result.error : null,
+                password: result.error.includes('password') ? result.error : null,
+            });
+        } else {
+            // Redirect to dashboard or desired page on success
+            router.push('/kursy?id=51');
+        }
     }
 
     return (

@@ -1,3 +1,5 @@
+"use client"; // Add this line to make the component a Client Component
+
 import { Params } from "@/app/[category]/types";
 import Courses from "./Courses/Courses";
 import SocialsButtons from "./SocialsButtons";

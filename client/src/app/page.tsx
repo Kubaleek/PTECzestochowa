@@ -1,4 +1,3 @@
-"use client";
 import Header from "@/components/Home/Header";
 import Hero from "@/components/Home/Hero";
 import MapCityContent from "@/components/Home/MapCityContent";
@@ -8,8 +7,9 @@ import LastPosts from "@/components/Home/lastPosts";
 import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
 import { Suspense } from "react";
-
-export default function Home() {
+import { options } from './api/auth/[...nextauth]/options'; 
+import { getServerSession } from "next-auth/next";
+export default async function Home() {
   return (
     <>
     <Suspense fallback={<div>Loading..</div>}>
