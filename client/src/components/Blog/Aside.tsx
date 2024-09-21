@@ -1,3 +1,5 @@
+"use client"; // Add this line to make the component a Client Component
+
 import { NavItem } from "../common/ts/types";
 import { useNavsQuery } from "@/services/queryHooks";
 import slugify from "slugify";

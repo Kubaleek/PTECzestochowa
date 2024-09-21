@@ -260,21 +260,10 @@ class UserService {
         });
       }
 
-      const options = {
-        maxAge: 20 * 60 * 1000, 
-        httpOnly: true, 
-        secure: true,
-        sameSite: "None",
-      };
-      const token = this.generateAccessJWT(existingUser.id); 
       
-      res.cookie("SessionID", token, options); 
       res.status(200).json({
-        status: "success",
         message: "You have successfully logged in.",
         user:existingUser,
-        token:token
-        ,
       });
     } catch (err) {
       next(new AppError(err,404));

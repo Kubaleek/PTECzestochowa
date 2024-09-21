@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import { options } from './api/auth/[...nextauth]/options'; 
 import { getServerSession } from "next-auth/next";
 export default async function Home() {
+
   return (
     <>
     <Suspense fallback={<div>Loading..</div>}>

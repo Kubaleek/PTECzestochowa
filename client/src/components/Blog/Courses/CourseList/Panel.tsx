@@ -1,9 +1,16 @@
 import React from 'react';
 import { Tabs, Tab } from '@nextui-org/react';
 import Test1 from './Content/Test1';
+import { useSession } from 'next-auth/react';
 // import Test2 from './Content/Test2';
 
 export const Panel: React.FC = () => {
+  const { data: session, status } = useSession(); // Use useSession to manage session state
+
+  // You can handle loading state if needed
+  if (status === "loading") {
+      return <div>Loading...</div>; // Show a loading indicator while session is being fetched
+  }
   return (
     <div className="shadow-lg">
       <div className="bg-white flex flex-col gap-3">

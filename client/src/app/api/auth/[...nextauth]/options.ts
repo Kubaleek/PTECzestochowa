@@ -5,15 +5,41 @@ declare module "next-auth" {
     user: {
       id: string; // Add any other properties you expect here
       email: string;
+      role:string,
+      created_at:Date
     };
   }
 
   interface User {
     id: string;
     email: string;
+    role:string,
+    created_at:Date
     // Add other user properties if needed
   }
 }
+const Login = async (email: string, password: string) => {
+  const response = await fetch("http://localhost:5000/login", {
+    method: "POST", // Specify the request method
+    headers: {
+      "Content-Type": "application/json", // Set the content type to JSON
+    },
+    body: JSON.stringify({ // Convert the body to a JSON string
+      email,
+      password,
+    }),
+  });
+
+  // Check if the response is okay
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Login failed");
+  }
+
+  const userData = await response.json(); // Parse the JSON response
+  return userData;
+};
+
 export const options: NextAuthOptions = {
   secret:process.env.NEXTAUTH_SECRET,
   providers: [
@@ -25,12 +51,31 @@ export const options: NextAuthOptions = {
         password: { label: "Password:", type: "password", placeholder: "your-cool-password" },
       },
       async authorize(credentials) {
-        const user = { id: "42", email: "Dave@o2.pl", password: "nextauth" };
-        if (credentials?.email === user.email && credentials?.password === user.password) {
-          return user;
+        const email = credentials?.email;
+        const password = credentials?.password;
+      
+        if (!email || !password) {
+          throw new Error("Email and password are required");
         }
-        throw new Error("Invalid credentials");
-      },
+      
+        try {
+          const response = await Login(email, password);
+          
+          // Check for successful login response and extract user
+          if (response.user) {
+            return {
+              id: response.user.id.toString(), // Ensure ID is a string
+              email: response.user.email,
+              role: response.user.role,
+              created_at: response.user.created_at, // Use correct type if needed
+            };
+          } else {
+            throw new Error("Invalid credentials");
+          }
+        } catch (error) {
+          throw new Error("Invalid credentials");
+        }
+      }
     }),
   ],
   pages: {
@@ -46,16 +91,19 @@ export const options: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.email = user.email; // Store email if needed
+        token.email = user.email;
+        token.role = user.role; // Add role to the token
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.id as string; // Type assertion
-        session.user.email = token.email as string; // Type assertion
+        session.user.id = token.id as string; 
+        session.user.email = token.email as string; 
+        session.user.role = token.role as string; // Add role to session
       }
       return session;
     },
   },
+  
 };
