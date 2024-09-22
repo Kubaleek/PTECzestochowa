@@ -21,7 +21,7 @@ class CourseService {
   }
   async DeleteCourse(id){
     try {
-      const [rows] = await pool.query("DELETE FROM `courses` WHERE `id`='?'",[id]);
+      const [rows] = await pool.query("DELETE FROM `courses` WHERE `id`=?",[id]);
       return rows;
     } catch (error) {
       console.error("Error detected ad fetching NavItems");
