@@ -19,25 +19,33 @@ declare module "next-auth" {
   }
 }
 const Login = async (email: string, password: string) => {
-  const response = await fetch("http://localhost:5000/login", {
-    method: "POST", // Specify the request method
-    headers: {
-      "Content-Type": "application/json", // Set the content type to JSON
-    },
-    body: JSON.stringify({ // Convert the body to a JSON string
-      email,
-      password,
-    }),
-  });
+  try {
+    const response = await fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-  // Check if the response is okay
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Login failed");
+    // Check if the response is okay (status code 200-299)
+    if (!response.ok) {
+      let errorData;
+      try {
+        errorData = await response.json(); // Attempt to parse error JSON response
+      } catch (error) {
+        throw new Error("An unknown error occurred. Please try again.");
+      }
+      throw new Error(errorData.message || "Login failed");
+    }
+
+    // Attempt to parse the successful response
+    const userData = await response.json();
+    return userData;
+
+  } catch (error) {
+    throw new Error("An error occurred during login");
   }
-
-  const userData = await response.json(); // Parse the JSON response
-  return userData;
 };
 
 export const options: NextAuthOptions = {
