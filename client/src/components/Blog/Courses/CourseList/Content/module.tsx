@@ -1,3 +1,5 @@
+import { EditCourseForm } from "./Modals/EditCourse";
+import { AddCourseForm  } from "./Modals/AddCourse";
 import {
   Button,
   Modal,
@@ -10,6 +12,8 @@ import {
 } from "@nextui-org/react";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/react";
 import { Accordion, AccordionItem } from "@nextui-org/react";
+import {Link} from "@nextui-org/react";
+
 
 export default function Test1() {
   // Hooki dla różnych modali
@@ -38,7 +42,7 @@ export default function Test1() {
       <div className="flex flex-col gap-3">
         <div className="flex justify-end items-center">
           <Button
-            onPress={addModal.onOpen}
+            onPress={addModal.onOpen} 
             className="w-full lg:w-auto rounded text-white bg-green-700"
             endContent={
               <svg
@@ -59,62 +63,10 @@ export default function Test1() {
             }>
             Dodaj Szkolenie
           </Button>
-          <Modal
-            isOpen={addModal.isOpen}
-            onOpenChange={addModal.onOpenChange}
-            placement="center"
-            classNames={{
-              backdrop:
-                "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
-            }}>
-            <ModalContent>
-              {(onClose) => (
-                <>
-                  <ModalHeader className="flex flex-col gap-1">
-                    Dodaj Szkolenie
-                  </ModalHeader>
-                  <ModalBody>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Nullam pulvinar risus non risus hendrerit venenatis.
-                      Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                    </p>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Nullam pulvinar risus non risus hendrerit venenatis.
-                      Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                    </p>
-                    <p>
-                      Magna exercitation reprehenderit magna aute tempor
-                      cupidatat consequat elit dolor adipisicing. Mollit dolor
-                      eiusmod sunt ex incididunt cillum quis. Velit duis sit
-                      officia eiusmod Lorem aliqua enim laboris do dolor
-                      eiusmod. Et mollit incididunt nisi consectetur esse
-                      laborum eiusmod pariatur proident Lorem eiusmod et. Culpa
-                      deserunt nostrud ad veniam.
-                    </p>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button
-                      color="danger"
-                      className="w-full lg:w-auto rounded text-white bg-red-700"
-                      onPress={onClose}>
-                      Zamknij
-                    </Button>
-                    <Button
-                      color="success"
-                      className="w-full lg:w-auto rounded text-white bg-green-700"
-                      onPress={onClose}>
-                      Dodaj Szkolenie
-                    </Button>
-                  </ModalFooter>
-                </>
-              )}
-            </ModalContent>
-          </Modal>
+          <AddCourseForm  addModal={addModal} />
         </div>
         <Divider className="h-[1px] w-full" />
-        <div className="gap-2 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
+        <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 ">
           <Card
             shadow="lg"
             className="bg-[#f5f1ec] border-2 border-[#333]/25 rounded">
@@ -178,19 +130,21 @@ export default function Test1() {
                       <span className="font-medium text-medium">
                         Plik Szkoleniowy:{" "}
                       </span>
-                      <span>Link do Kursów typu pdf np</span>
+                      <Link showAnchorIcon href="#" color="success" className="flex rounded-none text-green-700 hover:rounded-none" >
+                        Plik do Pobrania
+                      </Link>
+                    </p>
+                                        <p className="flex flex-col">
+                      <span className="font-medium text-medium">
+                        Data Zakończenia Szkolenia:{" "}
+                      </span>
+                      <span>31 września 2024</span>
                     </p>
                     <p className="flex flex-col">
                       <span className="font-medium text-medium">
                         Status Szkolenia:{" "}
                       </span>
-                      <span>Status Szkolenia</span>
-                    </p>
-                    <p className="flex flex-col">
-                      <span className="font-medium text-medium">
-                        Data Zakończenia Szkolenia:{" "}
-                      </span>
-                      <span>31 września 2024</span>
+                      <span>Nieukończony</span>
                     </p>
                     <p className="flex flex-col">
                       <span className="font-medium text-medium">
@@ -200,58 +154,13 @@ export default function Test1() {
                     </p>
                     <div className="flex gap-3">
                       <Button
-                        color="primary"
+                        color="success"
                         variant="flat"
                         className="rounded w-full"
                         onPress={editModal.onOpen}>
                         Edytuj
                       </Button>
-                      <Modal
-                        isOpen={editModal.isOpen}
-                        onOpenChange={editModal.onOpenChange}
-                        placement="center"
-                        classNames={{
-                          backdrop:
-                            "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
-                        }}>
-                        <ModalContent>
-                          {(onClose) => (
-                            <>
-                              <ModalHeader className="flex flex-col gap-1">
-                                Edytuj Szkolenie
-                              </ModalHeader>
-                              <ModalBody>
-                                <p>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Nullam pulvinar risus non
-                                  risus hendrerit venenatis. Pellentesque sit
-                                  amet hendrerit risus, sed porttitor quam.
-                                </p>
-                                <p>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Nullam pulvinar risus non
-                                  risus hendrerit venenatis. Pellentesque sit
-                                  amet hendrerit risus, sed porttitor quam.
-                                </p>
-                              </ModalBody>
-                              <ModalFooter>
-                                <Button
-                                  color="danger"
-                                  className="w-full lg:w-auto rounded text-white bg-red-700"
-                                  onPress={onClose}>
-                                  Zamknij
-                                </Button>
-                                <Button
-                                  color="success"
-                                  className="w-full lg:w-auto rounded text-white bg-green-700"
-                                  onPress={onClose}>
-                                  Edytuj Szkolenie
-                                </Button>
-                              </ModalFooter>
-                            </>
-                          )}
-                        </ModalContent>
-                      </Modal>
+                      <EditCourseForm editModal={editModal} />
                       <Button
                         color="danger"
                         variant="flat"

@@ -10,8 +10,11 @@
     "email": "email dev"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
+    "@mui/x-date-pickers": "^7.18.0",
     "@nextui-org/react": "^2.4.6",
     "@nextui-org/skeleton": "^2.0.31",
     "@nextui-org/system": "^2.2.5",

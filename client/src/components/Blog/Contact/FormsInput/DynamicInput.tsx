@@ -9,7 +9,7 @@ interface DynamicFormInputProps {
   placeholder?: string;
   register: UseFormRegister<any>;
   validation: any;
-  error?: FieldError;
+  error?: FieldError | undefined;
   name: string;
   control: Control<any>;
   type: string;
@@ -25,8 +25,7 @@ const DynamicFormInput = ({
   control,
   type,
 }: DynamicFormInputProps) => {
-  const { setValue } = useFormContext(); // Get the form methods
-
+  const { setValue } = useFormContext(); // Ensure FormProvider is used
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const getValidationRules = () => {
@@ -43,7 +42,7 @@ const DynamicFormInput = ({
         return {
           ...validation,
           pattern: {
-            value: /^[+]?[0-9]{1,4}?([-\s]?[0-9]{1,3}){3,5}$/,
+            value: /^[+]?[0-9]{1,4}?([-\s]?[0-9]{1,3}){3,5}$/i,
             message: "Niepoprawny numer telefonu",
           },
         };
@@ -71,7 +70,7 @@ const DynamicFormInput = ({
     switch (type) {
       case "checkbox":
         return (
-          <FormControl error={!!error} component="fieldset">
+          <FormControl  error={!!error} component="fieldset">
             <FormControlLabel
               control={
                 <Controller
@@ -104,9 +103,10 @@ const DynamicFormInput = ({
             {...register(name, getValidationRules())}
             error={!!error}
             helperText={error?.message}
-            variant="outlined"
+            variant="standard"
             fullWidth
             color="success"
+            
           />
         );
       case "file":
@@ -118,7 +118,7 @@ const DynamicFormInput = ({
                 startIcon={<CloudUploadIcon />}
                 variant="contained"
                 color="success"
-                className="mb-2"
+                className="mb-2 w-full"
               >
                 {label}
               </Button>
@@ -127,7 +127,6 @@ const DynamicFormInput = ({
               type="file"
               id={name}
               style={{ display: 'none' }}
-              {...register(name, validation)}
               onChange={handleFileChange}
               multiple
             />
@@ -169,10 +168,9 @@ const DynamicFormInput = ({
             {...register(name, getValidationRules())}
             error={!!error}
             helperText={error?.message}
-            variant="outlined"
+            variant="standard"
             fullWidth
             color="success"
-            className='text-justify'
           />
         );
     }

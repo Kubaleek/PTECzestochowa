@@ -1,8 +1,7 @@
 import React from 'react';
 import { Tabs, Tab } from '@nextui-org/react';
-import Test1 from './Content/Test1';
+import Test1 from './Content/module';
 import { useSession } from 'next-auth/react';
-// import Test2 from './Content/Test2';
 
 export const Panel: React.FC = () => {
   const { data: session, status } = useSession(); // Use useSession to manage session state
@@ -14,7 +13,7 @@ export const Panel: React.FC = () => {
   return (
     <div className="shadow-lg">
       <div className="bg-white flex flex-col gap-3">
-        <div className="bg-[#f5f1ec] border-2 border-[#333]/25 p-2 shadow-lg">
+        <div>
           <div className="bg-white flex flex-col gap-1 p-2 border-2 border-[#333]/25 shadow-lg">
             <Tabs aria-label="Options" color="primary" variant="underlined" classNames={{ tabList: "gap-3 w-full relative rounded-none p-0 border-b border-divider", cursor: "w-full bg-[#17822e]", tab: "max-w-fit h-12", tabContent: "group-data-[selected=true]:text-[#17822e]"}}>
               <Tab title={
@@ -24,12 +23,6 @@ export const Panel: React.FC = () => {
                   <Test1 />
                 </div>
               </Tab>
-              {/* <Tab title={
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>}>
-                <div className='flex flex-col gap-3'>
-                  <Test2 />
-                </div>
-              </Tab> */}
             </Tabs>
           </div>
         </div>
