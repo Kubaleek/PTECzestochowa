@@ -255,6 +255,24 @@ class CourseService {
       throw error;
     }
   }
+  async getCourse(courseId) {
+    try {
+      const [rows] = await pool.query(
+        `SELECT * 
+         FROM courses 
+         WHERE id = ?`, 
+         [courseId]
+      );
+
+      if (rows.length > 0) {
+        return rows[0];
+      }
+      return null;
+    } catch (error) {
+      console.error("Error detected at fetching course name");
+      throw error;
+    }
+  }
   async courseExists(courseName) {
     try {
       const [rows] = await pool.query(
@@ -271,7 +289,7 @@ class CourseService {
     }
   }
 
-  async addCourse(courseName, courseDate, courseDescription, courseLink) {
+  async addCourse(courseName, courseDate,endDate, courseDescription, courseLink) {
     try {
       const query = `
         INSERT INTO courses (name, description, date, course_link) 

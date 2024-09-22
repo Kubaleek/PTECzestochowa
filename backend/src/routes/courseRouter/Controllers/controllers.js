@@ -44,7 +44,16 @@ const getCoursesWithUser = async (req, res, next) => {
         next(new AppError(error, 500));
     }
 };
-
+const getCoursesByUser = async (req, res, next) => {
+    try {
+        const {userID} = req.params;
+        const courses = await courseService.getCourseByUser(userID);
+        res.json({ data: courses });
+    } catch (error) {
+        console.error("Error detected at fetching courses with users", error);
+        next(new AppError(error, 500));
+    }
+};
 const checkUserActivity = async (req, res, next) => {
     try {
         const { userID } = req.params;
@@ -70,6 +79,16 @@ const getCourseName = async (req, res, next) => {
         next(new AppError(error, 500));
     }
 };
+const getCourse = async (req, res, next) => {
+    try {
+        const { courseId } = req.params;
+        const courseName = await courseService.getCourse(courseId);
+        res.json({ data: courseName });
+    } catch (error) {
+        console.error("Error detected at fetching course name", error);
+        next(new AppError(error, 500));
+    }
+};
 
 const courseExists = async (req, res, next) => {
     try {
@@ -84,8 +103,8 @@ const courseExists = async (req, res, next) => {
 
 const addCourse = async (req, res, next) => {
     try {
-        const { name, date, description, link } = req.body;
-        const result = await courseService.addCourse(name, date, description, link);
+        const { name, date,endDate, description, link } = req.body;
+        const result = await courseService.addCourse(name, date,endDate, description, link);
         res.json({ success: result });
     } catch (error) {
         console.error("Error detected at adding course", error);
@@ -177,8 +196,10 @@ export const Controllers = {
     getCoursesWithUser,
     checkUserActivity,
     getCourseName,
+    getCourse,
     courseExists,
     addCourse,
+    getCoursesByUser,
     editCourse,
     editUpdateCourse,
     deleteUsername,

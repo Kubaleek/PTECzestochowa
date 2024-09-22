@@ -2,6 +2,7 @@ import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import DynamicFormInput from "@/components/Blog/Contact/FormsInput/DynamicInput";
 import { Button } from "@nextui-org/react";
+import { useAddCourseMutation } from "@/services/courseHooks";
 
 type CourseFormProps = {
   onClose: () => void;
@@ -16,7 +17,18 @@ type CourseFormData = {
 };
 
 const CourseForm: React.FC<CourseFormProps> = ({ onClose }) => {
+  const { mutate: addCourse } = useAddCourseMutation({
+    onSuccess: () => {
+      // Zaktualizuj cache lub wyświetl powiadomienie o sukcesie
+      console.log("Kurs dodany pomyślnie");
+    },
+    onError: (error) => {
+      console.error("Wystąpił błąd podczas dodawania kursu:", error);
+    },
+  });
   
+  // Aby wywołać dodanie kursu:
+
   const methods = useForm<CourseFormData>();
   const {
     handleSubmit,
@@ -25,8 +37,16 @@ const CourseForm: React.FC<CourseFormProps> = ({ onClose }) => {
   } = methods;
 
   const onSubmit = (data: CourseFormData) => {
-    console.log("Dane formularza:", data);
+    
+    addCourse({
+      name:data.courseName,
+      description:data.courseDescription,
+      date:data.courseDate,
+      link:data.courseFile
+    });
+    console.log(data)
     onClose(); // Zamknięcie modala po przesłaniu
+    window.location.reload();
   };
 
   return (

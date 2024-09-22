@@ -1,10 +1,17 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { 
-  GetAllCourses, 
-  GetAllUsers, 
-  GetCoursesWithUser, 
-  GetCourseByUser, 
-  GetCorusesByStatus 
+import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from "@tanstack/react-query";
+import {
+  AssignCourse,
+  AddCourse,
+  GetAllCourses,
+  GetCoursesByUser,
+  GetCoursesWithUsers,
+  IsCourseAssigned,
+  CheckUserActivity,
+  EditCourse,
+  EditUpdateCourse,
+  DeleteCourse,
+  DeleteCourseName,
+  DeleteUserCourse,
 } from "./courseAPI";
 
 import {
@@ -31,15 +38,6 @@ export const useCoursesQuery = (
   });
 
 // Hook do pobierania wszystkich użytkowników
-export const useUsersQuery = (
-  options?: UseQueryOptions<UsersResponse, Error>
-) =>
-  useQuery({
-    queryKey: ["users"],
-    queryFn: createQueryFn(GetAllUsers),
-    staleTime: 60000,
-    ...options,
-  });
 
 // Hook do pobierania przypisań kursów do użytkowników
 export const useCoursesWithUsersQuery = (
@@ -47,7 +45,7 @@ export const useCoursesWithUsersQuery = (
 ) =>
   useQuery({
     queryKey: ["coursesWithUsers"],
-    queryFn: createQueryFn(GetCoursesWithUser),
+    queryFn: createQueryFn(GetCoursesWithUsers),
     staleTime: 60000,
     ...options,
   });
@@ -59,20 +57,16 @@ export const useCourseByUserQuery = (
 ) =>
   useQuery({
     queryKey: ["courseByUser", userId],
-    queryFn: createQueryFn(() => GetCourseByUser(userId)),
+    queryFn: createQueryFn(() => GetCoursesByUser(userId)),
     staleTime: 60000,
     ...options,
   });
 
-// Hook do pobierania kursów przypisanych do użytkownika z określonym statusem (np. ukończone)
-export const useCoursesByStatusQuery = (
-  userId: string,
-  status: string = "Ukończony",
-  options?: UseQueryOptions<UserCourseAssignmentResponse, Error>
+// Hook do dodawania nowego kursu
+export const useAddCourseMutation = (
+  options?: UseMutationOptions<any, Error, any>
 ) =>
-  useQuery({
-    queryKey: ["coursesByStatus", userId, status],
-    queryFn: createQueryFn(() => GetCorusesByStatus(userId, status)),
-    staleTime: 60000,
+  useMutation({
+    mutationFn: async (courseData: any) => await AddCourse(courseData),
     ...options,
   });
