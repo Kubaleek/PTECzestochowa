@@ -64,15 +64,21 @@ class CourseService {
       throw error;
     }
   }
-  async getEditCourse(course){
-    try{
-      const [rows] = await pool.query("UPDATE `courses` SET `name`=?,`description`=?,`date`=?,`course_link`=' ? WHERE `id`= ?",[course.name,course.description,course.date,course.link,course.id]);
+  async EditCourse(course, courseId) {
+    try {
+      const [rows] = await pool.query(
+        "UPDATE `courses` SET `name`=?, `description`=?, `date`=?, `course_link`=? WHERE `id`=?",
+        [course.courseName, course.courseDescription, course.courseDate, course.courseFile ?? "testowy-link.pl", courseId] // Use courseId from the parameter
+      );
       return rows;
-    }catch(error){
-      console.error("Error detected at fetchnig getEditCourse")
+    } catch (error) {
+      console.error("Error detected while fetching EditCourse:", error);
+      throw error; // Make sure the error is properly thrown for the API to handle
     }
   }
-  async editCourse(userCourseId) {
+  
+  
+  async geteditCourse(userCourseId) {
     try {
       const [rows] = await pool.query(
         `SELECT courses.name 

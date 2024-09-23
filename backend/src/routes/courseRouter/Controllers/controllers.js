@@ -114,14 +114,17 @@ const addCourse = async (req, res, next) => {
 
 const editCourse = async (req, res, next) => {
     try {
-        const course = req.body;
-        const result = await courseService.getEditCourse(course);
-        res.json({ success: result });
+      const course = req.body; // The course object containing all course data
+      const courseId = req.params.id || course.id; // Fetch courseId from either route params or course body
+  
+      const result = await courseService.EditCourse(course, courseId); // Pass both course and courseId
+      res.json({ success: result, data: course });
     } catch (error) {
-        console.error("Error detected at editing course", error);
-        next(new AppError(error, 500));
+      console.error("Error detected while editing course:", error);
+      next(new AppError(error, 500));
     }
-};
+  };
+  
 
 const editUpdateCourse = async (req, res, next) => {
     try {
