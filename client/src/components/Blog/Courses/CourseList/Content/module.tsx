@@ -40,7 +40,7 @@ export default function Test1() {
 
   return (
     <>
-      <div className="bg-[#f5f1ec] flex flex-col gap-3 tems-center justify-between border-2 border-[#333]/25 p-4 shadow-lg">
+      <div className="bg-[#f5f1ec] flex flex-col gap-3 items-center justify-between border-2 border-[#333]/25 p-4 shadow-lg">
         <div>
           <h3 className="text-xl font-bold text-black gap-2 text-pretty leading-relaxed items-center flex place-items-center">
             Szkolenia
@@ -79,7 +79,7 @@ export default function Test1() {
           <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
             {courses.map(course => (
               <Card key={course.id} shadow="lg" className="bg-[#f5f1ec] border-2 border-[#333]/25 rounded">
-                <CardHeader className="flex flex-col just sm:flex-row items-center gap-3">
+                <CardHeader className="flex flex-col justify-start sm:flex-row items-start gap-3">
                   <div className="flex flex-col gap-2">
                     <CourseIcon />
                     <div className="flex flex-col">
@@ -104,8 +104,8 @@ export default function Test1() {
       backdrop="blur"
       scrollBehavior="inside"
       radius="sm"
-      size='3xl'
-      className="!bg-[#f5f1ec] border-1 shadow-lg" isOpen={detailModal.isOpen} onClose={detailModal.onClose}>
+      size='5xl'
+      className="!bg-[#f5f1ec] border-1 shadow-lg " isOpen={detailModal.isOpen} onClose={detailModal.onClose}>
         <ModalContent>
           <ModalHeader>
             {selectedCourse ? selectedCourse.name : "Szczegóły Kursu"}
