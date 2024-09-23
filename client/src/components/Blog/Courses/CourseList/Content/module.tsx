@@ -17,29 +17,21 @@ import { Link } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useCourseByUserQuery, useCoursesQuery } from "@/services/courseHooks";
 import { CoursesResponse } from '@/components/Home/ts/types'; 
+
 export default function Test1() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession(); // Use useSession to manage session state
   const addModal = useDisclosure();
   const assginModal = useDisclosure();
   const editModal = useDisclosure();
 
   const detailModal = useDisclosure();
   const [selectedCourse, setSelectedCourse] = React.useState(null);
-/*
+
   const {
     data: CourseResponse,
     error,
     isLoading,
-  } = useCourseByUserQuery(userId || ''); // Call with 
-
-  to dac gdy kuba skonczy prace nad designem uzytkownikow
-   + pozmieniac nazwy wydobywanych danych np course.name
-*/
-const {
-  data: CourseResponse,
-  error,
-  isLoading,
-} = useCoursesQuery(); // Call with fallback
+  } = useCoursesQuery(); // Fetch courses
   const courses = CourseResponse?.data || [];
 
   const handleCourseClick = (course) => {
@@ -142,7 +134,8 @@ const {
                     onPress={editModal.onOpen}>
                     Edytuj
                   </Button>
-                  <EditCourseForm courseId={course.id} editModal={editModal} />
+                  {/* Fixed courseId */}
+                  <EditCourseForm courseId={selectedCourse?.id} editModal={editModal} />
                   <Button
                     color="danger"
                     variant="flat"

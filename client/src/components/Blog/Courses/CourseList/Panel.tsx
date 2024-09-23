@@ -1,16 +1,42 @@
 import React from "react";
 import { Tabs, Tab, Card, CardHeader, CardBody, Button } from "@nextui-org/react";
 import Test1 from "./Content/module";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import {Avatar} from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 export const Panel: React.FC = () => {
   const { data: session, status } = useSession(); // Use useSession to manage session state
-
+  const router = useRouter()
   // You can handle loading state if needed
   if (status === "loading") {
     return <div>Wczytywanie...</div>; // Show a loading indicator while session is being fetched
   }
+  const Logout = async () => {
+    try {
+      const result = await signOut() as unknown;
+  
+      if (typeof result === 'object' && result !== null && 'error' in result) {
+        const { error } = result as { error?: string };
+  
+        if (error) {
+          // Handle error and display error messages
+          console.error(error);
+          // Set your custom error handling here (e.g. show a notification)
+        } else {
+          router.push('/kursy?id=51');
+        }
+      } else {
+        // Handle unexpected result type
+        console.error("Unexpected result type:", result);
+      }
+    } catch (error) {
+      console.error("An unexpected error occurred:", error);
+      // Handle any unexpected errors (e.g. network issues)
+    }
+  };
+  
+
   return (
     <div className="shadow-lg">
       <div className="bg-white flex flex-col gap-3">
@@ -30,7 +56,7 @@ export const Panel: React.FC = () => {
                 </div>
               </CardHeader>
               <CardBody className="mt-0 pt-1">
-                <Button radius="none" color="danger" size="sm" variant="flat">Wyloguj się</Button>
+                <Button radius="none" color="danger" size="sm" variant="flat" onClick={Logout} >Wyloguj się</Button>
               </CardBody>
             </Card>
             <Tabs
