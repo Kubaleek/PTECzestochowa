@@ -117,7 +117,7 @@ export default function Test1() {
                 <p className='flex flex-col'><strong>Data Szkolenia:</strong> {selectedCourse.date}</p>
                 <p className='flex flex-col'>
                   <strong>Plik Szkoleniowy:</strong>
-                  <Link href={selectedCourse.course_link} color="success"> Plik do Pobrania</Link>
+                  <Link href={selectedCourse.course_link} color="success" className='text-green-800' size='sm'> Plik do Pobrania</Link>
                 </p>
                 <p className='flex flex-col'><strong>Status Szkolenia:</strong> {selectedCourse.course_status}</p>
                 <p className='flex flex-col'><strong>Certyfikat Szkolenia:</strong> {selectedCourse.certificate ? "Dostępny" : "Niedostępny"}</p>
@@ -156,7 +156,7 @@ const AddIcon = () => (
   </svg>
 );
 
-const AssignCourse = () => (
+const CourseIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-book-plus">
     <path d="M12 7v6" />
     <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
@@ -164,6 +164,6 @@ const AssignCourse = () => (
   </svg>
 );
 
-const CourseIcon = () => (
+const AssignCourse = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-handshake"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg>
 );
