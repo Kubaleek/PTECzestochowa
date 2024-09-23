@@ -15,7 +15,7 @@ import {
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import { useCourseByUserQuery, useCoursesQuery } from "@/services/courseHooks";
+import { useCourseByUserQuery, useCoursesQuery, useDeleteCourseMutation } from "@/services/courseHooks";
 import { CoursesResponse } from '@/components/Home/ts/types'; 
 
 export default function Test1() {
@@ -32,8 +32,23 @@ export default function Test1() {
     error,
     isLoading,
   } = useCoursesQuery(); // Fetch courses
+  const deleteCourseMutation = useDeleteCourseMutation({
+    onSuccess: () => {
+      // Odśwież listę kursów lub wykonaj inne akcje po sukcesie
+      console.log("Kurs został usunięty!");
+    },
+    onError: (error:any) => {
+      console.error("Błąd podczas usuwania kursu:", error);
+    },
+  });
   const courses = CourseResponse?.data || [];
-
+  const handleDeleteCourse = (courseId: string) => {
+    console.log(courseId); // Dodaj to, aby upewnić się, że ID jest poprawne
+    if (confirm("Czy na pewno chcesz usunąć ten kurs?")) {
+      deleteCourseMutation.mutate(courseId); // Wywołanie mutacji usuwania
+      window.location.reload();
+    }
+  };
   const handleCourseClick = (course) => {
     setSelectedCourse(course);
     detailModal.onOpen();
@@ -140,6 +155,7 @@ export default function Test1() {
                     color="danger"
                     variant="flat"
                     className="rounded w-full"
+                    onClick={()=>handleDeleteCourse(selectedCourse?.id)}
                   >
                     Usuń
                   </Button>

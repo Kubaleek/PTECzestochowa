@@ -5,6 +5,7 @@ declare module "next-auth" {
     user: {
       id: string; // Add any other properties you expect here
       email: string;
+      username:string;
       role:string,
       created_at:Date
     };
@@ -13,6 +14,7 @@ declare module "next-auth" {
   interface User {
     id: string;
     email: string;
+    username:string;
     role:string,
     created_at:Date
     // Add other user properties if needed
@@ -74,6 +76,7 @@ export const options: NextAuthOptions = {
             return {
               id: response.user.id.toString(), // Ensure ID is a string
               email: response.user.email,
+              username:response.user.username,
               role: response.user.role,
               created_at: response.user.created_at, // Use correct type if needed
             };
@@ -100,6 +103,7 @@ export const options: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
+        token.username=user.username,
         token.role = user.role; // Add role to the token
       }
       return token;
@@ -107,7 +111,8 @@ export const options: NextAuthOptions = {
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string; 
-        session.user.email = token.email as string; 
+        session.user.email = token.email as string;
+        session.user.username=token.username as string, 
         session.user.role = token.role as string; // Add role to session
       }
       return session;

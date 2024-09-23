@@ -50,8 +50,8 @@ export const Panel: React.FC = () => {
                     src="https://images.unsplash.com/broken"
                   />
                   <p className="flex flex-col text-pretty text-justify">
-                    Kuba Kowalski
-                    <span className="text-tiny">Administrator</span>
+                    {session?.user.username}
+                    <span className="text-tiny">{session?.user.role}</span>
                   </p>
                 </div>
               </CardHeader>
