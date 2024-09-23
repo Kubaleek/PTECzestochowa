@@ -1,6 +1,7 @@
 import React from 'react';
 import { EditCourseForm } from "./Modals/EditCourse";
 import { AddCourseForm  } from "./Modals/AddCourse";
+import { AssignCourseForm } from './Modals/AssignCourse';
 import {
   Button,
   Modal,
@@ -19,8 +20,9 @@ import { useCoursesQuery } from "@/services/courseHooks";
 export default function Test1() {
   const { data: session } = useSession();
   const addModal = useDisclosure();
+  const assginModal = useDisclosure();
   const editModal = useDisclosure();
-  
+
   const detailModal = useDisclosure();
   const [selectedCourse, setSelectedCourse] = React.useState(null);
 
@@ -56,15 +58,21 @@ export default function Test1() {
         <Divider className="h-[1px] w-full" />
       </div>
       <div className="flex flex-col gap-3">
-        <div className="flex justify-end items-center">
+        <div className="flex flex-col sm:flex-row gap-3 justify-end items-center">
           <Button
             onPress={addModal.onOpen} 
             className="w-full lg:w-auto rounded text-white bg-green-700"
-            endContent={<AddIcon />}
-          >
+            endContent={<AddIcon />}>
             Dodaj Szkolenie
           </Button>
           <AddCourseForm addModal={addModal} />
+          <Button
+            onPress={assginModal.onOpen}
+            className="w-full lg:w-auto rounded text-white bg-green-700"
+            endContent={<AssignCourse />}>
+            Przydziel Szkolenie
+          </Button>
+          <AssignCourseForm assginModal={assginModal} />
         </div>
         <Divider className="h-[1px] w-full" />
         {courses.length > 0 ? (
@@ -88,7 +96,7 @@ export default function Test1() {
             ))}
           </div>
         ) : (
-          <div>No courses found.</div>
+          <div>Nie ma dostępnych Szkoleń.</div>
         )}
       </div>
 
@@ -104,15 +112,15 @@ export default function Test1() {
           </ModalHeader>
           <ModalBody>
             {selectedCourse && (
-              <div className="flex flex-col gap-3">
-                <p><strong>Opis Szkolenia:</strong> {selectedCourse.description}</p>
-                <p><strong>Data Szkolenia:</strong> {selectedCourse.date}</p>
-                <p>
+              <div className="flex flex-col gap-3 text-pretty leading-relaxed">
+                <p className='flex flex-col'><strong>Opis Szkolenia:</strong> {selectedCourse.description}</p>
+                <p className='flex flex-col'><strong>Data Szkolenia:</strong> {selectedCourse.date}</p>
+                <p className='flex flex-col'>
                   <strong>Plik Szkoleniowy:</strong>
                   <Link href={selectedCourse.course_link} color="success"> Plik do Pobrania</Link>
                 </p>
-                <p><strong>Status Szkolenia:</strong> {selectedCourse.course_status}</p>
-                <p><strong>Certyfikat Szkolenia:</strong> {selectedCourse.certificate ? "Dostępny" : "Niedostępny"}</p>
+                <p className='flex flex-col'><strong>Status Szkolenia:</strong> {selectedCourse.course_status}</p>
+                <p className='flex flex-col'><strong>Certyfikat Szkolenia:</strong> {selectedCourse.certificate ? "Dostępny" : "Niedostępny"}</p>
               </div>
             )}
           </ModalBody>
@@ -122,16 +130,14 @@ export default function Test1() {
                     color="success"
                     variant="flat"
                     className="rounded w-full"
-                    onPress={editModal.onOpen}
-                  >
+                    onPress={editModal.onOpen}>
                     Edytuj
                   </Button>
                   <EditCourseForm editModal={editModal} />
                   <Button
                     color="danger"
                     variant="flat"
-                    className="rounded w-full"
-                  >
+                    className="rounded w-full">
                     Usuń
                   </Button>
                 </div>
@@ -150,10 +156,14 @@ const AddIcon = () => (
   </svg>
 );
 
-const CourseIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 lucide lucide-book-open-check">
-    <path d="M8 3H2v15h7c1.7 0 3 1.3 3 3V7c0-2.2-1.8-4-4-4Z" />
-    <path d="m16 12 2 2 4-4" />
-    <path d="M22 6V3h-6c-2.2 0-4 1.8-4 4v14c0-1.7 1.3-3 3-3h7v-2.3" />
+const AssignCourse = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-book-plus">
+    <path d="M12 7v6" />
+    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
+    <path d="M9 10h6" />
   </svg>
+);
+
+const CourseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-handshake"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg>
 );
