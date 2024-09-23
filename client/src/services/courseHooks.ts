@@ -70,3 +70,17 @@ export const useAddCourseMutation = (
     mutationFn: async (courseData: any) => await AddCourse(courseData),
     ...options,
   });
+  export const useDeleteCourseMutation = (
+    options?: UseMutationOptions<any, Error, string>
+  ) =>
+    useMutation({
+      mutationFn: async (courseId: string) => await DeleteCourse(courseId),
+      ...options,
+    });
+    export const useEditCourseMutation = (
+      options?: UseMutationOptions<any, Error, any>
+    ) =>
+      useMutation({
+        mutationFn: async (courseData: any) => await EditCourse(courseData), // The mutation function calls EditCourse
+        ...options, // Pass any additional options
+      });

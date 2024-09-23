@@ -123,7 +123,7 @@ const editCourse = async (req, res, next) => {
       console.error("Error detected while editing course:", error);
       next(new AppError(error, 500));
     }
-  };
+  };    
   
 
 const editUpdateCourse = async (req, res, next) => {

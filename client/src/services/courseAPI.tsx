@@ -41,8 +41,6 @@ export const GetCoursesWithUsers = () => fetchData('/with-users');
 // Sprawdzanie aktywności użytkownika
 export const CheckUserActivity = (userID: string) => fetchData(`/check-activity/${userID}`);
 
-// Pobieranie nazwy kursu (na podstawie ID kursu)
-export const GetCourseName = (courseId: string) => fetchData(`/name/${courseId}`);
 
 // Pobieranie kursów przypisanych do użytkownika (na podstawie ID użytkownika)
 export const GetCoursesByUser = (userID: string) => fetchData(`/${userID}`);
@@ -54,16 +52,20 @@ export const CourseExists = () => fetchData('/exists');
 export const AddCourse = (courseData: any) => fetchData('/add', { method: 'POST', body: courseData });
 
 // Edytowanie kursu
-export const EditCourse = (courseData: any) => fetchData('/edit', { method: 'PUT', body: courseData });
+export const EditCourse = (courseData: any) => 
+  fetchData('/edit', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json', // Make sure the server knows you're sending JSON
+    },
+    body: JSON.stringify(courseData), // Convert the courseData object to JSON
+  });
 
 // Aktualizacja edytowanego kursu
 export const EditUpdateCourse = (courseData: any) => fetchData('/update', { method: 'PUT', body: courseData });
 
 // Usuwanie kursu użytkownika na podstawie ID
 export const DeleteUserCourse = (userCourseId: string) => fetchData(`/delete/${userCourseId}`, { method: 'DELETE' });
-
-// Usuwanie przypisania użytkownika do kursu na podstawie ID
-export const DeleteUsername = (userCourseId: string) => fetchData(`/username/${userCourseId}`, { method: 'DELETE' });
 
 // Usuwanie kursu na podstawie nazwy kursu (dla konkretnego użytkownika)
 export const DeleteCourseName = (userCourseId: string) => fetchData(`/coursename/${userCourseId}`, { method: 'DELETE' });
@@ -74,9 +76,3 @@ export const IsCourseAssigned = (userId: string, courseId: string) => fetchData(
 // Przypisywanie kursu do użytkownika
 export const AssignCourse = (assignmentData: any) => fetchData('/assign', { method: 'POST', body: assignmentData });
 
-// Dynamiczne pobieranie stron (bazując na kategorii, id i subid) - przykład dla slugify
-export const GetPages = ({ category, id, subid }: { category: string; id?: string; subid?: string }) => {
-  const formattedCategory = slugify(category, { lower: true });
-  let endpoint = `/${formattedCategory}?id=${id || ''}${subid ? `&subid=${subid}` : ''}`;
-  return fetchData(endpoint);
-};

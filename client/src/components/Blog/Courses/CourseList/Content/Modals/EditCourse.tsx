@@ -13,7 +13,8 @@ type EditModalType = {
   onOpenChange: (open: boolean) => void;
 };
 
-export const EditCourseForm = ({ editModal }: { editModal: EditModalType }) => {
+export const EditCourseForm = ({ editModal, courseId }: { editModal: EditModalType,courseId:number }) => {
+  
   return (
     <Modal
       isOpen={editModal.isOpen}
@@ -29,7 +30,7 @@ export const EditCourseForm = ({ editModal }: { editModal: EditModalType }) => {
           Edytuj Szkolenie
         </ModalHeader>
         <ModalBody className="mt-0">
-          <EditFormCourse onClose={() => editModal.onOpenChange(false)} />
+          <EditFormCourse courseId={courseId} onClose={() => editModal.onOpenChange(false)} />
         </ModalBody>
       </ModalContent>
     </Modal>

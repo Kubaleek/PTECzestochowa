@@ -1,18 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import DynamicFormInput from "@/components/Blog/Contact/FormsInput/DynamicInput";
 import { Button } from "@nextui-org/react";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
+import { useEditCourseMutation } from "@/services/courseHooks";
 
 type EditCourseFormProps = {
   onClose: () => void;
+  courseId: number;
 };
 
 type EditCourseFormData = {
@@ -24,22 +21,33 @@ type EditCourseFormData = {
   courseType: string;
 };
 
-const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose }) => {
-  
+const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose, courseId }) => {
   const methods = useForm<EditCourseFormData>();
-  const {
-    handleSubmit,
-    formState: { errors },
-    control,
-    register,
-  } = methods;
+  const { handleSubmit, control, register, formState: { errors } } = methods;
 
-  const [courseStatus, setCourseStatus] = useState<string>("");
+  const [courseStatus, setCourseStatus] = React.useState<string>("");
 
+  const editCourseMutation = useEditCourseMutation({
+    onSuccess: () => {
+      console.log("Course successfully updated!");
+    },
+    onError: (error: any) => {
+      console.error("Error updating course:", error);
+    },
+  });
   const onSubmit = (data: EditCourseFormData) => {
-    console.log("Dane formularza:", data);
+    const courseDataWithId = {
+      id: courseId, // Add courseId here
+      ...data,
+    };
+  
+    // Log the data being submitted to check the values
+  
+    editCourseMutation.mutate(courseDataWithId);
+    window.location.reload()
     onClose();
   };
+  
 
   return (
     <FormProvider {...methods}>
@@ -52,10 +60,9 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose }) => {
             control={control}
             register={register}
             validation={{ required: "Nazwa jest wymagana" }}
-            error={undefined}
+            error={errors.courseName}
             type="text"
           />
-          
           <DynamicFormInput
             label="Opis Szkolenia"
             placeholder="Wprowadź opis szkolenia"
@@ -63,10 +70,9 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose }) => {
             control={control}
             register={register}
             validation={{ required: "Opis jest wymagany" }}
-            error={undefined}
+            error={errors.courseDescription}
             type="textarea"
           />
-          
           <DynamicFormInput
             label="Data Szkolenia"
             placeholder="Wprowadź datę szkolenia"
@@ -74,10 +80,9 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose }) => {
             control={control}
             register={register}
             validation={{ required: "Data jest wymagana" }}
-            error={undefined}
+            error={errors.courseDate}
             type="text"
           />
-          
           <DynamicFormInput
             label="Zakończenie Szkolenia"
             placeholder="Wprowadź zakończenie daty szkolenia"
@@ -85,18 +90,16 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose }) => {
             control={control}
             register={register}
             validation={{ required: "Data jest wymagana" }}
-            error={undefined}
+            error={errors.courseEndDate}
             type="text"
           />
-
-          <FormControl variant="standard" color="success" fullWidth>
+          
+          <FormControl variant="standard" fullWidth>
             <InputLabel htmlFor="courseStatus">Status Ukończenia</InputLabel>
             <Select
               id="courseStatus"
               value={courseStatus}
-              onChange={(e) => {
-                setCourseStatus(e.target.value);
-              }}
+              onChange={(e) => setCourseStatus(e.target.value)}
               native
             >
               <option aria-label="None" value="" />
