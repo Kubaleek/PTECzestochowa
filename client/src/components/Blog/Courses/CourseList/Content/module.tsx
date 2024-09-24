@@ -21,7 +21,6 @@ import { CoursesResponse } from '@/components/Home/ts/types';
 export default function Test1() {
   const { data: session, status } = useSession(); // Use useSession to manage session state
   const addModal = useDisclosure();
-  const assginModal = useDisclosure();
   const editModal = useDisclosure();
 
   const detailModal = useDisclosure();
@@ -49,10 +48,20 @@ export default function Test1() {
       window.location.reload();
     }
   };
+
   const handleCourseClick = (course) => {
     setSelectedCourse(course);
     detailModal.onOpen();
   };
+
+  const CourseIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-book-plus">
+      <path d="M12 7v6" />
+      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
+      <path d="M9 10h6" />
+    </svg>
+  );
+  
 
   return (
     <>
@@ -82,13 +91,6 @@ export default function Test1() {
             Dodaj Szkolenie
           </Button>
           <AddCourseForm addModal={addModal} />
-          <Button
-            onPress={assginModal.onOpen}
-            className="w-full lg:w-auto rounded text-white bg-green-700"
-            endContent={<AssignCourse />}>
-            Przydziel Szkolenie
-          </Button>
-          <AssignCourseForm assginModal={assginModal} />
         </div>
         <Divider className="h-[1px] w-full" />
         {courses.length > 0 ? (
