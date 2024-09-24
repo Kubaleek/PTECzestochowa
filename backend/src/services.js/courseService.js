@@ -37,15 +37,25 @@ class CourseService {
       throw error;
     }
   }
-  async getCoursesWithUser(){
-    try {
-      const [rows] = await pool.query("SELECT user_courses.id, users.email, users.username, courses.name, courses.description, courses.date, courses.course_link, user_courses.certificate, user_courses.course_status, user_courses.date_completed FROM `user_courses` JOIN `users` ON users.id = user_courses.user_id JOIN `courses` ON courses.id = user_courses.id");
+  async getUsersFromCourse(courseID){
+    try{
+      const [rows] = await pool.query("SELECT users.id, users.email, users.username FROM users JOIN user_courses ON users.id = user_courses.user_id  WHERE user_courses.course_id = ?",[courseID]);
+      console.log(rows);
       return rows;
-    } catch (error) {
-      console.error("Error detected ad fetching NavItems");
+    }catch (error) {
+      console.error("Error detected ad fetching getUsersFromCourse");
       throw error;
     }
   }
+    async getCoursesWithUser(){
+      try {
+        const [rows] = await pool.query("SELECT user_courses.course_id, courses.name, courses.description, courses.date, courses.course_link, user_courses.certificate, user_courses.course_status, user_courses.date_completed FROM `user_courses` JOIN `users` ON users.id = user_courses.user_id JOIN `courses` ON courses.id = user_courses.id");
+        return rows;
+      } catch (error) {
+        console.error("Error detected ad fetching NavItems");
+        throw error;
+      }
+    }
   async getCourseByUser(userID){
     try{
       const [rows] = await pool.query("SELECT * FROM user_courses JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id = ?",[userID]);
@@ -55,6 +65,7 @@ class CourseService {
       throw error;
     }
   }
+  
   async getCorusesByStatus(userID,status='Ukończony'){
     try{
       const [rows] = await pool.query("SELECT * FROM user_courses JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id = ? AND user_courses.course_status = ?",[userID,status]);

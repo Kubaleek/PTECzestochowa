@@ -44,6 +44,43 @@ const getCoursesWithUser = async (req, res, next) => {
         next(new AppError(error, 500));
     }
 };
+const getUsersFromCourse = async (req,res,next)=>{
+    try{
+        const {courseID} = req.body;
+        const courses = await courseService.getUsersFromCourse(courseID);
+        console.log(courseID)
+        res.json({ data: courses });
+    }catch (error) {
+        console.error("Error detected at fetching users from course", error);
+        next(new AppError(error, 500));
+    }
+}
+
+const getUsersFinal = async (req, res, next) => {
+    try {
+      // Step 1: Fetch all courses with assigned users
+      const courses = await courseService.getCoursesWithUser();
+      // Step 2: Initialize an array to store the courses along with their users
+      const coursesWithUsers = [];
+  
+      // Step 3: Loop through each course and fetch users assigned to it
+      for (const course of courses) {
+        const users = await courseService.getUsersFromCourse(course.id); // Fetch users by course ID
+        coursesWithUsers.push({
+          ...course,        // Spread course details
+          users: users      // Add users list to the course object
+        });
+      }
+  
+      // Step 4: Send the final combined result
+      res.json({ tets: "TEST",});
+  
+    } catch (error) {
+      console.error("Error detected while fetching courses with their users:", error);
+      next(new AppError(error, 500)); // Error handling
+    }
+  };
+  
 const getCoursesByUser = async (req, res, next) => {
     try {
         const {userID} = req.params;
@@ -180,7 +217,6 @@ const assignCourse = async (req, res, next) => {
         next(new AppError(error, 500));
     }
 };
-
 const deleteUserCourse = async (req, res, next) => {
     try {
         const { userCourseId } = req.params;
@@ -204,10 +240,12 @@ export const Controllers = {
     addCourse,
     getCoursesByUser,
     editCourse,
+    getUsersFinal,
     editUpdateCourse,
     deleteUsername,
     deleteCourseName,
     isCourseAssigned,
     assignCourse,
     deleteUserCourse,
+    getUsersFromCourse
 };
