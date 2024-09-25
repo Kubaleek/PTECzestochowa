@@ -25,14 +25,15 @@ const {
 } = Controllers;
 const courseRouter = express.Router();
 courseRouter.get(`${data.courses}/all`, getAllCourses);
+courseRouter.get(`${data.courses}/with-users`, getUsersFinal);
+
 courseRouter.delete(`${data.courses}/delete/:id`, deleteCourse);
-courseRouter.get(`${data.courses}/with-users`, getCoursesWithUser);
+//courseRouter.get(`${data.courses}/with-users`, getCoursesWithUser);
 courseRouter.get(`${data.users}/check-activity/:userID`, checkUserActivity);
 courseRouter.get(`${data.courses}/name/:courseId`, getCourseName);
 courseRouter.get(`${data.courses}/:userID`, getCoursesByUser);
 courseRouter.get(`${data.courses}/exists`, courseExists);
-courseRouter.get(`${data.courses}/get`,getUsersFinal)
-courseRouter.get(`${data.courses}/getusers`, getUsersFromCourse);
+
 
 courseRouter.post(`${data.courses}/add`, addCourse);
 courseRouter.put(`${data.courses}/edit`, editCourse); 

@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import {
   useCourseByUserQuery,
   useCoursesQuery,
+  useCoursesWithUsersQuery,
   useDeleteCourseMutation,
 } from "@/services/courseHooks";
 import { CoursesResponse } from "@/components/Home/ts/types";
@@ -33,7 +34,7 @@ export default function AssignedModules() {
   const detailModal = useDisclosure();
   const [selectedCourse, setSelectedCourse] = React.useState(null);
 
-  const { data: CourseResponse, error, isLoading } = useCoursesQuery(); // Fetch courses
+  const { data: CourseResponse, error, isLoading } = useCoursesWithUsersQuery(); // Fetch courses
   const deleteCourseMutation = useDeleteCourseMutation({
     onSuccess: () => {
       // Odśwież listę kursów lub wykonaj inne akcje po sukcesie
@@ -104,7 +105,7 @@ export default function AssignedModules() {
           <h3 className="text-xl font-bold text-black gap-2 text-pretty leading-relaxed items-center flex place-items-center">
             Przydzielone Szkolenia
             <span className="bg-green-700 text-white px-2 py-1 text-xs rounded-full">
-              0
+              {courses.length}
             </span>
           </h3>
           <p className="text-sm text-pretty leading-relaxed text-gray-700 text-justify text-clip">
@@ -128,7 +129,11 @@ export default function AssignedModules() {
         </div>
         <Divider className="h-[1px] w-full" />
         <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
-          <Card
+          {
+            courses.map(course=>(
+              <div key={course.course_id}>
+
+            <Card 
             shadow="lg"
             className="bg-[#f5f1ec] border-2 border-[#333]/25 rounded"
           >
@@ -136,9 +141,9 @@ export default function AssignedModules() {
               <div className="flex flex-col gap-2">
                 <CourseIcon />
                 <div className="flex flex-col">
-                  <p className="text-small font-medium text-justify">test</p>
-                  <p className="text-small text-default-500">Szkolenie #6</p>
-                  <p className="text-small text-default-500">Uczestnicy: 2</p>
+                  <p className="text-small font-medium text-justify">{course.name}</p>
+                  <p className="text-small text-default-500">Szkolenie #{course.course_id}</p>
+                  <p className="text-small text-default-500">Uczestnicy: {course.users.length}</p>
                 </div>
               </div>
             </CardHeader>
@@ -152,9 +157,8 @@ export default function AssignedModules() {
               </Button>
             </CardBody>
           </Card>
-        </div>
-      </div>
-      <Modal
+
+<Modal
         placement="center"
         backdrop="blur"
         scrollBehavior="inside"
@@ -165,76 +169,35 @@ export default function AssignedModules() {
         onClose={detailModal.onClose}
       >
         <ModalContent>
-          <ModalHeader>test</ModalHeader>
+          <ModalHeader>{course.name}</ModalHeader>
           <ModalBody className="mt-0 pt-0">
             {selectedCourse && (
               <div className="flex flex-col gap-3 text-pretty leading-relaxed">
                 <p className="flex flex-col">
-                  <strong>Szkolenie:</strong> test
+                  <strong>Szkolenie:</strong> {course.name}
                 </p>
                 <p className="flex flex-col gap-2">
                   <strong>Przydzieleni do Szkolenia:</strong>
                   <span className="grid grid-cols-2 gap-3">
-                    <Chip
-                      avatar={
-                        <Avatar>
-                          <GroupIcon />
-                        </Avatar>
-                      }
-                      label="Jan Kowalski"
-                      variant="outlined"
-                      onDelete={handleDelete}
-                      deleteIcon={
-                        <DeleteIcon
-                          style={{ color: "red", fontSize: "18px" }}
-                        />
-                      }
-                    />
-                    <Chip
-                      avatar={
-                        <Avatar>
-                          <GroupIcon />
-                        </Avatar>
-                      }
-                      label="Daniel Kowalek"
-                      variant="outlined"
-                      onDelete={handleDelete}
-                      deleteIcon={
-                        <DeleteIcon
-                          style={{ color: "red", fontSize: "18px" }}
-                        />
-                      }
-                    />
-                    <Chip
-                      avatar={
-                        <Avatar>
-                          <GroupIcon />
-                        </Avatar>
-                      }
-                      label="Jan Kowalski"
-                      variant="outlined"
-                      onDelete={handleDelete}
-                      deleteIcon={
-                        <DeleteIcon
-                          style={{ color: "red", fontSize: "18px" }}
-                        />
-                      }
-                    />
-                    <Chip
-                      avatar={
-                        <Avatar>
-                          <GroupIcon />
-                        </Avatar>
-                      }
-                      label="Daniel Kowalek"
-                      variant="outlined"
-                      onDelete={handleDelete}
-                      deleteIcon={
-                        <DeleteIcon
-                          style={{ color: "red", fontSize: "18px" }}
-                        />
-                      }
-                    />
+                    {course.users.map(e=>(
+                         <Chip
+                         key={e.id}
+                         avatar={
+                           <Avatar>
+                             <GroupIcon />
+                           </Avatar>
+                         }
+                         label={`${e.username}`}
+                         variant="outlined"
+                         onDelete={handleDelete}
+                         deleteIcon={
+                           <DeleteIcon
+                             style={{ color: "red", fontSize: "18px" }}
+                           />
+                         }
+                       />
+                    ))}
+                  
                   </span>
                 </p>
               </div>
@@ -249,6 +212,15 @@ export default function AssignedModules() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      </div>
+
+            ))
+          }
+          
+        </div>
+      </div>
+      
     </>
   );
 }

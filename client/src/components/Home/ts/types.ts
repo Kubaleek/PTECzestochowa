@@ -116,17 +116,21 @@ export interface User {
 }
 
 // Interfejs dla przypisania kursu użytkownikowi (tabela `user_courses`)
-export interface UserCourseAssignment {
+export interface UserCourse {
   id: number;
   email: string;
   username: string;
-  course_name: string;
-  course_description: string;
-  course_date: string;
+}
+
+export interface UserCourseAssignment {
+  course_id: number;
+  name: string;
+  description: string;
+  date: string;
   course_link: string;
   certificate: string;
   course_status: string;
-  date_completed: string;
+  users: UserCourse[]; // Changed from UserCourse to UserCourse[]
 }
 
 // Odpowiedzi zawierające dane kursów, użytkowników i przypisań kursów
