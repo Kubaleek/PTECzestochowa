@@ -28,7 +28,7 @@ import {
           <ModalHeader>
             Dodaj Użytkownika
           </ModalHeader>
-          <ModalBody className="mt-0">
+          <ModalBody className="mt-0 pt-0">
             <AddUserForm onClose={() => addUser.onOpenChange(false)} />
           </ModalBody>
         </ModalContent>

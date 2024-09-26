@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Button,
   Modal,
@@ -11,27 +11,45 @@ import {
 } from "@nextui-org/react";
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
-import { useCourseByUserQuery, useCoursesQuery, useDeleteCourseMutation } from "@/services/courseHooks";
-import { CoursesResponse } from '@/components/Home/ts/types'; 
-import { AddUser } from './Modals/AddUser';
+import { Avatar } from "@nextui-org/react";
+import { AddUser } from "./Modals/AddUser";
+import { EditUser } from "./Modals/EditUser";
+
+const users = [
+  {
+    id: 1,
+    name: "Jan Kowalski",
+    role: "Użytkownik",
+    avatar: "https://images.unsplash.com/broken",
+  },
+];
 
 export default function Users() {
+  const [selectedUser, setSelectedUser] = React.useState(null);
+  const addUser = useDisclosure();
+  const detailModal = useDisclosure();
+  const editModal = useDisclosure();
 
-    const addUser = useDisclosure();
+  const handleUsersClick = (userDetails) => {
+    setSelectedUser(userDetails);
+    detailModal.onOpen();
+  };
 
-    return (
-      <>
+  return (
+    <>
       <div className="bg-[#f5f1ec] flex flex-col gap-3 items-center justify-between border-2 border-[#333]/25 p-4 shadow-lg">
         <div>
           <h3 className="text-xl font-bold text-black gap-2 text-pretty leading-relaxed items-center flex place-items-center">
             Użytkownicy
             <span className="bg-green-700 text-white px-2 py-1 text-xs rounded-full">
-              0
+              {users.length}
             </span>
           </h3>
-          <p className="text-sm text-pretty leading-relaxed text-gray-700 text-justify text-clip">
-            Poniżej znajduje się lista użytkowników. Jako administrator, masz możliwość zarządzania ich danymi – możesz dodawać nowych użytkowników, edytować istniejące profile oraz usuwać konta, które nie są już aktywne.
+          <p className="text-sm text-gray-700 leading-relaxed text-justify">
+            Poniżej znajduje się lista użytkowników. Jako administrator, masz
+            możliwość zarządzania ich danymi – możesz dodawać nowych
+            użytkowników, edytować istniejące profile oraz usuwać konta, które
+            nie są już aktywne.
           </p>
         </div>
         <Divider className="h-[1px] w-full" />
@@ -39,21 +57,95 @@ export default function Users() {
       <div className="flex flex-col gap-3">
         <div className="flex flex-col sm:flex-row gap-3 justify-end items-center">
           <Button
-            onPress={addUser.onOpen} 
+            onPress={addUser.onOpen}
             className="w-full lg:w-auto rounded text-white bg-green-700"
-            endContent={<AddIcon />}>
-            Dodaj Szkolenie
+            endContent={<AddIcon />}
+          >
+            Dodaj Użytkownika
             <AddUser addUser={addUser} />
           </Button>
         </div>
         <Divider className="h-[1px] w-full" />
+        <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
+          {users.length === 0 ? (
+            <p className="text-center text-gray-500">
+              Brak użytkowników do wyświetlenia.
+            </p>
+          ) : (
+            users.map((user) => (
+              <Card
+                key={user.id}
+                shadow="lg"
+                className="bg-[#f5f1ec] border-2 border-[#333]/25 rounded"
+              >
+                <CardHeader className="flex flex-col justify-start sm:flex-row items-start gap-3">
+                  <div className="flex gap-3 items-center">
+                    <Avatar
+                      color="success"
+                      className="bg-[#f5f1ec] border border-[#333]/25"
+                      showFallback
+                      src={user.avatar}
+                    />
+                    <p className="flex flex-col text-pretty text-justify">
+                      {user.name}
+                      <span className="text-tiny">{user.role}</span>
+                    </p>
+                  </div>
+                </CardHeader>
+                <Divider className="h-[1px] w-full" />
+                <CardBody>
+                  <div className="flex flex-col gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-pretty leading-relaxed">
+                      <p className="flex flex-col">
+                        <strong>Email:</strong>
+                        test@gmail.com
+                      </p>
+                      <p className="flex flex-col">
+                      <strong>Rola:</strong>
+                      Administrator
+                      </p>
+                    </div>
+                    <div className="flex gap-3">
+                      <Button
+                        color="success"
+                        variant="flat"
+                        className="rounded w-full"
+                        onPress={editModal.onOpen}>
+                        Edytuj
+                      </Button>
+                      <EditUser editModal={editModal} />
+                      <Button
+                        color="danger"
+                        variant="flat"
+                        className="rounded w-full">
+                        Usuń
+                      </Button>
+                    </div>
+                  </div>
+                </CardBody>
+              </Card>
+            ))
+          )}
+        </div>
       </div>
-      </>
-
-    );
+    </>
+  );
 }
 
-
 const AddIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="lucide lucide-user"
+  >
+    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
+  </svg>
 );

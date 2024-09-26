@@ -108,6 +108,7 @@ export default function Test1() {
                 </CardHeader>
                 <Divider className="h-[1px] w-full" />
                 <CardBody>
+                  
                   <Button className="w-full lg:w-auto rounded text-white bg-green-700 text-small text-justify" onClick={() => handleCourseClick(course)} >Sprawdź Informacje</Button>
                 </CardBody>
               </Card>

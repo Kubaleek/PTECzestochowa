@@ -51,7 +51,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ onClose }) => {
   return (
     <FormProvider {...methods}>
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-3">
           <DynamicFormInput
             label="Nazwa Szkolenia"
             placeholder="Wprowadź nazwę szkolenia"

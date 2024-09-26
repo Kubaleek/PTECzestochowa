@@ -52,7 +52,7 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose, courseId }) =>
   return (
     <FormProvider {...methods}>
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-3">
           <DynamicFormInput
             label="Nazwa Szkolenia"
             placeholder="Wprowadź nazwę szkolenia"
@@ -94,7 +94,7 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose, courseId }) =>
             type="text"
           />
           
-          <FormControl variant="standard" fullWidth>
+          <FormControl variant="standard"  color="success" fullWidth>
             <InputLabel htmlFor="courseStatus">Status Ukończenia</InputLabel>
             <Select
               id="courseStatus"

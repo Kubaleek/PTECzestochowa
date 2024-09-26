@@ -37,7 +37,7 @@ const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
 
   return (
     <FormProvider {...methods}>
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
         <FormControl variant="standard" color="success" fullWidth>
           <InputLabel htmlFor="courseStatus">Wybierz Szkolenie</InputLabel>
           <Select id="courseSelect" native>
