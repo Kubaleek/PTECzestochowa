@@ -57,7 +57,6 @@ const getUsersFromCourse = async (req,res,next)=>{
 const deleteUserFromCourse = async (req,res,next)=>{
     try{
         const {courseID,userID} = req.body;
-        console.log(`user:${userID} course:${courseID}`)
          await courseService.deleteUserFromCourse(userID,courseID);
         res.json({ status: "success",message:"user from course has been removed"  });
     }catch (error) {
@@ -130,6 +129,17 @@ const getCourse = async (req, res, next) => {
         const { courseId } = req.params;
         const courseName = await courseService.getCourse(courseId);
         res.json({ data: courseName });
+    } catch (error) {
+        console.error("Error detected at fetching course name", error);
+        next(new AppError(error, 500));
+    }
+};
+const getUsersAndCourses = async (req, res, next) => {
+    try {
+        const courses = await courseService.getCourses();
+        const users = await courseService.getAllUsers();
+        console.log("TEST")
+        res.json({ courses:courses,user:users });
     } catch (error) {
         console.error("Error detected at fetching course name", error);
         next(new AppError(error, 500));
@@ -246,6 +256,7 @@ export const Controllers = {
     getCourseName,
     getCourse,
     courseExists,
+    getUsersAndCourses,
     addCourse,
     getCoursesByUser,
     editCourse,

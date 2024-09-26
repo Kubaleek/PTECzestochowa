@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 // Tworzenie instancji axios z odpowiednią konfiguracją
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000/pte/users',
+  baseURL: 'http://localhost:5000/',
 });
 
 // Definicja typu dla opcji, aby uwzględniała method i body
@@ -26,3 +26,5 @@ const fetchData = async (endpoint: string, options?: FetchOptions) => {
     throw error;
   }
 };
+
+export const GetAllUsers = () => fetchData('/users');

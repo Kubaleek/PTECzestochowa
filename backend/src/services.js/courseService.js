@@ -41,7 +41,8 @@ class CourseService {
   }
   async getAllUsers(){
     try {
-      const [rows] = await pool.query("SELECT * FROM `users`");
+      const [rows] = await pool.query("SELECT id,email,username,role FROM `users`");
+
       return rows;
     } catch (error) {
       console.error("Error detected ad fetching NavItems");

@@ -3,7 +3,7 @@ import { Controllers } from './Controllers/controllers.js'
 import data from "../../../utils/constants.js";
 import { check,validationResult } from "express-validator";
 import { Validate, Verify, VerifyRole } from '../../../utils/middlewares.js'
-const { Register, Login, Logout,GetUserByEmail, DeleteUser,saveBlacklist, EditUsername, GetUserByRole } = Controllers;
+const { Register, Login, Logout,GetUserByEmail,getUsers, DeleteUser,saveBlacklist, EditUsername, GetUserByRole } = Controllers;
 
 const authRouter = express.Router();
 
@@ -58,7 +58,7 @@ authRouter.get(`/admin/user`, Verify, VerifyRole, (req, res) => {
 
 authRouter.get("/logout", Logout);
 authRouter.get('/user',GetUserByEmail)
-authRouter.get('/users',GetUserByEmail)
+authRouter.get('/users',getUsers)
 
 authRouter.get('/user/delete', VerifyRole, DeleteUser);  // Assuming role-based access control
 authRouter.get('/user/edit/:userCourseId', Verify, EditUsername);

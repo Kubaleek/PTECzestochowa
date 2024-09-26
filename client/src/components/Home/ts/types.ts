@@ -111,10 +111,14 @@ export interface User {
   id: number;
   email: string;
   username: string;
-  last_login: string; // Data ostatniego logowania
-  status: string;
+  role:string;
+  last_login?: string; // Data ostatniego logowania
+  status?: string;
 }
+export interface Users{
+  users: User[];
 
+}
 // Interfejs dla przypisania kursu użytkownikowi (tabela `user_courses`)
 export interface UserCourse {
   id: number;
@@ -132,7 +136,24 @@ export interface UserCourseAssignment {
   course_status: string;
   users: UserCourse[]; // Changed from UserCourse to UserCourse[]
 }
+interface CoursetoAssign {
+  id: number;
+  name: string;
+}
 
+// Typ dla pojedynczego użytkownika
+interface UsertoAssign {
+  id: number;
+  email: string;
+  username: string;
+  role: string;
+}
+
+// Typ dla całej odpowiedzi
+export interface AssignDataResponse {
+  courses: CoursetoAssign[];
+  user: UsertoAssign[];
+}
 // Odpowiedzi zawierające dane kursów, użytkowników i przypisań kursów
 export type CoursesResponse = Response<Course>;
 export type UsersResponse = Response<User>;

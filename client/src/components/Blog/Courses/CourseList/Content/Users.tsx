@@ -10,19 +10,10 @@ import {
   Divider,
 } from "@nextui-org/react";
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
-import { Link } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { AddUser } from "./Modals/AddUser";
 import { EditUser } from "./Modals/EditUser";
-
-const users = [
-  {
-    id: 1,
-    name: "Jan Kowalski",
-    role: "Użytkownik",
-    avatar: "https://images.unsplash.com/broken",
-  },
-];
+import { useUsersQuery } from "@/services/usersHook";
 
 export default function Users() {
   const [selectedUser, setSelectedUser] = React.useState(null);
@@ -30,7 +21,12 @@ export default function Users() {
   const detailModal = useDisclosure();
   const editModal = useDisclosure();
 
-  const handleUsersClick = (userDetails) => {
+  const { data: UsersResponse, error, isLoading } = useUsersQuery(); // Pobieranie użytkowników
+  console.log(UsersResponse);
+  
+  // Przypisanie użytkowników do zmiennej users
+  const users = UsersResponse?.data || [];
+  const handleUserClick = (userDetails) => {
     setSelectedUser(userDetails);
     detailModal.onOpen();
   };
@@ -62,8 +58,9 @@ export default function Users() {
             endContent={<AddIcon />}
           >
             Dodaj Użytkownika
-            <AddUser addUser={addUser} />
           </Button>
+          {/* Modal dodawania użytkownika */}
+          <AddUser addUser={addUser} />
         </div>
         <Divider className="h-[1px] w-full" />
         <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
@@ -87,7 +84,7 @@ export default function Users() {
                       src={user.avatar}
                     />
                     <p className="flex flex-col text-pretty text-justify">
-                      {user.name}
+                      {user.username}
                       <span className="text-tiny">{user.role}</span>
                     </p>
                   </div>
@@ -98,11 +95,11 @@ export default function Users() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-pretty leading-relaxed">
                       <p className="flex flex-col">
                         <strong>Email:</strong>
-                        test@gmail.com
+                        {user.email}
                       </p>
                       <p className="flex flex-col">
-                      <strong>Rola:</strong>
-                      Administrator
+                        <strong>Rola:</strong>
+                        {user.role}
                       </p>
                     </div>
                     <div className="flex gap-3">
@@ -110,14 +107,20 @@ export default function Users() {
                         color="success"
                         variant="flat"
                         className="rounded w-full"
-                        onPress={editModal.onOpen}>
+                        onPress={() => {
+                          setSelectedUser(user);
+                          editModal.onOpen();
+                        }}
+                      >
                         Edytuj
                       </Button>
-                      <EditUser editModal={editModal} />
+                      {/* Modal edycji użytkownika */}
+                      <EditUser editModal={editModal} user={selectedUser} />
                       <Button
                         color="danger"
                         variant="flat"
-                        className="rounded w-full">
+                        className="rounded w-full"
+                      >
                         Usuń
                       </Button>
                     </div>

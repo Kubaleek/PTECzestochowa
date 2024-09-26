@@ -233,6 +233,10 @@ class UserService {
     }
   }
 
+  async getUsers(){
+    const [rows] = await pool.query('SELECT id,email,username,role FROM users');
+    return rows;
+  }
   async findByID(id) {
     const [rows] = await pool.query('SELECT * FROM users WHERE id = ?', [id]);
     return rows.length ? rows[0] : null;

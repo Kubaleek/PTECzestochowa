@@ -5,6 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { useGetAssignData } from "@/services/courseHooks";
 
 type AssignCourseFormProps = {
   onClose: () => void;
@@ -27,8 +28,11 @@ const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
     control,
     register,
   } = methods;
+  const { data, error, isLoading } = useGetAssignData(); // Fetch courses
 
   const [courseStatus, setCourseStatus] = useState<string>("");
+  const courses = data?.courses || [];
+  const users = data?.user || [];
 
   const onSubmit = (data: AssignCourseFormData) => {
     console.log("Dane formularza:", data);
@@ -42,16 +46,22 @@ const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
           <InputLabel htmlFor="courseStatus">Wybierz Szkolenie</InputLabel>
           <Select id="courseSelect" native>
             <option aria-label="None" value="" />
-            <option value="Szkolenie">Szkolenie</option>
-            <option value="Szkolenie2">Szkolenie2</option>
+            {
+              courses.map((course) => (
+                <option key={course.id} value={course.name}>{course.name}</option>
+              ))
+            }
           </Select>
         </FormControl>
         <FormControl variant="standard" color="success" fullWidth>
           <InputLabel htmlFor="courseStatus">Wybierz Użytkownika</InputLabel>
           <Select id="courseSelect" native>
             <option aria-label="None" value="" />
-            <option value="Jan Kowalski">Jan Kowalski</option>
-            <option value="Janek Testowy">Janek Testowy</option>
+            {
+              users.map((user) => (
+                <option key={user.id} value={user.username}>{user.username}</option>
+              ))
+            }
           </Select>
         </FormControl>
         <div className="justify-end flex items-center py-4">

@@ -12,6 +12,12 @@ const Logout = async (req,res)=>{
 const DeleteUser = async (req, res, next) => {
     await authService.deleteUser(req, res, next);
 };
+const getUsers = async (req,res,next)=>{
+    const users = await authService.getUsers();
+    res.status(200).json({
+        data: users
+    });
+}
 const saveBlacklist = async (req,res,next) => {
     const {date,userId} = req.body;
     const data = await authService.saveBlacklist({
@@ -63,5 +69,6 @@ export const Controllers = {
     DeleteUser,
     EditUsername,
     GetUserByRole,
-    saveBlacklist
+    saveBlacklist,
+    getUsers
 };

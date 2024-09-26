@@ -35,6 +35,7 @@ export const GetAllCourses = () => fetchData('/all');
 // Usuwanie kursu (na podstawie ID)
 export const DeleteCourse = (id: string) => fetchData(`/delete/${id}`, { method: 'DELETE' });
 
+export const getAssignData =() =>fetchData('/getAssignData');
 // Pobieranie kursów z przypisanymi użytkownikami
 export const GetCoursesWithUsers = () => fetchData('/with-users');
 

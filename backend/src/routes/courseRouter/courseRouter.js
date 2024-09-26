@@ -13,6 +13,7 @@ const {
     addCourse,
     getCourse,
     editCourse,
+    getUsersAndCourses,
     editUpdateCourse,
     deleteUsername,
     deleteCourseName,
@@ -27,6 +28,7 @@ const {
 const courseRouter = express.Router();
 courseRouter.get(`${data.courses}/all`, getAllCourses);
 courseRouter.get(`${data.courses}/with-users`, getUsersFinal);
+courseRouter.get(`${data.courses}/getAssignData`, getUsersAndCourses);
 
 courseRouter.delete(`${data.courses}/delete/:id`, deleteCourse);
 //courseRouter.get(`${data.courses}/with-users`, getCoursesWithUser);

@@ -9,6 +9,7 @@ import {
   CheckUserActivity,
   EditCourse,
   EditUpdateCourse,
+  getAssignData,
   DeleteCourse,
   DeleteCourseName,
   DeleteUserCourse,
@@ -19,6 +20,7 @@ import {
   CoursesResponse,
   UsersResponse,
   UserCourseAssignmentResponse,
+  AssignDataResponse,
 } from "../components/Home/ts/types";
 
 // Funkcja pomocnicza do tworzenia zapytań
@@ -37,7 +39,16 @@ export const useCoursesQuery = (
     staleTime: 60000,
     ...options,
   });
-
+  export const useGetAssignData = (
+    options?: UseQueryOptions<AssignDataResponse, Error>
+  ) =>
+    useQuery({
+      queryKey: ["UsersAndCourses"],
+      queryFn: createQueryFn(getAssignData),
+      staleTime: 60000,
+      ...options,
+    });
+  
 // Hook do pobierania wszystkich użytkowników
 
 // Hook do pobierania przypisań kursów do użytkowników
