@@ -133,6 +133,7 @@ export default function Test1() {
               <div className="flex flex-col gap-3 text-pretty leading-relaxed">
                 <p className='flex flex-col'><strong>Opis Szkolenia:</strong> {selectedCourse.description}</p>
                 <p className='flex flex-col'><strong>Data Szkolenia:</strong> {selectedCourse.date}</p>
+                <p className='flex flex-col'><strong>Zakończenie Szkolenia:</strong> {selectedCourse.date}</p>
                 <p className='flex flex-col'>
                   <strong>Plik Szkoleniowy:</strong>
                   <Link href={selectedCourse.course_link} color="success" className='text-green-800' size='sm'> Plik do Pobrania</Link>
