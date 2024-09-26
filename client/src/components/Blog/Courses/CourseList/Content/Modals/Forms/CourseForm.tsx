@@ -12,7 +12,6 @@ type CourseFormData = {
   courseName: string;
   courseDescription: string;
   courseDate: string;
-  courseEndDate: string;
   courseFile: FileList;
 };
 
@@ -83,17 +82,6 @@ const CourseForm: React.FC<CourseFormProps> = ({ onClose }) => {
             register={methods.register}
             validation={{ required: "Data jest wymagana" }}
             error={errors.courseDate}
-            type="text"
-          />
-          
-          <DynamicFormInput
-            label="Zakończenie Szkolenia"
-            placeholder="Wprowadź zakończenie daty szkolenia"
-            name="courseEndDate"
-            control={control}
-            register={methods.register}
-            validation={{ required: "Data jest wymagana" }}
-            error={errors.courseEndDate}
             type="text"
           />
           

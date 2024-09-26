@@ -111,7 +111,7 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose, courseId }) =>
           {courseStatus === "Ukończony" && (
             <DynamicFormInput
               label="Certyfikat Ukończenia Szkolenia"
-              name="courseFile"
+              name="courseFileCert"
               control={control}
               register={register}
               validation={{ required: "Plik Certyfikatu jest wymagany" }}
