@@ -17,6 +17,7 @@ import {
   useCoursesQuery,
   useCoursesWithUsersQuery,
   useDeleteCourseMutation,
+  useDeleteUserFromCourseMutation
 } from "@/services/courseHooks";
 import { CoursesResponse } from "@/components/Home/ts/types";
 import { AssignCourseForm } from "./Modals/AssignCourse";
@@ -44,6 +45,16 @@ export default function AssignedModules() {
       console.error("Błąd podczas usuwania kursu:", error);
     },
   });
+  const deleteUserFromCourseMutation = useDeleteUserFromCourseMutation({
+    onSuccess: () => {
+      console.log("Użytkownik został usunięty z kursu!");
+      detailModal.onClose(); // Zamknij modal po sukcesie
+    },
+    onError: (error: any) => {
+      console.error("Błąd podczas usuwania użytkownika z kursu:", error);
+    },
+  });
+
   const courses = CourseResponse?.data || [];
   const handleDeleteCourse = (courseId: string) => {
     console.log(courseId); // Dodaj to, aby upewnić się, że ID jest poprawne
@@ -52,6 +63,12 @@ export default function AssignedModules() {
       window.location.reload();
     }
   };
+  const handleDeleteUserFromCourse = (userID: number, courseID: number) => {
+    if (confirm("Czy na pewno chcesz usunąć tego użytkownika z kursu?")) {
+      deleteUserFromCourseMutation.mutate({ userID, courseID }); // Przekazujesz obiekt
+    }
+  };
+  
   const handleCourseClick = (course) => {
     setSelectedCourse(course);
     detailModal.onOpen();
@@ -189,7 +206,7 @@ export default function AssignedModules() {
                          }
                          label={`${e.username}`}
                          variant="outlined"
-                         onDelete={handleDelete}
+                         onDelete={()=>handleDeleteUserFromCourse(e.id,course.course_id)}
                          deleteIcon={
                            <DeleteIcon
                              style={{ color: "red", fontSize: "18px" }}

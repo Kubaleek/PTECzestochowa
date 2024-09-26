@@ -12,6 +12,7 @@ import {
   DeleteCourse,
   DeleteCourseName,
   DeleteUserCourse,
+  DeleteUserFromCourse,
 } from "./courseAPI";
 
 import {
@@ -77,6 +78,7 @@ export const useAddCourseMutation = (
       mutationFn: async (courseId: string) => await DeleteCourse(courseId),
       ...options,
     });
+    
     export const useEditCourseMutation = (
       options?: UseMutationOptions<any, Error, any>
     ) =>
@@ -84,3 +86,12 @@ export const useAddCourseMutation = (
         mutationFn: async (courseData: any) => await EditCourse(courseData), // The mutation function calls EditCourse
         ...options, // Pass any additional options
       });
+      export const useDeleteUserFromCourseMutation = (
+        options?: UseMutationOptions<any, Error, { userID: number; courseID: number }>
+      ) =>
+        useMutation({
+          mutationFn: async (courseData: { userID: number; courseID: number }) => 
+            await DeleteUserFromCourse(courseData.userID, courseData.courseID),
+          ...options,
+        });
+      

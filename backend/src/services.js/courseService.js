@@ -28,6 +28,17 @@ class CourseService {
       throw error;
     }
   }
+  async deleteUserFromCourse(userID,courseID){
+    try {
+      const [rows] = await pool.query("DELETE FROM `user_courses` WHERE `user_id`=? AND `course_id` =?",[userID,courseID]);
+      console.log(`user:${userID} course:${courseID}`)
+
+      return rows;
+    } catch (error) {
+      console.error("Error detected ad fetching NavItems");
+      throw error;
+    }
+  }
   async getAllUsers(){
     try {
       const [rows] = await pool.query("SELECT * FROM `users`");
@@ -40,7 +51,6 @@ class CourseService {
   async getUsersFromCourse(courseID){
     try{
       const [rows] = await pool.query("SELECT users.id, users.email, users.username FROM users JOIN user_courses ON users.id = user_courses.user_id  WHERE user_courses.course_id = ?",[courseID]);
-      console.log(rows);
       return rows;
     }catch (error) {
       console.error("Error detected ad fetching getUsersFromCourse");

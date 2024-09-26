@@ -18,6 +18,7 @@ const {
     deleteCourseName,
     getUsersFinal,
     getCoursesByUser,
+    deleteUserFromCourse,
     isCourseAssigned,
     getUsersFromCourse,
     assignCourse,
@@ -43,5 +44,6 @@ courseRouter.delete(`${data.courses}/coursename/:userCourseId`, deleteCourseName
 courseRouter.get(`${data.courses}/assigned/:userId/:courseId`, isCourseAssigned);
 courseRouter.post(`${data.courses}/assign`, assignCourse);
 courseRouter.delete(`${data.courses}/delete/:userCourseId`, deleteUserCourse);
+courseRouter.delete(`${data.courses}/user-from-course/`, deleteUserFromCourse);
 
 export default courseRouter;

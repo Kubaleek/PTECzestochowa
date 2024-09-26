@@ -54,7 +54,17 @@ const getUsersFromCourse = async (req,res,next)=>{
         next(new AppError(error, 500));
     }
 }
-
+const deleteUserFromCourse = async (req,res,next)=>{
+    try{
+        const {courseID,userID} = req.body;
+        console.log(`user:${userID} course:${courseID}`)
+         await courseService.deleteUserFromCourse(userID,courseID);
+        res.json({ status: "success",message:"user from course has been removed"  });
+    }catch (error) {
+        console.error("Error detected at fetching users from course", error);
+        next(new AppError(error, 500));
+    }
+}
 const getUsersFinal = async (req, res, next) => {
     try {
       // Step 1: Fetch all courses with assigned users
@@ -241,6 +251,7 @@ export const Controllers = {
     editCourse,
     getUsersFinal,
     editUpdateCourse,
+    deleteUserFromCourse,
     deleteUsername,
     deleteCourseName,
     isCourseAssigned,

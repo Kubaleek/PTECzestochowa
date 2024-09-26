@@ -67,6 +67,7 @@ export const EditUpdateCourse = (courseData: any) => fetchData('/update', { meth
 // Usuwanie kursu użytkownika na podstawie ID
 export const DeleteUserCourse = (userCourseId: string) => fetchData(`/delete/${userCourseId}`, { method: 'DELETE' });
 
+export const DeleteUserFromCourse =(userID:number,courseID:number) => fetchData(`/user-from-course`,{method:"DELETE", body:{userID,courseID}})
 // Usuwanie kursu na podstawie nazwy kursu (dla konkretnego użytkownika)
 export const DeleteCourseName = (userCourseId: string) => fetchData(`/coursename/${userCourseId}`, { method: 'DELETE' });
 

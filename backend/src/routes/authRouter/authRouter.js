@@ -58,6 +58,8 @@ authRouter.get(`/admin/user`, Verify, VerifyRole, (req, res) => {
 
 authRouter.get("/logout", Logout);
 authRouter.get('/user',GetUserByEmail)
+authRouter.get('/users',GetUserByEmail)
+
 authRouter.get('/user/delete', VerifyRole, DeleteUser);  // Assuming role-based access control
 authRouter.get('/user/edit/:userCourseId', Verify, EditUsername);
 authRouter.get('/users/role/:role', Verify, VerifyRole, GetUserByRole);
