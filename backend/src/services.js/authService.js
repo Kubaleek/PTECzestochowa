@@ -99,9 +99,9 @@ class UserService {
     const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
     return rows.length ? rows[0] : null;
   }
-  async createUser(req,res,next){
-    const { email, username, password,role } = req.body;
-
+  async createUser(req, res, next) {
+    const { email, username, password, role } = req.body;
+  
     try {
       const existingUser = await this.findOne(email);
       if (existingUser) {
@@ -111,15 +111,14 @@ class UserService {
           message: "It seems you already have an account, please log in instead.",
         });
       }
-
-
-      const newUser = { email, username,password,role};
+  
+      const newUser = { email, username, password, role };
       await this.save(newUser, next);
-
+  
       res.status(200).json({
         status: "success",
         data: [{ email, username }],
-        message: "Thank you for creating  accout with us.",
+        message: "Thank you for creating an account with us.",
       });
     } catch (err) {
       next(err);
@@ -181,7 +180,7 @@ class UserService {
       );
 
       if (rows.length > 0) {
-        return rows[0].username;
+        return rows[0];
       }
       return null;
     } catch (error) {

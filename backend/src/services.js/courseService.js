@@ -60,7 +60,7 @@ class CourseService {
   }
     async getCoursesWithUser(){
       try {
-        const [rows] = await pool.query("SELECT user_courses.course_id, courses.name, courses.description, courses.date, courses.course_link, user_courses.certificate, user_courses.course_status, user_courses.date_completed FROM `user_courses` JOIN `users` ON users.id = user_courses.user_id JOIN `courses` ON courses.id = user_courses.id");
+        const [rows] = await pool.query("SELECT user_courses.course_id, courses.name, courses.description, courses.date, courses.course_link, user_courses.certificate, user_courses.course_status, user_courses.date_completed FROM `user_courses` JOIN `users` ON users.id = user_courses.user_id JOIN `courses` ON courses.id = user_courses.course_id");
         return rows;
       } catch (error) {
         console.error("Error detected ad fetching NavItems");

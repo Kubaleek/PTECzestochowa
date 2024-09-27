@@ -42,14 +42,13 @@ const EditUser = async (req, res, next) => {
         });
     }
 };
-const createUser = async (req,res,next)=>{
-    const user = await authService.createUser(req,res,next);
-    const userC = JSON.stringify(user)
-    res.status(200).json({
-        userC
-        
-    });
-}
+const createUser = async (req, res, next) => {
+    try {
+      await authService.createUser(req, res, next);
+    } catch (err) {
+      next(err);
+    }
+  }
 const GetUserByRole = async (req, res, next) => {
     const { role } = req.params;
     const users = await authService.getUserByRole(role);
