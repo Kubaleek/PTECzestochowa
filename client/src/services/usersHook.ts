@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { GetNavs, GetArticles, GetPosts, GetNews, GetPages } from "./homeAPI";
 
 import {
@@ -8,7 +8,7 @@ import {
   User,
   Users,
 } from "../components/Home/ts/types";
-import { GetAllUsers } from "./usersAPI";
+import { CreateUser, GetAllUsers } from "./usersAPI";
 
 const createQueryFn =
   <T>(fn: () => Promise<T>) =>
@@ -24,3 +24,10 @@ const createQueryFn =
       staleTime: 60000,
       ...options,
     });
+    export const useAddUserMutation = (
+      options?: UseMutationOptions<any, Error, any>
+    ) =>
+      useMutation({
+        mutationFn: async (userData: any) => await CreateUser(userData),
+        ...options,
+      });

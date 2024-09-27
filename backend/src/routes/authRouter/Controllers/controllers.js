@@ -42,10 +42,20 @@ const EditUsername = async (req, res, next) => {
         });
     }
 };
-
+const createUser = async (req,res,next)=>{
+    const user = await authService.createUser(req);
+    res.status(200).json({
+        user
+    });
+}
 const GetUserByRole = async (req, res, next) => {
     const { role } = req.params;
     const users = await authService.getUserByRole(role);
+    res.status(200).json({
+        status: "success",
+        data: users,
+        message: "Users fetched successfully."
+    });
     res.status(200).json({
         status: "success",
         data: users,
@@ -70,5 +80,6 @@ export const Controllers = {
     EditUsername,
     GetUserByRole,
     saveBlacklist,
-    getUsers
+    getUsers,
+    createUser
 };

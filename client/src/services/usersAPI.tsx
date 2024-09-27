@@ -28,3 +28,4 @@ const fetchData = async (endpoint: string, options?: FetchOptions) => {
 };
 
 export const GetAllUsers = () => fetchData('/users');
+export const CreateUser = (userData:any) => fetchData('/create-user', { method: 'POST', body: userData });
