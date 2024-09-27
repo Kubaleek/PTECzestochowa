@@ -12,7 +12,7 @@ const {
   createUser,
   DeleteUser,
   saveBlacklist,
-  EditUsername,
+  EditUser,
   GetUserByRole,
 } = Controllers;
 
@@ -71,8 +71,8 @@ authRouter.get("/logout", Logout);
 authRouter.get("/user", GetUserByEmail);
 authRouter.get("/users", getUsers);
 
-authRouter.get("/user/delete", VerifyRole, DeleteUser); // Assuming role-based access control
-authRouter.get("/user/edit/:userCourseId", Verify, EditUsername);
-authRouter.get("/users/role/:role", Verify, VerifyRole, GetUserByRole);
+authRouter.delete("/user/delete", DeleteUser); // Assuming role-based access control
+authRouter.put("/user/edit", EditUser);
+authRouter.get("/users/role/:role", GetUserByRole);
 
 export default authRouter;

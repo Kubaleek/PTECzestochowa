@@ -20,20 +20,20 @@ const getUsers = async (req,res,next)=>{
 }
 const saveBlacklist = async (req,res,next) => {
     const {date,userId} = req.body;
-    const data = await authService.saveBlacklist({
+    const data = await zauthService.saveBlacklist({
         date,
         userId
     });
     res.json({data:data})
 }
-const EditUsername = async (req, res, next) => {
-    const { userCourseId } = req.params;
-    const username = await authService.editUsername(userCourseId);
+const EditUser = async (req, res, next) => {
+    const { email,username,role } = req.body;
+    const user = await authService.editUser(email,username,role);
     if (username) {
         res.status(200).json({
             status: "success",
-            data: { username },
-            message: "Username fetched successfully."
+            data: { user },
+            message: "User has been edited."
         });
     } else {
         res.status(404).json({
@@ -43,9 +43,11 @@ const EditUsername = async (req, res, next) => {
     }
 };
 const createUser = async (req,res,next)=>{
-    const user = await authService.createUser(req);
+    const user = await authService.createUser(req,res,next);
+    const userC = JSON.stringify(user)
     res.status(200).json({
-        user
+        userC
+        
     });
 }
 const GetUserByRole = async (req, res, next) => {
@@ -77,7 +79,7 @@ export const Controllers = {
     GetUserByEmail,
     Logout,
     DeleteUser,
-    EditUsername,
+    EditUser,
     GetUserByRole,
     saveBlacklist,
     getUsers,

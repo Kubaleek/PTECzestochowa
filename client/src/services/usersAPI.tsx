@@ -29,3 +29,6 @@ const fetchData = async (endpoint: string, options?: FetchOptions) => {
 
 export const GetAllUsers = () => fetchData('/users');
 export const CreateUser = (userData:any) => fetchData('/create-user', { method: 'POST', body: userData });
+
+export const DeleteUser = (email: string) => 
+  fetchData('/user/delete', { method: 'DELETE', body: { email } });

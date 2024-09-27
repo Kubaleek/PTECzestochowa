@@ -28,14 +28,15 @@ export const AddUserForm: React.FC<AddUserFormProps> = ({ onClose }) => {
     register,
   } = methods;
 
-  const { mutate: addUser, error } = useAddUserMutation({
-    onSuccess: () => {
-      console.log("Użytkownik dodany pomyślnie");
-    },
-    onError: (error) => {
-      console.error("Wystąpił błąd podczas dodawania użytkownika:", error);
-    },
-  });
+const { mutate: addUser, error } = useAddUserMutation({
+  onSuccess: () => {
+    console.log("Użytkownik dodany pomyślnie");
+    onClose(); // Move the onClose call here
+  },
+  onError: (error) => {
+    console.error("Wystąpił błąd podczas dodawania użytkownika:", error);
+  },
+});
 
   const onSubmit = (data: AddUsersFormData) => {
     addUser({
@@ -44,6 +45,7 @@ export const AddUserForm: React.FC<AddUserFormProps> = ({ onClose }) => {
       password: data.password,
       role: data.userRole,
     });
+    console.log("Test")
     onClose();
   };
 

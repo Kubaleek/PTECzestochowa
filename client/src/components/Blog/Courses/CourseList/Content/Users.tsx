@@ -13,7 +13,7 @@ import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { AddUser } from "./Modals/AddUser";
 import { EditUser } from "./Modals/EditUser";
-import { useUsersQuery } from "@/services/usersHook";
+import { useDeleteUserMutation, useUsersQuery } from "@/services/usersHook";
 
 export default function Users() {
   const [selectedUser, setSelectedUser] = React.useState(null);
@@ -23,7 +23,25 @@ export default function Users() {
 
   const { data: UsersResponse, error, isLoading } = useUsersQuery(); // Pobieranie użytkowników
   console.log(UsersResponse);
-  
+  const deleteUserMutation = useDeleteUserMutation({
+    onSuccess: () => {
+      // Odśwież listę kursów lub wykonaj inne akcje po sukcesie
+      console.log("Użytkownik został usunięty!");
+    },
+    onError: (error:any) => {
+      console.error("Błąd podczas usuwania użytkownika:", error);
+    },
+  });
+  const handleDeleteUser = (email: string) => {
+    console.log(email); // Dodaj to, aby upewnić się, że ID jest poprawne
+    if (confirm("Czy na pewno chcesz usunąć teo użytkownika?")) {
+      deleteUserMutation.mutate(email); // Wywołanie mutacji usuwania
+      detailModal.onOpen();
+      window.location.reload()
+    }
+    
+  };
+
   // Przypisanie użytkowników do zmiennej users
   const users = UsersResponse?.data || [];
   const handleUserClick = (userDetails) => {
@@ -120,6 +138,7 @@ export default function Users() {
                         color="danger"
                         variant="flat"
                         className="rounded w-full"
+                        onClick={()=>handleDeleteUser(user.email)}
                       >
                         Usuń
                       </Button>

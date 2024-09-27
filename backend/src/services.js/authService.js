@@ -169,14 +169,15 @@ class UserService {
       next(err);
     }
   }
-  async editUsername(userCourseId) {
+  async editUser(email,username,role) {
     try {
       const [rows] = await pool.query(
-        `SELECT users.username 
-         FROM users 
-         JOIN user_courses ON users.id = user_courses.user_id 
-         WHERE user_courses.id = ?`, 
-         [userCourseId]
+        `UPDATE users SET 
+        email="", 
+        username="",
+        role="" 
+        WHERE email = ;`, 
+         [email,username,role,email]
       );
 
       if (rows.length > 0) {

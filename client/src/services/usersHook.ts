@@ -8,7 +8,7 @@ import {
   User,
   Users,
 } from "../components/Home/ts/types";
-import { CreateUser, GetAllUsers } from "./usersAPI";
+import { CreateUser, DeleteUser, GetAllUsers } from "./usersAPI";
 
 const createQueryFn =
   <T>(fn: () => Promise<T>) =>
@@ -31,3 +31,18 @@ const createQueryFn =
         mutationFn: async (userData: any) => await CreateUser(userData),
         ...options,
       });
+
+      export const useDeleteUserMutation = (
+        options?: UseMutationOptions<any, Error, string>
+      ) =>
+        useMutation({
+          mutationFn: async (email: string) => {
+            const response = await DeleteUser(email);
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error(response.statusText);
+            }
+          },
+          ...options,
+        });

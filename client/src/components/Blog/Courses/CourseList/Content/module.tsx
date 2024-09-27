@@ -139,8 +139,6 @@ export default function Test1() {
                   <strong>Plik Szkoleniowy:</strong>
                   <Link href={selectedCourse.course_link} color="success" className='text-green-800' size='sm'> Plik do Pobrania</Link>
                 </p>
-                <p className='flex flex-col'><strong>Status Szkolenia:</strong> {selectedCourse.course_status}</p>
-                <p className='flex flex-col'><strong>Certyfikat Szkolenia:</strong> {selectedCourse.certificate ? "Dostępny" : "Niedostępny"}</p>
               </div>
             )}
           </ModalBody>
