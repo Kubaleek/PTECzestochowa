@@ -46,6 +46,7 @@ const { mutate: addUser, error } = useAddUserMutation({
       role: data.userRole,
     });
     console.log("Test")
+    window.location.reload()
     onClose();
   };
 
@@ -84,32 +85,12 @@ const { mutate: addUser, error } = useAddUserMutation({
         />
 
         <FormControl variant="standard" color="success" fullWidth>
-          <InputLabel htmlFor="userRole">Rola Użytkownika</InputLabel>
-          <Controller
-            name="userRole"
-            control={control}
-            defaultValue=""
-            rules={{ required: "Rola użytkownika jest wymagana" }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                labelId="userRole"
-                id="userRole"
-                error={!!errors.userRole}
-              >
-                <MenuItem value="">
-                  <em>Wybierz rolę</em>
-                </MenuItem>
-                <MenuItem value="Użytkownik">Użytkownik</MenuItem>
-                <MenuItem value="Administrator">Administrator</MenuItem>
-              </Select>
-            )}
-          />
-          {errors.userRole && (
-            <p className="text-red-500 text-sm">
-              {errors.userRole?.message?.toString()}
-            </p>
-          )}
+          <InputLabel htmlFor="userAddRole">Role</InputLabel>
+          <Select id="userAddRole" native>
+            <option aria-label="None" value="" />
+            <option value="użytkownik">Użytkownik</option>
+            <option value="administrator">Administrator</option>
+          </Select>
         </FormControl>
 
         <div className="justify-end flex items-center py-4">

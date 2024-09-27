@@ -82,6 +82,13 @@ export const useAddCourseMutation = (
     mutationFn: async (courseData: any) => await AddCourse(courseData),
     ...options,
   });
+  export const useAssignMutation = (
+    options?: UseMutationOptions<any, Error, any>
+  ) =>
+    useMutation({
+      mutationFn: async (data: any) => await AssignCourse(data),
+      ...options,
+    });
   export const useDeleteCourseMutation = (
     options?: UseMutationOptions<any, Error, string>
   ) =>

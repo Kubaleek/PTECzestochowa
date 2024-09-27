@@ -10,7 +10,6 @@ import EditUsersForm from "./Forms/EditUsersForm";
   
   type EditModalType = {
     isOpen: boolean;
-    onOpenChange: (open: boolean) => void;
   };
   
   export const EditUser = ({ editModal }: { editModal: EditModalType }) => {
@@ -18,7 +17,6 @@ import EditUsersForm from "./Forms/EditUsersForm";
     return (
       <Modal
         isOpen={editModal.isOpen}
-        onOpenChange={editModal.onOpenChange}
         placement="center"
         backdrop="blur"
         scrollBehavior="inside"
@@ -30,7 +28,7 @@ import EditUsersForm from "./Forms/EditUsersForm";
             Edytuj Użytkownika
           </ModalHeader>
           <ModalBody className="mt-0">
-            <EditUsersForm onClose={() => editModal.onOpenChange(false)} />
+            <EditUsersForm />
           </ModalBody>
         </ModalContent>
       </Modal>

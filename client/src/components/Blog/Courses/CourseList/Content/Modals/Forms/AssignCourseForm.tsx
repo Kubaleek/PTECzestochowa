@@ -5,22 +5,23 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { useGetAssignData } from "@/services/courseHooks";
+import { useAssignMutation, useGetAssignData } from "@/services/courseHooks";
+import DynamicFormInput from "@/components/Blog/Contact/FormsInput/DynamicInput";
 
 type AssignCourseFormProps = {
   onClose: () => void;
 };
 
 type AssignCourseFormData = {
-  courseName: string;
-  courseDescription: string;
-  courseDate: string;
-  courseEndDate: string;
-  courseFile: FileList;
-  courseType: string;
+  userId: number;
+  courseId: number;
+  certificate: string;
+  status: string;
+  dateCompleted: FileList;
 };
 
 const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
+  const [courseStatus, setCourseStatus] = useState<string>("");
   const methods = useForm<AssignCourseFormData>();
   const {
     handleSubmit,
@@ -29,13 +30,27 @@ const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
     register,
   } = methods;
   const { data, error, isLoading } = useGetAssignData(); // Fetch courses
-
-  const [courseStatus, setCourseStatus] = useState<string>("");
+  const { mutate: assignCourse } = useAssignMutation({
+    onSuccess: () => {
+      // Zaktualizuj cache lub wyświetl powiadomienie o sukcesie
+      console.log("Kurs dodany pomyślnie");
+    },
+    onError: (error) => {
+      console.error("Wystąpił błąd podczas dodawania kursu:", error);
+    },
+  });
   const courses = data?.courses || [];
   const users = data?.user || [];
 
   const onSubmit = (data: AssignCourseFormData) => {
-    console.log("Dane formularza:", data);
+    assignCourse({
+      userId: data.userId,
+      courseId: data.courseId,
+      certificate: "test.png",
+      status: data.status,
+      dateCompleted: "21 Września 2024",
+    });
+    console.log("Test");
     onClose();
   };
 
@@ -43,27 +58,47 @@ const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
     <FormProvider {...methods}>
       <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
         <FormControl variant="standard" color="success" fullWidth>
-          <InputLabel htmlFor="courseStatus">Wybierz Szkolenie</InputLabel>
-          <Select id="courseSelect" native>
+          <InputLabel htmlFor="courseId">Wybierz Szkolenie</InputLabel>
+          <Select id="courseId" native {...register("courseId")}>
             <option aria-label="None" value="" />
-            {
-              courses.map((course) => (
-                <option key={course.id} value={course.name}>{course.name}</option>
-              ))
-            }
+            {courses.map((course) => (
+              <option key={course.id} value={course.id}>
+                {course.name}
+              </option>
+            ))}
           </Select>
         </FormControl>
         <FormControl variant="standard" color="success" fullWidth>
-          <InputLabel htmlFor="courseStatus">Wybierz Użytkownika</InputLabel>
-          <Select id="courseSelect" native>
+          <InputLabel htmlFor="userId">Wybierz Użytkownika</InputLabel>
+          <Select id="userId" native {...register("userId")}>
             <option aria-label="None" value="" />
-            {
-              users.map((user) => (
-                <option key={user.id} value={user.username}>{user.username}</option>
-              ))
-            }
+            {users.map((user) => (
+              <option key={user.id} value={user.id}>
+                {user.username}
+              </option>
+            ))}
           </Select>
         </FormControl>
+        <FormControl variant="standard" color="success" fullWidth>
+          <InputLabel htmlFor="status">Status Ukończenia</InputLabel>
+          <Select id="status" native {...register("status")}>
+            <option aria-label="None" value="" />
+            <option value="Nieukończony">Nieukończony</option>
+            <option value="Ukończony">Ukończony</option>
+          </Select>
+        </FormControl>
+
+        {courseStatus === "Ukończony" && (
+          <DynamicFormInput
+            label="Certyfikat Ukończenia Szkolenia"
+            name="certificate"
+            control={control}
+            register={register}
+            validation={{ required: "Plik Certyfikatu jest wymagany" }}
+            error={errors.certificate}
+            type="file"
+          />
+        )}
         <div className="justify-end flex items-center py-4">
           <Button
             type="submit"

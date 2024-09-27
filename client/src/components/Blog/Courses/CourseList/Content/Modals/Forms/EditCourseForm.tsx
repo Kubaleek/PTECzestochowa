@@ -93,32 +93,6 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose, courseId }) =>
             error={errors.courseEndDate}
             type="text"
           />
-          
-          <FormControl variant="standard"  color="success" fullWidth>
-            <InputLabel htmlFor="courseStatus">Status Ukończenia</InputLabel>
-            <Select
-              id="courseStatus"
-              value={courseStatus}
-              onChange={(e) => setCourseStatus(e.target.value)}
-              native
-            >
-              <option aria-label="None" value="" />
-              <option value="Nieukończony">Nieukończony</option>
-              <option value="Ukończony">Ukończony</option>
-            </Select>
-          </FormControl>
-
-          {courseStatus === "Ukończony" && (
-            <DynamicFormInput
-              label="Certyfikat Ukończenia Szkolenia"
-              name="courseFileCert"
-              control={control}
-              register={register}
-              validation={{ required: "Plik Certyfikatu jest wymagany" }}
-              error={errors.courseFile}
-              type="file"
-            />
-          )}
 
           <DynamicFormInput
             label="Plik Szkolenia"

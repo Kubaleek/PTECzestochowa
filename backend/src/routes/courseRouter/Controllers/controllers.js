@@ -70,17 +70,21 @@ const getUsersFinal = async (req, res, next) => {
       const courses = await courseService.getCoursesWithUser();
       // Step 2: Initialize an array to store the courses along with their users
       const coursesWithUsers = [];
-        
+      const uniqueCourseIds = new Set(); // Create a set to store unique course IDs
+  
       for (const course of courses) {
-        const users = await courseService.getUsersFromCourse(course.course_id); // Fetch users by course ID
-        coursesWithUsers.push({
-          ...course,        // Spread course details
-          users: users      // Add users list to the course object
-        });
+        if (!uniqueCourseIds.has(course.course_id)) { // Check if the course ID is not already in the set
+          uniqueCourseIds.add(course.course_id); // Add the course ID to the set
+          const users = await courseService.getUsersFromCourse(course.course_id); // Fetch users by course ID
+          coursesWithUsers.push({
+            ...course,        // Spread course details
+            users: users      // Add users list to the course object
+          });
+        }
       }
-
+  
       res.json({
-        data:coursesWithUsers,
+        data: coursesWithUsers,
       });
   
     } catch (error) {
