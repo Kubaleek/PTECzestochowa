@@ -45,9 +45,8 @@ const { mutate: addUser, error } = useAddUserMutation({
       password: data.password,
       role: data.userRole,
     });
-    console.log("Test")
-    window.location.reload()
     onClose();
+    window.location.reload()
   };
 
   return (

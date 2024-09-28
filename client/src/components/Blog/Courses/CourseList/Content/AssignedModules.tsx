@@ -17,7 +17,7 @@ import {
   useCoursesQuery,
   useCoursesWithUsersQuery,
   useDeleteCourseMutation,
-  useDeleteUserFromCourseMutation
+  useDeleteUserFromCourseMutation,
 } from "@/services/courseHooks";
 import { CoursesResponse } from "@/components/Home/ts/types";
 import { AssignCourseForm } from "./Modals/AssignCourse";
@@ -28,6 +28,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function AssignedModules() {
   const { data: session, status } = useSession(); // Use useSession to manage session state
+  const isAdmin = session?.user?.role === "administrator"; // Sprawdzenie, czy użytkownik jest administratorem
   const addModal = useDisclosure();
   const assginModal = useDisclosure();
   const editModal = useDisclosure();
@@ -69,7 +70,7 @@ export default function AssignedModules() {
       window.location.reload();
     }
   };
-  
+
   const handleCourseClick = (course) => {
     setSelectedCourse(course);
     detailModal.onOpen();
@@ -128,117 +129,171 @@ export default function AssignedModules() {
           </h3>
           <p className="text-sm text-pretty leading-relaxed text-gray-700 text-justify text-clip">
             Oto lista przypisanych szkoleń dla użytkowników. Tutaj znajdziesz
-            informacje o szkoleniach przypisanych do użytkowników. Jako
-            administrator, masz możliwość zarządzania tymi przypisaniami
+            informacje o szkoleniach przypisanych do użytkowników. <span>
+            {isAdmin ? (
+              <>
+                Jako administrator, masz możliwość zarządzania tymi
+                przypisaniami.
+              </>
+            ) : (
+              <>
+                Jako użytkownik, możesz przeglądać przypisane szkolenia, ale nie
+                masz możliwości ich edytowania ani usuwania.
+              </>
+            )}
+            </span>
           </p>
         </div>
         <Divider className="h-[1px] w-full" />
       </div>
       <div className="flex flex-col gap-3">
-        <div className="flex flex-col sm:flex-row gap-3 justify-end items-center">
-          <Button
-            onPress={assginModal.onOpen}
-            className="w-full lg:w-auto rounded text-white bg-green-700"
-            endContent={<AssignCourse />}
-          >
-            Przydziel Szkolenie
-          </Button>
-          <AssignCourseForm assginModal={assginModal} />
-        </div>
+        {isAdmin && (
+          <div className="flex flex-col sm:flex-row gap-3 justify-end items-center">
+            <Button
+              onPress={assginModal.onOpen}
+              className="w-full lg:w-auto rounded text-white bg-green-700"
+              endContent={<AssignCourse />}
+            >
+              Przydziel Szkolenie
+            </Button>
+            <AssignCourseForm assginModal={assginModal} />
+          </div>
+        )}
         <Divider className="h-[1px] w-full" />
         <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
-          {
-            courses.map(course=>(
-              <div key={course.course_id}>
-
-            <Card 
-            shadow="lg"
-            className="bg-[#f5f1ec] border-2 border-[#333]/25 rounded"
-          >
-            <CardHeader className="flex flex-col justify-start sm:flex-row items-start gap-3">
-              <div className="flex flex-col gap-2">
-                <CourseIcon />
-                <div className="flex flex-col">
-                  <p className="text-small font-medium text-justify">{course.name}</p>
-                  <p className="text-small text-default-500">Szkolenie #{course.course_id}</p>
-                  <p className="text-small text-default-500">Uczestnicy: {course.users.length}</p>
-                </div>
-              </div>
-            </CardHeader>
-            <Divider className="h-[1px] w-full" />
-            <CardBody>
-              <Button
-                className="w-full lg:w-auto rounded text-white bg-green-700 text-small text-justify"
-                onClick={() => handleCourseClick(courses)}
+          {courses.map((course) => (
+            <div key={course.course_id}>
+              <Card
+                shadow="lg"
+                className="bg-[#f5f1ec] border-2 border-[#333]/25 rounded"
               >
-                Sprawdź Informacje
-              </Button>
-            </CardBody>
-          </Card>
+                <CardHeader className="flex flex-col justify-start sm:flex-row items-start gap-3">
+                  <div className="flex flex-col gap-2">
+                    <CourseIcon />
+                    <div className="flex flex-col">
+                      <p className="text-small font-medium text-justify">
+                        {course.name}
+                      </p>
+                      <p className="text-small text-default-500">
+                        Szkolenie #{course.course_id}
+                      </p>
+                      <p className="text-small text-default-500">
+                        Uczestnicy: {course.users.length}
+                      </p>
+                    </div>
+                  </div>
+                </CardHeader>
+                <Divider className="h-[1px] w-full" />
+                <CardBody>
+                  <Button
+                    className="w-full lg:w-auto rounded text-white bg-green-700 text-small text-justify"
+                    onClick={() => handleCourseClick(courses)}
+                  >
+                    Sprawdź Informacje
+                  </Button>
+                </CardBody>
+              </Card>
 
-<Modal
-        placement="center"
-        backdrop="blur"
-        scrollBehavior="inside"
-        radius="sm"
-        size="sm"
-        className="!bg-[#f5f1ec] border-1 shadow-lg "
-        isOpen={detailModal.isOpen}
-        onClose={detailModal.onClose}
-      >
-        <ModalContent>
-          <ModalHeader>{course.name}</ModalHeader>
-          <ModalBody className="mt-0 pt-0">
-            {selectedCourse && (
-              <div className="flex flex-col gap-3 text-pretty leading-relaxed">
-                <p className="flex flex-col">
-                  <strong>Szkolenie:</strong> {course.name}
-                </p>
-                <p className="flex flex-col gap-2">
-                  <strong>Przydzieleni do Szkolenia:</strong>
-                  <span className="grid grid-cols-2 gap-3">
-                    {course.users.map(e=>(
-                         <Chip
-                         key={e.id}
-                         avatar={
-                           <Avatar>
-                             <GroupIcon />
-                           </Avatar>
-                         }
-                         label={`${e.username}`}
-                         variant="outlined"
-                         onDelete={()=>handleDeleteUserFromCourse(e.id,course.course_id)}
-                         deleteIcon={
-                           <DeleteIcon
-                             style={{ color: "red", fontSize: "18px" }}
-                           />
-                         }
-                       />
-                    ))}
-                  
-                  </span>
-                </p>
-              </div>
-            )}
-          </ModalBody>
-          <ModalFooter>
-            <div className="flex gap-3">
-              <Button color="danger" variant="flat" className="rounded w-full">
-                Usuń
-              </Button>
+              <Modal
+                placement="center"
+                backdrop="blur"
+                scrollBehavior="inside"
+                radius="sm"
+                size="sm"
+                className="!bg-[#f5f1ec] border-1 shadow-lg "
+                isOpen={detailModal.isOpen}
+                onClose={detailModal.onClose}
+              >
+                <ModalContent>
+                  <ModalHeader>{course.name}</ModalHeader>
+                  <ModalBody className="mt-0 pt-0">
+                    {selectedCourse && (
+                      <div className="flex flex-col gap-3 text-pretty leading-relaxed">
+                        <p className="flex flex-col">
+                          <strong>Szkolenie:</strong> {course.name}
+                        </p>
+                        {/* <p className="flex flex-col">
+                          <strong>Status Szkolenia:</strong>Ukończony
+                        </p>
+                        <p className="flex flex-col">
+                          <strong>Certyfikat:</strong>
+                          <Link
+                            href={""}
+                            color="success"
+                            className="text-green-800"
+                            size="sm"
+                          >
+                            {" "}
+                            Plik do Pobrania
+                          </Link>
+                        </p> */}
+                        <p className="flex flex-col gap-2">
+                          <strong>Przydzieleni do Szkolenia:</strong>
+
+                          <span className="grid grid-cols-2 gap-3">
+                            {isAdmin
+                              ? course.users.map((e) => (
+                                  <Chip
+                                    key={e.id}
+                                    avatar={
+                                      <Avatar>
+                                        <GroupIcon />
+                                      </Avatar>
+                                    }
+                                    label={`${e.username}`}
+                                    variant="outlined"
+                                    onDelete={() =>
+                                      handleDeleteUserFromCourse(
+                                        e.id,
+                                        course.course_id
+                                      )
+                                    }
+                                    deleteIcon={
+                                      <DeleteIcon
+                                        style={{
+                                          color: "red",
+                                          fontSize: "18px",
+                                        }}
+                                      />
+                                    }
+                                  />
+                                ))
+                              : course.users.map((e) => (
+                                  <Chip
+                                    key={e.id}
+                                    avatar={
+                                      <Avatar>
+                                        <GroupIcon />
+                                      </Avatar>
+                                    }
+                                    label={`${e.username}`}
+                                    variant="outlined"
+                                  />
+                                ))}
+                          </span>
+                        </p>
+                      </div>
+                    )}
+                  </ModalBody>
+                  <ModalFooter>
+                    {isAdmin && (
+                      <div className="flex gap-3">
+                        <Button
+                          color="danger"
+                          variant="flat"
+                          className="rounded w-full"
+                        >
+                          Usuń
+                        </Button>
+                      </div>
+                    )}
+                  </ModalFooter>
+                </ModalContent>
+              </Modal>
             </div>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      </div>
-
-            ))
-          }
-          
+          ))}
         </div>
       </div>
-      
     </>
   );
 }

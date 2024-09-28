@@ -9,6 +9,7 @@ import {
   useDisclosure,
   Divider,
 } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
 import { AddUser } from "./Modals/AddUser";
@@ -16,6 +17,7 @@ import { EditUser } from "./Modals/EditUser";
 import { useDeleteUserMutation, useUsersQuery } from "@/services/usersHook";
 
 export default function Users() {
+  const { data: session, status } = useSession(); 
   const [selectedUser, setSelectedUser] = React.useState(null);
   const addUser = useDisclosure();
   const detailModal = useDisclosure();

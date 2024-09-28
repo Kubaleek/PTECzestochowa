@@ -11,6 +11,7 @@ import { GetPages } from "@/services/homeAPI";
 import { Skeleton } from "@nextui-org/skeleton";
 import Contact from "./Contact/Contact";
 import { Suspense, useEffect } from "react";
+import PanelUsers from "./Courses/CourseList/PanelUsers";
 
 export const getServerSideProps: GetServerSideProps = async ({
   params,
