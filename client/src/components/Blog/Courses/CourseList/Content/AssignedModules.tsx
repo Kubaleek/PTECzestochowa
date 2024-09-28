@@ -56,16 +56,17 @@ export default function AssignedModules() {
   });
 
   const courses = CourseResponse?.data || [];
-  const handleDeleteCourse = (courseId: string) => {
-    console.log(courseId); // Dodaj to, aby upewnić się, że ID jest poprawne
-    if (confirm("Czy na pewno chcesz usunąć ten kurs?")) {
-      deleteCourseMutation.mutate(courseId); // Wywołanie mutacji usuwania
-      window.location.reload();
-    }
-  };
+  // const handleDeleteCourse = (courseId: string) => {
+  //   console.log(courseId); // Dodaj to, aby upewnić się, że ID jest poprawne
+  //   if (confirm("Czy na pewno chcesz usunąć ten kurs?")) {
+  //     deleteCourseMutation.mutate(courseId); // Wywołanie mutacji usuwania
+  //     window.location.reload();
+  //   }
+  // };
   const handleDeleteUserFromCourse = (userID: number, courseID: number) => {
     if (confirm("Czy na pewno chcesz usunąć tego użytkownika z kursu?")) {
       deleteUserFromCourseMutation.mutate({ userID, courseID }); // Przekazujesz obiekt
+      window.location.reload();
     }
   };
   

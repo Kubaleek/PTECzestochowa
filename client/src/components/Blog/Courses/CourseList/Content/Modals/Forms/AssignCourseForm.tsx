@@ -52,6 +52,7 @@ const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
     });
     console.log("Test");
     onClose();
+    window.location.reload();
   };
 
   return (

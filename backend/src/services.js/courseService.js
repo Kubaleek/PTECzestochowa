@@ -317,25 +317,28 @@ class CourseService {
     }
   }
 
-  async addCourse(courseName, courseDate,endDate, courseDescription, courseLink) {
+  async addCourse(courseName, courseDate, description, courseLink) {
     try {
-      const query = `
-        INSERT INTO courses (name, description, date, course_link) 
-        VALUES (?, ?, ?, ?)`;
+        const [result] = await pool.query(`
+            INSERT INTO courses (name, description, date, course_link) 
+            VALUES (?, ?, ?, ?)`, [
+            courseName,
+            description,
+            courseDate,
+            courseLink,
+        ]);
 
-      const [result] = await pool.query(query, [
-        courseName,
-        courseDescription,
-        courseDate,
-        courseLink,
-      ]);
-
-      return result.affectedRows > 0;
+        return result.affectedRows > 0;
     } catch (error) {
-      console.error("Error detected at adding course");
-      throw error;
+        console.error("Error in addCourse:", error);
+        throw error;
     }
-  }
+}
+
+
+  
+  
+  
 
 }
 export default new CourseService();

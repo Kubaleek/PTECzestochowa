@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import DynamicFormInput from "@/components/Blog/Contact/FormsInput/DynamicInput";
 import { Button } from "@nextui-org/react";
@@ -25,8 +25,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ onClose }) => {
       console.error("Wystąpił błąd podczas dodawania kursu:", error);
     },
   });
-  
-  // Aby wywołać dodanie kursu:
+  const ref = useRef<HTMLInputElement>(null);
 
   const methods = useForm<CourseFormData>();
   const {
@@ -34,19 +33,48 @@ const CourseForm: React.FC<CourseFormProps> = ({ onClose }) => {
     formState: { errors },
     control,
   } = methods;
-
-  const onSubmit = (data: CourseFormData) => {
-    
-    addCourse({
-      name:data.courseName,
-      description:data.courseDescription,
-      date:data.courseDate,
-      link:data.courseFile
+  const onSubmit = async (data: CourseFormData) => {
+    const file = data.courseFile?.[0]; // Get the first file from the list
+    if (!file) {
+      console.error("No file to upload.");
+      return;
+    }
+  
+    try {
+      // Create FormData object
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("name", data.courseName);
+      formData.append("description", data.courseDescription);
+      formData.append("date", data.courseDate);
+      const response = await fetch('/api/upload', { // Ensure this endpoint matches your API path
+        method: 'POST',
+        body: formData,
     });
-    console.log(data)
-    onClose(); // Zamknięcie modala po przesłaniu
-    window.location.reload();
+
+    const res = await response.json();
+
+    // Check if the file upload was successful and contains a valid filePath
+    if (!res.success || !res.filePath) {
+        console.error("File upload failed:", res.message);
+        return;
+    }
+
+    // Call addCourse with the necessary data, including the file path
+    await addCourse({
+        name: data.courseName,
+        description: data.courseDescription,
+        date: data.courseDate,
+        file: res.filePath // Use the file path returned from the upload
+    });
+
+      onClose(); // Close the modal after submission
+    } catch (e) {
+      console.error("Error in file upload:", e);
+    }
   };
+  
+  
 
   return (
     <FormProvider {...methods}>
@@ -62,18 +90,17 @@ const CourseForm: React.FC<CourseFormProps> = ({ onClose }) => {
             error={errors.courseName}
             type="text"
           />
-          
-          <DynamicFormInput
-            label="Opis Szkolenia"
-            placeholder="Wprowadź opis szkolenia"
-            name="courseDescription"
-            control={control}
-            register={methods.register}
-            validation={{ required: "Opis jest wymagany" }}
-            error={errors.courseDescription}
-            type="textarea"
-          />
-          
+
+<DynamicFormInput
+  label="Opis Szkolenia"
+  placeholder="Wprowadź opis szkolenia"
+  name="courseDescription"
+  control={control}
+  register={methods.register}
+  validation={{ required: "Opis jest wymagany" }} // Ensures description is required
+  error={errors.courseDescription}
+  type="textarea"
+/>
           <DynamicFormInput
             label="Data Szkolenia"
             placeholder="Wprowadź datę szkolenia"
@@ -84,7 +111,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ onClose }) => {
             error={errors.courseDate}
             type="text"
           />
-          
+
           <DynamicFormInput
             label="Plik Szkolenia"
             name="courseFile"
@@ -95,7 +122,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ onClose }) => {
             type="file"
           />
         </div>
-        
+
         <div className="justify-end flex items-center py-4">
           <Button
             type="submit"

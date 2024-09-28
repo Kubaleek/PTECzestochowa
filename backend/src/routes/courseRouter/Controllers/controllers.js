@@ -71,20 +71,20 @@ const getUsersFinal = async (req, res, next) => {
       // Step 2: Initialize an array to store the courses along with their users
       const coursesWithUsers = [];
       const uniqueCourseIds = new Set(); // Create a set to store unique course IDs
-  
+
       for (const course of courses) {
         if (!uniqueCourseIds.has(course.course_id)) { // Check if the course ID is not already in the set
-          uniqueCourseIds.add(course.course_id); // Add the course ID to the set
-          const users = await courseService.getUsersFromCourse(course.course_id); // Fetch users by course ID
-          coursesWithUsers.push({
-            ...course,        // Spread course details
-            users: users      // Add users list to the course object
-          });
-        }
+            uniqueCourseIds.add(course.course_id); // Add the course ID to the set
+            const users = await courseService.getUsersFromCourse(course.course_id); // Fetch users by course ID
+            coursesWithUsers.push({
+              ...course,        // Spread course details
+              users: users      // Add users list to the course object
+            });
+          }
       }
-  
+
       res.json({
-        data: coursesWithUsers,
+        data:coursesWithUsers,
       });
   
     } catch (error) {
@@ -142,7 +142,6 @@ const getUsersAndCourses = async (req, res, next) => {
     try {
         const courses = await courseService.getCourses();
         const users = await courseService.getAllUsers();
-        console.log("TEST")
         res.json({ courses:courses,user:users });
     } catch (error) {
         console.error("Error detected at fetching course name", error);
@@ -163,14 +162,30 @@ const courseExists = async (req, res, next) => {
 
 const addCourse = async (req, res, next) => {
     try {
-        const { name, date,endDate, description, link } = req.body;
-        const result = await courseService.addCourse(name, date,endDate, description, link);
-        res.json({ success: result });
+        // Access fields from the request body and file
+        const { name, description, date,file } = req.body;
+        const link = req.file?.path; // Get file path from multer upload
+
+        console.log('Received body:', req.body);
+
+
+
+        // Call the service method to insert into the database
+        const result = await courseService.addCourse(name, date, description, file);
+
+        if (result) {
+            return res.json({ success: true, message: 'Course added successfully!' });
+        } else {
+            return res.status(500).json({ success: false, message: 'Failed to add course.' });
+        }
     } catch (error) {
-        console.error("Error detected at adding course", error);
-        next(new AppError(error, 500));
+        console.error("Error in addCourse:", error);
+        next(new AppError(error.message, 500));
     }
 };
+
+  
+  
 
 const editCourse = async (req, res, next) => {
     try {
