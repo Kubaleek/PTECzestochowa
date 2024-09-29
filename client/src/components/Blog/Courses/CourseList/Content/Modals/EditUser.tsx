@@ -24,6 +24,7 @@ export const EditUser = ({
   return (
     <Modal
       isOpen={editModal.isOpen}
+      onClose={editModal.onClose}
       placement="center"
       backdrop="blur"
       scrollBehavior="inside"
