@@ -13,7 +13,17 @@ import {
 import * as React from "react";
 import PTECzestochowaLogo from "../public/assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
 
-export const KoalaWelcomeEmail = ({firstname,email,message,phone} : {firstname:string,email:string,message:string,phone:string}) => (
+export const KoalaWelcomeEmail = ({
+  firstname,
+  email,
+  message,
+  phone,
+}: {
+  firstname: string;
+  email: string;
+  message: string;
+  phone: string;
+}) => (
   <Html>
     <Head>
       <style>
@@ -40,7 +50,7 @@ export const KoalaWelcomeEmail = ({firstname,email,message,phone} : {firstname:s
             backgroundColor: "#f8f4f2",
             display: "flex",
             flexDirection: "column",
-			padding: 8,
+            padding: 8,
           }}
         >
           <div style={logo}>
@@ -99,10 +109,24 @@ export const KoalaWelcomeEmail = ({firstname,email,message,phone} : {firstname:s
             </ul>
 
             <Hr style={{ borderColor: "green", opacity: "35%" }} />
-			<div style={{display: "flex", gap: "4px", flexDirection: "column", maxWidth: "20rem"}}>
-				<Img src="http://localhost:3000/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FLogo_PTE_pionowe_Czestochowa_0ab5a76b3d.d01815bf.png&w=640&q=75" alt="logo czestochowa pte" style={{width: "200px", padding: "12px"}} />
-				<p style={{ fontSize: "12px", margin: "0", fontWeight: "400" }}>© Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie prawa zastrzeżone</p>
-			</div>
+            <div
+              style={{
+                display: "flex",
+                gap: "4px",
+                flexDirection: "column",
+                maxWidth: "20rem",
+              }}
+            >
+              <Img
+                src="http://localhost:3000/tz_next/image?url=%2F_next%2Fstatic%2Fmedia%2FLogo_PTE_pionowe_Czestochowa_0ab5a76b3d.d01815bf.png&w=640&q=75"
+                alt="logo czestochowa pte"
+                style={{ width: "200px", padding: "12px" }}
+              />
+              <p style={{ fontSize: "12px", margin: "0", fontWeight: "400" }}>
+                © Polskie Towarzystwo Ekonomiczne Oddział Częstochowa - Wszelkie
+                prawa zastrzeżone
+              </p>
+            </div>
           </div>
         </div>
       </Container>
@@ -141,19 +165,18 @@ const textStyle = {
 };
 
 const UlStyle: React.CSSProperties = {
-	fontSize: "0.85rem",
-	display: "flex",
-	gap: "6px",
-	flexDirection: "column",
-	listStyle: "square",
-	listStylePosition: "inside",
-  };
-  
+  fontSize: "0.85rem",
+  display: "flex",
+  gap: "6px",
+  flexDirection: "column",
+  listStyle: "square",
+  listStylePosition: "inside",
+};
 
 const LiStyle = {
-  color: "black", 
+  color: "black",
 };
 
 const markerStyle = {
-  color: "green", 
+  color: "green",
 };
