@@ -8,13 +8,18 @@ export async function POST(request: Request, res: Response) {
 	// rate limit
 	// authorization
 
-	const { email, userFirstname } = await request.json();
+	const { email, userFirstname,message,phone } = await request.json();
 
 	const { data, error } = await resend.emails.send({
 		from: 'Acme <onboarding@resend.dev>',
         to: [email],
         subject: "Thank you",
-        html: render(KoalaWelcomeEmail()),
+        html: render(KoalaWelcomeEmail({
+			email:email,
+			firstname:userFirstname,
+			message:message,
+			phone:phone
+		})),
       });
 	if (error) {
 		return Response.json(error);

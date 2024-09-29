@@ -27,14 +27,16 @@ export default function General() {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setLoading(true); 
     try {
-      await fetch("http://localhost:3001/api/mail", {
+      await fetch("http://localhost:3000/api/mail", {
         method: "POST", // Specify the method (POST)
         headers: {
           "Content-Type": "application/json", // Set the correct content type for JSON
         },
         body: JSON.stringify({
           email: data.email,
-          userFirstname: data.fullname, // Make sure the property name matches in your API
+          userFirstname: data.fullname,
+          message:data.message,
+          phone:data.phone 
         }),
       }).then(e=>{
         toast.success('Email został wysłany!'); // Displays a success message

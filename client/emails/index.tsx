@@ -13,7 +13,7 @@ import {
 import * as React from "react";
 import PTECzestochowaLogo from "../public/assets/PTECzęstochowa/Logo_PTE_pionowe_Czestochowa_0ab5a76b3d.png";
 
-export const KoalaWelcomeEmail = () => (
+export const KoalaWelcomeEmail = ({firstname,email,message,phone} : {firstname:string,email:string,message:string,phone:string}) => (
   <Html>
     <Head>
       <style>
@@ -88,13 +88,13 @@ export const KoalaWelcomeEmail = () => (
             </div>
             <ul style={UlStyle}>
               <li style={LiStyle}>
-                Imię i Nazwisko: <span> Jan Kowalski </span>
+                Imię i Nazwisko: <span> {firstname} </span>
               </li>
               <li style={LiStyle}>
-                Email: <span> test@gmail.com </span>
+                Email: <span> {email} </span>
               </li>
               <li style={LiStyle}>
-                Wiadomość: <span>Lorem ipsum, dolor sit amet...</span>
+                Wiadomość: <span>{message}</span>
               </li>
             </ul>
 
