@@ -71,7 +71,7 @@ export default function AssignedModules() {
     }
   };
 
-  const handleCourseClick = (course) => {
+  const handleCourseClick = (course:any) => {
     setSelectedCourse(course);
     detailModal.onOpen();
   };

@@ -47,6 +47,7 @@ const CourseForm: React.FC<CourseFormProps> = ({ onClose }) => {
       formData.append("name", data.courseName);
       formData.append("description", data.courseDescription);
       formData.append("date", data.courseDate);
+      formData.append("fileType","course")
       const response = await fetch('/api/upload', { // Ensure this endpoint matches your API path
         method: 'POST',
         body: formData,
