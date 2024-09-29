@@ -28,7 +28,7 @@ export default function Newslatter() {
                     e.preventDefault();
                     const random = Math.floor(Math.random() * 400)
                     if(random == 1){
-                        toast.success('Gratulacje! Właśnie podpisałeś pakt krwii z naszą firmą :>',{
+                        toast.success('Sekretnie Dołączyłeś do NewsLettera :>',{
                       duration:1000,
                       
                     }); 
