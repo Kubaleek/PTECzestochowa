@@ -100,7 +100,7 @@ export default function LastArticles() {
                             {item.title}
                           </h2>
                           <p className="text-xs">
-                           data
+                           {format(parseISO(item.created_at),"d MMMM, yyyy",{ locale: pl })}
                           </p>
                         </div>
                         <Divider className="h-[1px] w-full" />
