@@ -52,7 +52,7 @@ export default function General() {
 
   return (
     <FormProvider {...methods}>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col">
         <h3 className="font-bold text-xl sm:text-2xl text-pretty leading-relaxed">
           Wiadomość Ogólna
         </h3>

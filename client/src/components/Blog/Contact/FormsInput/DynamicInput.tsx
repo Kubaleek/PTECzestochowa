@@ -144,6 +144,7 @@ const DynamicFormInput = ({
             <input
               type="file"
               id={name}
+              name={name}
               style={{ display: 'none' }}
               onChange={handleFileChange}
               multiple
@@ -152,7 +153,7 @@ const DynamicFormInput = ({
             {error && <p className="text-red-500 font-semibold">{error.message}</p>}
             <div className="mt-2">
               {selectedFiles.length > 0 && (
-                <List className="border">
+                <List className="border  text-pretty break-words">
                   {selectedFiles.map((file, index) => (
                     <ListItem
                       key={index}
@@ -167,7 +168,7 @@ const DynamicFormInput = ({
                           <CloudUploadIcon />
                         </Avatar>
                       </ListItemAvatar>
-                      <ListItemText primary={file.name} secondary={`${(file.size / 1024).toFixed(2)} KB`} />
+                      <ListItemText  primary={file.name} secondary={`${(file.size / 1024).toFixed(2)} KB`} />
                     </ListItem>
                   ))}
                 </List>
