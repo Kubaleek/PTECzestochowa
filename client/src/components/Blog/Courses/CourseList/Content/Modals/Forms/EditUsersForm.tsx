@@ -17,7 +17,7 @@ type EditUsersFormData = {
   role: string; // Add role to the form data type
 };
 
-const EditUsersForm: React.FC<EditUsersFormProps> = ({ onClose,email }) => {
+const EditUsersForm: React.FC<EditUsersFormProps> = ({ onClose, email }) => {
   const methods = useForm<EditUsersFormData>();
   const {
     handleSubmit,
@@ -45,6 +45,7 @@ const EditUsersForm: React.FC<EditUsersFormProps> = ({ onClose,email }) => {
       username: data.fullname, // Assuming fullname is treated as the username
       role: data.role, // Pass the role as well
     });
+    window.location.reload()
     onClose();
   };
 
