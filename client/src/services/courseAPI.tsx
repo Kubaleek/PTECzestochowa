@@ -53,6 +53,9 @@ export const CourseExists = () => fetchData('/exists');
 export const AddCourse = (courseData: any) => 
   fetchData('/add', { method: 'POST', body: courseData });
 
+
+export const getCompletedCourses = (userID: string) => fetchData(`/getCompleted/${userID}`);
+
 // Edytowanie kursu
 export const EditCourse = (courseData: any) => 
   fetchData('/edit', {

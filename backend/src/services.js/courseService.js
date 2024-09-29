@@ -219,7 +219,16 @@ class CourseService {
       throw error;
     }
   }
+  async getCompletedCourses(userID){
+    try{
 
+    const [rows] = await pool.query("SELECT user_courses.id, courses.name AS course_name, user_courses.certificate, user_courses.course_status,user_courses.date_completed FROM user_courses JOIN courses ON courses.id = user_courses.course_id WHERE user_courses.course_status = 'Ukończony' AND user_courses.user_id = ?;",[userID]);
+      return rows;
+      } catch (error) {
+        console.error("Error detected at fetchgnig getCompletedCourses")
+        return error;
+      }
+  }
   async getCourses(){
     try{
       const [rows] = await pool.query("SELECT `id`, `name` FROM `courses`")

@@ -27,21 +27,27 @@ const saveBlacklist = async (req,res,next) => {
     res.json({data:data})
 }
 const EditUser = async (req, res, next) => {
-    const { email,username,role } = req.body;
-    const user = await authService.editUser(email,username,role);
-    if (username) {
-        res.status(200).json({
-            status: "success",
-            data: { user },
-            message: "User has been edited."
-        });
-    } else {
-        res.status(404).json({
-            status: "failed",
-            message: "Username not found."
-        });
+    const { new_email,email, username, role } = req.body;
+
+    try {
+        const user = await authService.editUser(new_email,email, username, role);
+        if (user) {
+            res.status(200).json({
+                status: "success",
+                data: { user },
+                message: "User has been edited."
+            });
+        } else {
+            res.status(404).json({
+                status: "failed",
+                message: "User not found."
+            });
+        }
+    } catch (error) {
+        next(error); // Handle error properly
     }
 };
+
 const createUser = async (req, res, next) => {
     try {
       await authService.createUser(req, res, next);

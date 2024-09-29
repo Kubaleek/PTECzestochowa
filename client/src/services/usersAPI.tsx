@@ -29,6 +29,9 @@ const fetchData = async (endpoint: string, options?: FetchOptions) => {
 
 export const GetAllUsers = () => fetchData('/users');
 export const CreateUser = (userData:any) => fetchData('/create-user', { method: 'POST', body: userData });
+export const Register = (userData:any) => fetchData('/register', { method: 'POST', body: userData });
 
 export const DeleteUser = (email: string) => 
   fetchData('/user/delete', { method: 'DELETE', body: { email } });
+export const EditUser = (new_email: string, email: string, username: string, role: string) => 
+  fetchData('/user/edit', { method: 'PUT', body: { new_email, email, username, role } });

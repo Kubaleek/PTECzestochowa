@@ -12,8 +12,26 @@ import {
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
+import { useCompletedCoursesQuery } from "@/services/courseHooks";
 
 export default function CompletedModule() {
+  const { data: session, status } = useSession(); // Use useSession to manage session state
+
+  const {
+    data: CourseResponse,
+    error,
+    isLoading,
+  } = useCompletedCoursesQuery(`${session?.user.id}`); // Fetch courses
+
+
+  const courses = CourseResponse?.data || [];
+
+
+
+  
+
+
+
   const CourseIcon = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +57,7 @@ export default function CompletedModule() {
           <h3 className="text-xl font-bold text-black gap-2 text-pretty leading-relaxed items-center flex place-items-center">
             Twoje Ukończone Szkolenia
             <span className="bg-green-700 text-white px-2 py-1 text-xs rounded-full">
-              0
+              {courses.length}
             </span>
           </h3>
           <p className="text-sm text-pretty leading-relaxed text-gray-700 text-justify text-clip">
@@ -50,42 +68,55 @@ export default function CompletedModule() {
         <Divider className="h-[1px] w-full" />
       </div>
       <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
-        <Card
-          shadow="lg"
-          className="bg-[#f5f1ec] border-2 border-[#333]/25 rounded"
-        >
-          <CardHeader className="flex flex-col justify-start sm:flex-row items-start gap-3">
-            <div className="flex flex-col gap-2">
-              <CourseIcon />
-              <div className="flex flex-col">
-                <p className="text-small font-medium text-justify">Test</p>
-                <p className="text-small text-default-500">Szkolenie #1</p>
-              </div>
+        {
+          courses.length > 0 ? (
+            courses.map((course) => (
+              <Card
+              key={course.id}
+              shadow="lg"
+              className="bg-[#f5f1ec] border-2 border-[#333]/25 rounded"
+            >
+              <CardHeader className="flex flex-col justify-start sm:flex-row items-start gap-3">
+                <div className="flex flex-col gap-2">
+                  <CourseIcon />
+                  <div className="flex flex-col">
+                    <p className="text-small font-medium text-justify">{course.course_name}</p>
+                    <p className="text-small text-default-500">Szkolenie #{course.id}</p>
+                  </div>
+                </div>
+              </CardHeader>
+              <Divider className="h-[1px] w-full" />
+              <CardBody className="flex flex-col gap-1">
+                <p className="flex flex-col">
+                  <strong>Status Szkolenia:</strong>{course.course_status}
+                </p>
+                <p className="flex flex-col">
+                    <strong>Data Ukończenia Szkolenia:</strong>
+                    {course.date_completed}
+                </p>
+                <p className="flex flex-col">
+                  <strong>Certyfikat:</strong>
+                  <Link
+                    href={`${course.certificate}`}
+                    color="success"
+                    className="text-green-800"
+                    size="sm"
+                  >
+                    {" "}
+                    Plik do Pobrania
+                  </Link>
+                </p>
+              </CardBody>
+            </Card>
+            )
+          )
+          ) : (
+            <div>
+              Niestety ale jeszcze nie ukończyłeś żadnego szkolenia
             </div>
-          </CardHeader>
-          <Divider className="h-[1px] w-full" />
-          <CardBody className="flex flex-col gap-1">
-            <p className="flex flex-col">
-              <strong>Status Szkolenia:</strong>Ukończony
-            </p>
-            <p className="flex flex-col">
-                <strong>Data Ukończenia Szkolenia:</strong>
-                25 września 2024
-            </p>
-            <p className="flex flex-col">
-              <strong>Certyfikat:</strong>
-              <Link
-                href={""}
-                color="success"
-                className="text-green-800"
-                size="sm"
-              >
-                {" "}
-                Plik do Pobrania
-              </Link>
-            </p>
-          </CardBody>
-        </Card>
+          )
+        }
+       
       </div>
     </>
   );

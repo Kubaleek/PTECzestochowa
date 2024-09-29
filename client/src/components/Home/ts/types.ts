@@ -158,3 +158,15 @@ export interface AssignDataResponse {
 export type CoursesResponse = Response<Course>;
 export type UsersResponse = Response<User>;
 export type UserCourseAssignmentResponse = Response<UserCourseAssignment>;
+type CompletedCourse = {
+  id: number;
+  course_name: string;
+  certificate: string | null; // It could be null if there's no certificate
+  course_status: string;
+  date_completed: string;
+};
+
+// Define the response structure
+export type CompletedCoursesResponse = {
+  data: CompletedCourse[];
+};

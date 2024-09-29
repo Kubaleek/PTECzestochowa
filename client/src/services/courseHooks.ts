@@ -14,6 +14,7 @@ import {
   DeleteCourseName,
   DeleteUserCourse,
   DeleteUserFromCourse,
+  getCompletedCourses,
 } from "./courseAPI";
 
 import {
@@ -21,6 +22,7 @@ import {
   UsersResponse,
   UserCourseAssignmentResponse,
   AssignDataResponse,
+  CompletedCoursesResponse,
 } from "../components/Home/ts/types";
 
 // Funkcja pomocnicza do tworzenia zapytań
@@ -39,6 +41,16 @@ export const useCoursesQuery = (
     staleTime: 60000,
     ...options,
   });
+  export const useCompletedCoursesQuery = (
+    userID: string,
+    options?: UseQueryOptions<CompletedCoursesResponse, Error>
+  ) =>
+    useQuery<CompletedCoursesResponse, Error>({
+      queryKey: ['completedCourses', userID], // Unique query key based on userID
+      queryFn: () => getCompletedCourses(userID), // Fetch the completed courses
+      staleTime: 60000, // Data is considered fresh for 1 minute
+      ...options, // Merge any additional options
+    });
   export const useGetAssignData = (
     options?: UseQueryOptions<AssignDataResponse, Error>
   ) =>

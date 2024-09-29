@@ -34,7 +34,17 @@ const getAllUsers = async (req, res, next) => {
         next(new AppError(error, 500));
     }
 };
+const getCompletedCourses = async (req,res,next)=>{
+    try{
+        const {userID} = req.params;
+        const courses = await courseService.getCompletedCourses(userID)
+        res.json({ data: courses });
 
+    }catch(error){
+        console.error("Error detected at fetching completed courses", error);
+        next(new AppError(error, 500));
+    }
+}
 const getCoursesWithUser = async (req, res, next) => {
     try {
         const courses = await courseService.getCoursesWithUser();
@@ -276,6 +286,7 @@ export const Controllers = {
     getCourse,
     courseExists,
     getUsersAndCourses,
+    getCompletedCourses,
     addCourse,
     getCoursesByUser,
     editCourse,

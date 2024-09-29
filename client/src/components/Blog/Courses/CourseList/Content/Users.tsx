@@ -135,7 +135,7 @@ export default function Users() {
                         Edytuj
                       </Button>
                       {/* Modal edycji użytkownika */}
-                      <EditUser editModal={editModal} user={selectedUser} />
+                      <EditUser email={selectedUser?.email} editModal={editModal} user={selectedUser} />
                       <Button
                         color="danger"
                         variant="flat"

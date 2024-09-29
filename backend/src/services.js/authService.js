@@ -168,26 +168,28 @@ class UserService {
       next(err);
     }
   }
-  async editUser(email,username,role) {
+  async editUser(new_email,email, username, role) {
     try {
-      const [rows] = await pool.query(
-        `UPDATE users SET 
-        email="", 
-        username="",
-        role="" 
-        WHERE email = ;`, 
-         [email,username,role,email]
-      );
+        const [result] = await pool.query(
+            `UPDATE users SET 
+            email = ?, 
+            username = ?, 
+            role = ? 
+            WHERE email = ?`, 
+            [new_email, username, role, email] // Correctly passing the parameters
+        );
 
-      if (rows.length > 0) {
-        return rows[0];
-      }
-      return null;
+        // Check if any rows were affected (i.e., the user was found and updated)
+        if (result.affectedRows > 0) {
+            return { email, username, role }; // Return the updated user data or desired response
+        }
+        return null; // If no rows were affected, the user was not found
     } catch (error) {
-      console.error("Error detected at editing username");
-      throw error;
+        console.error("Error detected at editing user:", error);
+        throw error; // Re-throw the error for handling in the controller
     }
-  }
+}
+
   async getUserByRole(role='użytkownik'){
     try{
       const [rows] = await pool.query("SELECT `id`, `username`, `role` FROM `users` WHERE `role` = ?",[role])
@@ -207,7 +209,7 @@ class UserService {
     }
   }
   async register(req, res, next) {
-    const { email, username, password,role } = req.body;
+    const { email, username, password } = req.body;
 
     try {
       const existingUser = await this.findOne(email);

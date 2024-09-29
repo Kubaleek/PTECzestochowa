@@ -15,13 +15,14 @@ type AssignCourseFormProps = {
 type AssignCourseFormData = {
   userId: number;
   courseId: number;
-  certificate: string;
+  certificate: FileList;
   status: string;
-  dateCompleted: FileList;
+  dateCompleted: string;
 };
 
 const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
   const [courseStatus, setCourseStatus] = useState<string>("");
+
   const methods = useForm<AssignCourseFormData>();
   const {
     handleSubmit,
@@ -29,30 +30,69 @@ const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
     control,
     register,
   } = methods;
+
   const { data, error, isLoading } = useGetAssignData(); // Fetch courses
   const { mutate: assignCourse } = useAssignMutation({
     onSuccess: () => {
-      // Zaktualizuj cache lub wyświetl powiadomienie o sukcesie
       console.log("Kurs dodany pomyślnie");
     },
     onError: (error) => {
       console.error("Wystąpił błąd podczas dodawania kursu:", error);
     },
   });
+
   const courses = data?.courses || [];
   const users = data?.user || [];
 
-  const onSubmit = (data: AssignCourseFormData) => {
-    assignCourse({
-      userId: data.userId,
-      courseId: data.courseId,
-      certificate: "test.png",
-      status: data.status,
-      dateCompleted: "21 Września 2024",
-    });
-    console.log("Test");
-    onClose();
-    window.location.reload();
+  const onSubmit = async (data: AssignCourseFormData) => {
+    const certificateFile = data.certificate?.[0]; // Get the first file from the list
+    
+    // Step 1: Upload the certificate if it exists
+    let certificatePath = "";
+    if (certificateFile && courseStatus === "Ukończony") {
+      try {
+        // Create FormData object for file upload
+        const formData = new FormData();
+        formData.append("file", certificateFile);
+        formData.append("fileType", "certificate"); // Specifying it's a certificate
+
+        // Send the file to the upload API
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const res = await response.json();
+
+        // Check if the file upload was successful
+        if (!res.success || !res.filePath) {
+          console.error("File upload failed:", res.message);
+          return;
+        }
+
+        // Save the file path for later use
+        certificatePath = res.filePath;
+      } catch (e) {
+        console.error("Error during file upload:", e);
+        return;
+      }
+    }
+
+    // Step 2: Assign course after file upload (if applicable)
+    try {
+      assignCourse({
+        userId: data.userId,
+        courseId: data.courseId,
+        certificate: certificatePath || "", // Use the uploaded file path or empty string
+        status: data.status,
+        dateCompleted: "21 Września 2024", // Adjust date format as needed
+      });
+
+      onClose(); // Close the modal after successful assignment
+      window.location.reload(); // Reload the page to reflect changes
+    } catch (e) {
+      console.error("Error in course assignment:", e);
+    }
   };
 
   return (
@@ -69,6 +109,7 @@ const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
             ))}
           </Select>
         </FormControl>
+
         <FormControl variant="standard" color="success" fullWidth>
           <InputLabel htmlFor="userId">Wybierz Użytkownika</InputLabel>
           <Select id="userId" native {...register("userId")}>
@@ -80,15 +121,23 @@ const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
             ))}
           </Select>
         </FormControl>
+
         <FormControl variant="standard" color="success" fullWidth>
           <InputLabel htmlFor="status">Status Ukończenia</InputLabel>
-          <Select id="status" native {...register("status")}>
+          <Select
+            id="status"
+            native
+            {...register("status")}
+            value={courseStatus}
+            onChange={(e) => setCourseStatus(e.target.value)}
+          >
             <option aria-label="None" value="" />
             <option value="Nieukończony">Nieukończony</option>
             <option value="Ukończony">Ukończony</option>
           </Select>
         </FormControl>
 
+        {/* Render certificate input only when the status is "Ukończony" */}
         {courseStatus === "Ukończony" && (
           <DynamicFormInput
             label="Certyfikat Ukończenia Szkolenia"
@@ -100,6 +149,7 @@ const AssignFormCourse: React.FC<AssignCourseFormProps> = ({ onClose }) => {
             type="file"
           />
         )}
+
         <div className="justify-end flex items-center py-4">
           <Button
             type="submit"

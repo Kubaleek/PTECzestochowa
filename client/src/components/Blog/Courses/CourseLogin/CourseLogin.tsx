@@ -11,15 +11,16 @@ import {
   CardBody,
   Button,
 } from "@nextui-org/react";
+import { useRegisterMutation } from "@/services/usersHook";
 
 type LoginFormInputs = {
-  fullname: string;
+  username: string;
   email: string;
   password: string;
 };
 
 type RegisterFormInputs = {
-  fullname: string;
+  username: string;
   email: string;
   password: string;
 };
@@ -34,7 +35,15 @@ export const CoursesLogin = () => {
   } = methods;
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
+  const { mutate: doRegister } = useRegisterMutation({
+    onSuccess: () => {
+      // Zaktualizuj cache lub wyświetl powiadomienie o sukcesie
+      console.log("rejestracja przebiegła pomyślnie");
+    },
+    onError: (error) => {
+      console.error("Wystąpił błąd podczas rejestracji:", error);
+    },
+  });
   const onSubmit = async (data: LoginFormInputs) => {
     setIsLoading(true);
 
@@ -55,14 +64,12 @@ export const CoursesLogin = () => {
 
   const onSubmitRegister = async (data: RegisterFormInputs) => {
     setIsLoading(true);
-
-    // Your registration logic here
+    await doRegister(data); // Wait for the mutation to complete
     console.log("Rejestracja:", data);
-
     setIsLoading(false);
     router.push("/kursy?id=51");
+    window.location.reload()
   };
-
   return (
     <FormProvider {...methods}>
       <div className="w-full max-w-5xl bg-white shadow-lg flex flex-col lg:flex-row mb-4 border border-[#333]/50 rounded">
@@ -157,8 +164,8 @@ export const CoursesLogin = () => {
                   placeholder="Wpisz swoje Imię i Nazwisko"
                   register={register}
                   validation={{ required: "Imię i Nazwisko jest wymagane" }}
-                  error={errors.fullname}
-                  name="fullname"
+                  error={errors.username}
+                  name="username"
                   control={control}
                   type="text"
                 />

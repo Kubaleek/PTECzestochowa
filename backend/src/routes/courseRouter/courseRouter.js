@@ -29,6 +29,7 @@ const {
     deleteUsername,
     deleteCourseName,
     getUsersFinal,
+    getCompletedCourses,
     getCoursesByUser,
     deleteUserFromCourse,
     isCourseAssigned,
@@ -40,7 +41,7 @@ const courseRouter = express.Router();
 courseRouter.get(`${data.courses}/all`, getAllCourses);
 courseRouter.get(`${data.courses}/with-users`, getUsersFinal);
 courseRouter.get(`${data.courses}/getAssignData`, getUsersAndCourses);
-
+courseRouter.get(`${data.courses}/getCompleted/:userID`,getCompletedCourses);
 courseRouter.delete(`${data.courses}/delete/:id`, deleteCourse);
 //courseRouter.get(`${data.courses}/with-users`, getCoursesWithUser);
 courseRouter.get(`${data.users}/check-activity/:userID`, checkUserActivity);

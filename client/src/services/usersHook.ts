@@ -8,7 +8,7 @@ import {
   User,
   Users,
 } from "../components/Home/ts/types";
-import { CreateUser, DeleteUser, GetAllUsers } from "./usersAPI";
+import { CreateUser, DeleteUser, EditUser, GetAllUsers, Register } from "./usersAPI";
 
 const createQueryFn =
   <T>(fn: () => Promise<T>) =>
@@ -31,6 +31,14 @@ const createQueryFn =
         mutationFn: async (userData: any) => await CreateUser(userData),
         ...options,
       });
+      export const useRegisterMutation = (
+        options?: UseMutationOptions<any, Error, any>
+      ) =>
+        useMutation({
+          mutationFn: async (userData: any) => await Register(userData),
+          ...options,
+        });
+     
 
       export const useDeleteUserMutation = (
         options?: UseMutationOptions<any, Error, string>
@@ -46,3 +54,17 @@ const createQueryFn =
           },
           ...options,
         });
+        export const useEditUserMutation = (
+          options?: UseMutationOptions<any, Error, { new_email: string; email: string; username: string; role: string }>
+      ) => 
+          useMutation({
+              mutationFn: async ({ new_email, email, username, role }) => {
+                  const response = await EditUser(new_email, email, username, role);
+                  if (response.ok) {
+                      return response.json(); // Handle success response
+                  } else {
+                      throw new Error(response.statusText); // Handle error
+                  }
+              },
+              ...options,
+          });
