@@ -55,7 +55,7 @@ export const KoalaWelcomeEmail = ({
       <Container>
         <Section style={content}>
           <h1 style={{ fontSize: "18px", margin: "0" }}>
-            Zgłoszenie na kongres
+            Kursy
           </h1>
           <p style={{ fontSize: "14px", margin: "0", fontWeight: "400" }}>
             Szczegóły Wiadomości:
@@ -63,19 +63,13 @@ export const KoalaWelcomeEmail = ({
 
           <ul>
             <li>
-              Forma grzecznościowa: <strong></strong>
+              Tematyka Kursu: <strong></strong>
             </li>
             <li>
-              Stopień akademicki: <strong></strong>
+              Imię i Nazwisko: <strong></strong>
             </li>
             <li>
-              Imię i Nazwisko <strong></strong>
-            </li>
-            <li>
-              Drugie Imie: <strong></strong>
-            </li>
-            <li>
-              Przynależność: <strong></strong>
+              Email: <strong></strong>
             </li>
           </ul>
 
