@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     { name: 'Kuba `Kubalek` Król' },
     { name: 'danyPL' },
   ],
-  keywords: 'PTE, Polskie Towarzystwo Ekonomiczne, Ekonomia, Strona Internetowa, Biznes, Podstawy Przedsiębiorczości',
+  keywords: 'PTE, Polskie Towarzystwo Ekonomiczne, Polskie Towarzystwo Ekonomiczne Oddział w Częstochowie,  Ekonomia, Strona Internetowa, Biznes, Podstawy Przedsiębiorczości',
   robots: 'index,follow',
 };
 
