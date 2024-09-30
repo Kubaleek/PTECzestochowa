@@ -69,7 +69,7 @@ export const KoalaWelcomeEmail = ({
               Stopień akademicki: <strong></strong>
             </li>
             <li>
-              Imię i Nazwisko <strong></strong>
+              Imię i Nazwisko: <strong></strong>
             </li>
             <li>
               Drugie Imie: <strong></strong>
