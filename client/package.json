@@ -26,6 +26,7 @@
     "cookie": "^0.6.0",
     "date-fns": "^3.6.0",
     "deepmerge": "^4.3.1",
+    "formidable": "^3.5.1",
     "framer-motion": "^11.3.27",
     "fs": "^0.0.1-security",
     "next": "14.2.5",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@types/cookie": "^0.6.0",
+    "@types/formidable": "^3.4.5",
     "@types/node": "^22.5.4",
     "@types/react": "^18.3.3",
     "eslint": "^8",

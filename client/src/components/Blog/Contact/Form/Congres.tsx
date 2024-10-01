@@ -57,14 +57,85 @@ export default function Congres() {
   const methods = useForm<FormData>();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [loading, setLoading] = useState(false);
-
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     setLoading(true);
+    const formData = new FormData();
+
+    // Append data to FormData
+    Object.keys(data).forEach((key) => {
+      const value = data[key];
+      // Handle file uploads separately
+      if (key.startsWith('file') && value.length > 0) {
+        formData.append(key, value[0]); // Append only the first file
+      } else {
+        formData.append(key, value);
+      }
+    });
+
+    try {
+      // Upload files
+      const response = await fetch('/api/uploadCongressFiles', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json(); // Parse response
+
+      if (result.success) {
+        // Send email with the data
+        const emailResponse = await fetch("/api/mail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            type: 'congress',
+            email: data.email,
+            userFirstname: data.fullname,
+            message: data.message,
+            phone: data.phone,
+            title: data.academicDegree,
+            affiliation: data.affiliation, // Fixed spelling
+            presentationTopic: data.publicationTitle,
+            publicationSummary: data.publicationSummary,
+            institutionName: data.institutionName,
+            streetName: data.streetName,
+            propertyNumber: data.propertyNumber,
+            regionalNumber: data.regionalNumber,
+            postalCode: data.postalCode,
+            city: data.city,
+            taxId: data.taxIdentifier,
+            savedFiles: result.savedFiles || [], // Assuming savedFiles are returned in result
+          }),
+        });
+
+        const emailResult = await emailResponse.json();
+
+        // Log email response for debugging
+        console.log("Email response:", emailResult);
+
+        if (emailResult.success) {
+          toast.success("Zgłoszenie zostało wysłane i e-mail potwierdzający został wysłany!");
+        } else {
+          toast.error(`Błąd przy wysyłaniu e-maila: ${emailResult.message || "Nieznany błąd"}`);
+        }
+      } else {
+        toast.error(`Błąd przy przesyłaniu plików: ${result.message || "Nieznany błąd"}`);
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast.error("Wystąpił problem z wysłaniem zgłoszenia.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onSaveInvoices: SubmitHandler<FormData> = async (data) => {
-    
+    console.log("Invoice data saved:", data);
+    toast.success("Dane faktury zostały zapisane!");
+    onOpenChange(); // Close the modal after saving
   };
+
 
   const {
     handleSubmit,

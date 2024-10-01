@@ -4,51 +4,78 @@ import {
   Head,
   Hr,
   Html,
-  Img,
   Section,
   Text,
 } from "@react-email/components";
-import { color } from "framer-motion";
 import * as React from "react";
+
+interface KoalaWelcomeEmailProps {
+  email: string;
+  firstname: string;
+  message: string;
+  phone: string;
+  title: string;
+  academicDegree: string;
+  affiliation: string;
+  courtesy: string;
+  middleName: string;
+  presentationTopic: string;
+  publicationSummary: string;
+  institutionName: string;
+  streetName: string;
+  propertyName: string;
+  regionName: string;
+  postalCode: string;
+  city: string;
+  taxId: string;
+  fileLinks?: string;
+}
 
 export const KoalaWelcomeEmail = ({
   firstname,
   email,
   message,
   phone,
-}: {
-  firstname: string;
-  email: string;
-  message: string;
-  phone: string;
-}) => (
+  title,
+  academicDegree,
+  affiliation,
+  courtesy,
+  middleName,
+  presentationTopic,
+  publicationSummary,
+  institutionName,
+  streetName,
+  propertyName,
+  regionName,
+  postalCode,
+  city,
+  taxId,
+  fileLinks,
+}: KoalaWelcomeEmailProps) => (
   <Html>
     <Head>
       <style>
         {`
-              * {
-                color: !important #333;
-              }
-              ul {
-                font-size: 0.85rem;
-                list-style-type: square;
-                padding-left: 1.25rem;
-              }
-    
-              li {
-                margin-bottom: 0.5rem;
-              }
-    
-              @media only screen and (max-width: 600px) {
-                h1 {
-                  font-size: 16px;
-                }
-    
-                ul {
-                  font-size: 0.75rem;
-                }
-              }
-            `}
+          * {
+            color: #333 !important;
+          }
+          ul {
+            font-size: 0.85rem;
+            list-style-type: square;
+            padding-left: 1.25rem;
+          }
+          li {
+            margin-bottom: 0.5rem;
+          }
+          @media only screen and (max-width: 600px) {
+            h1 {
+              font-size: 16px;
+            }
+            ul {
+              font-size: 0.75rem;
+            }
+          }
+        `}
       </style>
     </Head>
     <Body style={main}>
@@ -63,59 +90,64 @@ export const KoalaWelcomeEmail = ({
 
           <ul>
             <li>
-              Forma grzecznościowa: <strong></strong>
+              Forma grzecznościowa: <strong>{courtesy}</strong>
             </li>
             <li>
-              Stopień akademicki: <strong></strong>
+              Stopień akademicki: <strong>{academicDegree}</strong>
             </li>
             <li>
-              Imię i Nazwisko: <strong></strong>
+              Imię i Nazwisko: <strong>{firstname} {title}</strong>
             </li>
             <li>
-              Drugie Imie: <strong></strong>
+              Drugie Imię: <strong>{middleName}</strong>
             </li>
             <li>
-              Przynależność: <strong></strong>
+              Przynależność: <strong>{affiliation}</strong>
             </li>
             <li>
-              Tytuł Publikacji: <strong></strong>
+              Tytuł Publikacji: <strong>{title}</strong>
             </li>
             <li>
-              Tematyka Prezentacji: <strong></strong>
+              Tematyka Prezentacji: <strong>{presentationTopic}</strong>
             </li>
             <li>
-              Podsumowanie Publikacji: <strong></strong>
+              Podsumowanie Publikacji: <strong>{publicationSummary}</strong>
             </li>
             <li>
-              Email: <strong></strong>
+              Email: <strong>{email}</strong>
             </li>
             <li>
-              Telefon: <strong></strong>
+              Telefon: <strong>{phone}</strong>
             </li>
             <li>
-              Nazwa instytucji lub nazwa płatnika: <strong></strong>
+              Nazwa instytucji lub nazwa płatnika: <strong>{institutionName}</strong>
             </li>
             <li>
-              Nazwa ulicy: <strong></strong>
+              Nazwa ulicy: <strong>{streetName}</strong>
             </li>
             <li>
-              Nazwa majątku: <strong></strong>
+              Nazwa majątku: <strong>{propertyName}</strong>
             </li>
             <li>
-              Nazwa regionalny: <strong></strong>
+              Nazwa regionalny: <strong>{regionName}</strong>
             </li>
             <li>
-              Kod pocztowy: <strong></strong>
+              Kod pocztowy: <strong>{postalCode}</strong>
             </li>
             <li>
-              Miasto: <strong></strong>
+              Miasto: <strong>{city}</strong>
             </li>
             <li>
-              Identyfikator podatkowy: <strong></strong>
+              Identyfikator podatkowy: <strong>{taxId}</strong>
             </li>
             <li>
-              Wiadomość: <strong></strong>
+              Wiadomość: <strong>{message}</strong>
             </li>
+            {fileLinks && (
+              <li>
+                Linki do plików: <span dangerouslySetInnerHTML={{ __html: fileLinks }} />
+              </li>
+            )}
           </ul>
 
           <Hr style={{ borderColor: "green", opacity: "35%" }} />
@@ -145,8 +177,6 @@ export const KoalaWelcomeEmail = ({
     </Body>
   </Html>
 );
-
-export default KoalaWelcomeEmail;
 
 const main = {
   backgroundColor: "#ffffff",

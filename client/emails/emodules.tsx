@@ -16,11 +16,14 @@ export const KoalaWelcomeEmail = ({
   email,
   message,
   phone,
+  fileLinks
 }: {
   firstname: string;
   email: string;
   message: string;
   phone: string;
+  fileLinks?: string; // Add this line to include fileLinks
+
 }) => (
   <Html>
     <Head>
