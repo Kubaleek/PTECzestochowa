@@ -1,83 +1,126 @@
-import { writeFile } from "fs/promises";
-import { NextRequest, NextResponse } from "next/server";
-import path from "path";
-import formidable from "formidable";
+import { render } from "@react-email/render";
+import { Resend } from "resend";
+import CoursesEmail from "../../../../emails/emodules";
+import GeneralEmail from "../../../../emails/index";
+import { KoalaWelcomeEmail } from "../../../../emails/econgres";
 
-// Handle file upload in the POST method
-export async function POST(request: NextRequest) {
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function POST(request: Request) {
   try {
-    // Parse the incoming form data
-    const form = formidable({ multiples: true }); // This allows multiple file uploads
-    const data = await new Promise((resolve, reject) => {
-      form.parse(request.body, (err, fields, files) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve({ fields, files });
-        }
-      });
-    });
+    const {
+      type,
+      email,
+      firstname,
+      message,
+      phone,
+      title,
+      academicDegree,
+      affiliation,
+      courtesy,
+      middleName,
+      presentationTopic,
+      publicationSummary,
+      institutionName,
+      streetName,
+      propertyName,
+      regionName,
+      postalCode,
+      city,
+      taxId,
+      savedFiles // Ścieżki zapisanych plików
+    } = await request.json();
 
-    const email = data.fields.email as string; // Unique user email
-    const files = data.files;
+    let emailContent;
 
-    const savedFiles: string[] = [];
+    // Type the savedFiles as an array of strings
+    const fileLinks = (savedFiles as string[]).map((file: string) => 
+      `<a href="${process.env.BASE_URL}/public/uploads/${email}/${file.split('/').pop()}">${file.split('/').pop()}</a>`
+    ).join('<br/>');
 
-    // Iterate through uploaded files
-    for (const fileKey in files) {
-      const file = files[fileKey];
+    // Wybór odpowiedniej wiadomości w zależności od typu
+    switch (type) {
+      case "congress":
+        emailContent = KoalaWelcomeEmail({
+          email,
+          firstname,
+          message,
+          phone,
+          title,
+          academicDegree,
+          affiliation,
+          courtesy,
+          middleName,
+          presentationTopic,
+          publicationSummary,
+          institutionName,
+          streetName,
+          propertyName,
+          regionName,
+          postalCode,
+          city,
+          taxId,
+          fileLinks, // Dodanie linków do wiadomości
+        });
+        break;
 
-      if (Array.isArray(file)) {
-        for (const f of file) {
-          await saveFile(f, email, savedFiles);
-        }
-      } else {
-        await saveFile(file, email, savedFiles);
-      }
+      case "courses":
+        emailContent = CoursesEmail({
+          email,
+          firstname,
+          message,
+          phone,
+          fileLinks // Dodanie linków do wiadomości
+        });
+        break;
+
+      default:
+        emailContent = GeneralEmail({
+          email,
+          firstname,
+          message,
+          phone,
+          fileLinks // Dodanie linków do wiadomości
+        });
+        break;
     }
 
-    // Generate URLs for email attachments
-    const publicURLs = savedFiles.map((filePath) => {
-      const fileName = path.basename(filePath);
-      return `${process.env.BASE_URL}/public/uploads/${email}/${fileName}`;
+    // Przygotowanie ścieżek do załączników
+    const attachmentPaths = (savedFiles as string[]).map((file: string) => {
+      const fileName = file.split('/').pop();
+      const filePath = `${process.env.BASE_URL}/uploads/${email}/${fileName}`;
+      return {
+        filename: fileName,
+        path: filePath
+      };
     });
+    
+    // Logowanie ścieżek załączników do debugowania
+    console.log("Attachment paths:", attachmentPaths);
+    
+    const { data, error } = await resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
+      to: [email],
+      subject: `Thank you for your ${type} submission`,
+      html: render(emailContent),
+      attachments: attachmentPaths,
+    });
+    
+    // Obsługa błędów
+    if (error) {
+      throw new Error(`Error sending email: ${error.message || "Unknown error"}`);
+    }
 
-    return NextResponse.json({
-      success: true,
-      message: "Files uploaded successfully.",
-      savedFiles: publicURLs,
+    // Sukces
+    return new Response(JSON.stringify({ message: "Email sent successfully" }), {
+      status: 200,
     });
   } catch (error) {
-    console.error("Error uploading files:", error);
-    return NextResponse.json({ success: false, message: "Error uploading files." });
-  }
-}
-
-// Helper function to save files
-async function saveFile(file: formidable.File, email: string, savedFiles: string[]) {
-  const bytes = await file.a();
-  const buffer = Buffer.from(bytes);
-
-  // File path with user's unique email
-  const filePath = path.join(
-    process.cwd(),
-    "public",
-    "uploads",
-    email,
-    file.name
-  );
-
-  // Ensure the folder exists
-  await createFolderIfNotExists(path.dirname(filePath));
-
-  await writeFile(filePath, buffer);
-  savedFiles.push(filePath); // Save the local file path
-}
-
-// Function to create the folder if it does not exist
-async function createFolderIfNotExists(dir: string) {
-  const fs = require("fs");
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+    console.error("Error:", error);
+    // Cast the error to a known type to access the message
+    const errorMessage = (error as Error).message || "Unknown error";
+    return new Response(JSON.stringify({ error: "Failed to send email", err: errorMessage }), {
+      status: 500,
+    });
   }
 }

@@ -63,64 +63,58 @@ export default function Congres() {
 
     // Append data to FormData
     Object.keys(data).forEach((key) => {
-      const value = data[key];
+      const value = data[key as keyof FormData]; // Type assertion here
       // Handle file uploads separately
-      if (key.startsWith('file') && value.length > 0) {
+      if (key.startsWith('file') && value instanceof FileList && value.length > 0) {
         formData.append(key, value[0]); // Append only the first file
       } else {
-        formData.append(key, value);
+        formData.append(key, String(value)); // Convert value to string if not a file
       }
     });
 
     try {
-      // Upload files
-      const response = await fetch('/api/uploadCongressFiles', {
-        method: 'POST',
+      const response = await fetch("/api/uploadCongressFiles", {
+        method: "POST",
         body: formData,
       });
 
-      const result = await response.json(); // Parse response
-
+      const results = await response.json();
+      // Upload files
+      const emailResponse = await fetch("/api/mail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          type: 'congress',
+          email: data.email,
+          userFirstname: data.fullname,
+          message: data.message,
+          phone: data.phone,
+          title: data.AcademicDegree,
+          affiliation: data.affilation, // Fixed spelling
+          presentationTopic: data.publicationtitle,
+          publicationSummary: data.publicationSummary,
+          institutionName: data.institutionName,
+          streetName: data.streetName,
+          propertyNumber: data.propertyNumber,
+          regionalNumber: data.regionalNumber,
+          postalCode: data.postalCode,
+          city: data.city,
+          taxId: data.taxIdentifier,
+          savedFiles: results.savedFiles || [], // Assuming savedFiles are returned in result
+        }),
+      });
+    
+      const result = await emailResponse.json(); // Correctly get the JSON response
+    
+      // Log email response for debugging
+      console.log("Email response:", result);
+    
       if (result.success) {
-        // Send email with the data
-        const emailResponse = await fetch("/api/mail", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            type: 'congress',
-            email: data.email,
-            userFirstname: data.fullname,
-            message: data.message,
-            phone: data.phone,
-            title: data.academicDegree,
-            affiliation: data.affiliation, // Fixed spelling
-            presentationTopic: data.publicationTitle,
-            publicationSummary: data.publicationSummary,
-            institutionName: data.institutionName,
-            streetName: data.streetName,
-            propertyNumber: data.propertyNumber,
-            regionalNumber: data.regionalNumber,
-            postalCode: data.postalCode,
-            city: data.city,
-            taxId: data.taxIdentifier,
-            savedFiles: result.savedFiles || [], // Assuming savedFiles are returned in result
-          }),
-        });
-
-        const emailResult = await emailResponse.json();
-
-        // Log email response for debugging
-        console.log("Email response:", emailResult);
-
-        if (emailResult.success) {
-          toast.success("Zgłoszenie zostało wysłane i e-mail potwierdzający został wysłany!");
-        } else {
-          toast.error(`Błąd przy wysyłaniu e-maila: ${emailResult.message || "Nieznany błąd"}`);
-        }
+        toast.success("Zgłoszenie zostało wysłane i e-mail potwierdzający został wysłany!");
       } else {
-        toast.error(`Błąd przy przesyłaniu plików: ${result.message || "Nieznany błąd"}`);
+        toast.error(`Błąd przy wysyłaniu e-maila: ${result.message || "Nieznany błąd"}`);
       }
     } catch (error) {
       console.error("Submission error:", error);
