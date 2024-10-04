@@ -1,5 +1,5 @@
 "use client"; // Ensure this component uses client-side rendering
-
+import React from "react";
 import { CoursesLogin } from "./CourseLogin/CourseLogin";
 import { useSession } from "next-auth/react"; // Import useSession
 import Panel from "./CourseList/Panel";
