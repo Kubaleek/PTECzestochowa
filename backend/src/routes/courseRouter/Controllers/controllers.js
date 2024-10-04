@@ -34,7 +34,17 @@ const getAllUsers = async (req, res, next) => {
         next(new AppError(error, 500));
     }
 };
+const getCompletedCourses = async (req,res,next)=>{
+    try{
+        const {userID} = req.params;
+        const courses = await courseService.getCompletedCourses(userID)
+        res.json({ data: courses });
 
+    }catch(error){
+        console.error("Error detected at fetching completed courses", error);
+        next(new AppError(error, 500));
+    }
+}
 const getCoursesWithUser = async (req, res, next) => {
     try {
         const courses = await courseService.getCoursesWithUser();
@@ -44,7 +54,65 @@ const getCoursesWithUser = async (req, res, next) => {
         next(new AppError(error, 500));
     }
 };
+const getUsersFromCourse = async (req,res,next)=>{
+    try{
+        const {courseID} = req.body;
+        const courses = await courseService.getUsersFromCourse(courseID);
+        res.json({ data: courses });
+    }catch (error) {
+        console.error("Error detected at fetching users from course", error);
+        next(new AppError(error, 500));
+    }
+}
+const deleteUserFromCourse = async (req,res,next)=>{
+    try{
+        const {courseID,userID} = req.body;
+         await courseService.deleteUserFromCourse(userID,courseID);
+        res.json({ status: "success",message:"user from course has been removed"  });
+    }catch (error) {
+        console.error("Error detected at fetching users from course", error);
+        next(new AppError(error, 500));
+    }
+}
+const getUsersFinal = async (req, res, next) => {
+    try {
+      // Step 1: Fetch all courses with assigned users
+      const courses = await courseService.getCoursesWithUser();
+      // Step 2: Initialize an array to store the courses along with their users
+      const coursesWithUsers = [];
+      const uniqueCourseIds = new Set(); // Create a set to store unique course IDs
 
+      for (const course of courses) {
+        if (!uniqueCourseIds.has(course.course_id)) { // Check if the course ID is not already in the set
+            uniqueCourseIds.add(course.course_id); // Add the course ID to the set
+            const users = await courseService.getUsersFromCourse(course.course_id); // Fetch users by course ID
+            coursesWithUsers.push({
+              ...course,        // Spread course details
+              users: users      // Add users list to the course object
+            });
+          }
+      }
+
+      res.json({
+        data:coursesWithUsers,
+      });
+  
+    } catch (error) {
+      console.error("Error detected while fetching courses with their users:", error);
+      next(new AppError(error, 500)); // Error handling
+    }
+  };
+  
+const getCoursesByUser = async (req, res, next) => {
+    try {
+        const {userID} = req.params;
+        const courses = await courseService.getCourseByUser(userID);
+        res.json({ data: courses });
+    } catch (error) {
+        console.error("Error detected at fetching courses with users", error);
+        next(new AppError(error, 500));
+    }
+};
 const checkUserActivity = async (req, res, next) => {
     try {
         const { userID } = req.params;
@@ -70,6 +138,26 @@ const getCourseName = async (req, res, next) => {
         next(new AppError(error, 500));
     }
 };
+const getCourse = async (req, res, next) => {
+    try {
+        const { courseId } = req.params;
+        const courseName = await courseService.getCourse(courseId);
+        res.json({ data: courseName });
+    } catch (error) {
+        console.error("Error detected at fetching course name", error);
+        next(new AppError(error, 500));
+    }
+};
+const getUsersAndCourses = async (req, res, next) => {
+    try {
+        const courses = await courseService.getCourses();
+        const users = await courseService.getAllUsers();
+        res.json({ courses:courses,user:users });
+    } catch (error) {
+        console.error("Error detected at fetching course name", error);
+        next(new AppError(error, 500));
+    }
+};
 
 const courseExists = async (req, res, next) => {
     try {
@@ -84,25 +172,44 @@ const courseExists = async (req, res, next) => {
 
 const addCourse = async (req, res, next) => {
     try {
-        const { name, date, description, link } = req.body;
-        const result = await courseService.addCourse(name, date, description, link);
-        res.json({ success: result });
+        // Access fields from the request body and file
+        const { name, description, date,file } = req.body;
+        const link = req.file?.path; // Get file path from multer upload
+
+        console.log('Received body:', req.body);
+
+
+
+        // Call the service method to insert into the database
+        const result = await courseService.addCourse(name, date, description, file);
+
+        if (result) {
+            return res.json({ success: true, message: 'Course added successfully!' });
+        } else {
+            return res.status(500).json({ success: false, message: 'Failed to add course.' });
+        }
     } catch (error) {
-        console.error("Error detected at adding course", error);
-        next(new AppError(error, 500));
+        console.error("Error in addCourse:", error);
+        next(new AppError(error.message, 500));
     }
 };
 
+  
+  
+
 const editCourse = async (req, res, next) => {
     try {
-        const course = req.body;
-        const result = await courseService.getEditCourse(course);
-        res.json({ success: result });
+      const course = req.body; // The course object containing all course data
+      const courseId = req.params.id || course.id; // Fetch courseId from either route params or course body
+  
+      const result = await courseService.EditCourse(course, courseId); // Pass both course and courseId
+      res.json({ success: result, data: course });
     } catch (error) {
-        console.error("Error detected at editing course", error);
-        next(new AppError(error, 500));
+      console.error("Error detected while editing course:", error);
+      next(new AppError(error, 500));
     }
-};
+  };    
+  
 
 const editUpdateCourse = async (req, res, next) => {
     try {
@@ -158,7 +265,6 @@ const assignCourse = async (req, res, next) => {
         next(new AppError(error, 500));
     }
 };
-
 const deleteUserCourse = async (req, res, next) => {
     try {
         const { userCourseId } = req.params;
@@ -177,13 +283,20 @@ export const Controllers = {
     getCoursesWithUser,
     checkUserActivity,
     getCourseName,
+    getCourse,
     courseExists,
+    getUsersAndCourses,
+    getCompletedCourses,
     addCourse,
+    getCoursesByUser,
     editCourse,
+    getUsersFinal,
     editUpdateCourse,
+    deleteUserFromCourse,
     deleteUsername,
     deleteCourseName,
     isCourseAssigned,
     assignCourse,
     deleteUserCourse,
+    getUsersFromCourse
 };

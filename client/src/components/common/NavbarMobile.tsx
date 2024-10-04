@@ -47,7 +47,8 @@ const AnimatedHamburgerButton: React.FC<{
     animate={isMobileMenuOpen ? "open" : "closed"}
     onClick={() => setMobileMenuOpen((prev) => !prev)}
     className="relative h-20 w-20 rounded-full bg-white/0 transition-colors hover:bg-white/20"
-    aria-label="Menu">
+    aria-label="Menu"
+  >
     <motion.span
       variants={VARIANTS.top}
       className="absolute h-[2px] w-10 bg-[#178223]"
@@ -66,13 +67,16 @@ const AnimatedHamburgerButton: React.FC<{
   </motion.button>
 );
 
-const MobileMenu: React.FC<{ isOpen: boolean; setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>; }> = ({ isOpen, setMobileMenuOpen }) => {
+const MobileMenu: React.FC<{
+  isOpen: boolean;
+  setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ isOpen, setMobileMenuOpen }) => {
   const { data, error, isLoading } = useNavsQuery();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   // Uzyskujemy bieżące id z parametrów zapytania
-  const currentId = searchParams.get('id');
+  const currentId = searchParams.get("id");
   const currentIdNumber = currentId ? Number(currentId) : null;
 
   // Uzyskanie tablicy elementów nawigacyjnych
@@ -88,36 +92,51 @@ const MobileMenu: React.FC<{ isOpen: boolean; setMobileMenuOpen: React.Dispatch<
   }, {} as Record<string, NavItem[]>);
 
   return (
-    <motion.div variants={menuVariants} initial="closed" animate={isOpen ? "open" : "closed"} className="z-40 fixed top-0 left-0 bg-[#f8f4f2] h-screen overflow-auto w-full">
+    <motion.div
+      variants={menuVariants}
+      initial="closed"
+      animate={isOpen ? "open" : "closed"}
+      className="z-40 fixed top-0 left-0 bg-[#f8f4f2] h-screen overflow-auto w-full"
+    >
       <div className="flex justify-end items-end">
-        <AnimatedHamburgerButton isMobileMenuOpen={isOpen} setMobileMenuOpen={setMobileMenuOpen}/>
+        <AnimatedHamburgerButton
+          isMobileMenuOpen={isOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+        />
       </div>
       <ul className="list-none w-full flex-col flex gap-4 text-center pb-6">
-      <Suspense fallback={<div>Loading...</div>}>
-
+        <Suspense fallback={<div>Loading...</div>}>
           {Object.entries(groupedNavItems).map(([category, items]) => (
             <li key={category} className="flex flex-col gap-2">
               <h2 className="text-xl font-bold">{category}</h2>
               <div className="flex flex-col gap-2">
-                {items.map((item) => (
-                  <div key={item.id}>
+                {items.map((item) => {
+                  const itemUrl = `/${slugify(
+                    item.category.toLowerCase()
+                  )}?id=${item.id}`;
+                  const isActive =
+                    pathname === `/${slugify(item.category.toLowerCase())}` &&
+                    currentIdNumber === item.id;
+
+                  return (
                     <Link
-                      href={`/${slugify(item.category.toLowerCase())}/${slugify(item.subtitle.toLowerCase())}`}
+                      key={item.id}
+                      href={itemUrl}
                       className={`text-sm flex flex-col transition-all ease-out duration-150 py-2 px-6 ${
-                        pathname === `/${slugify(item.category.toLowerCase())}/${slugify(item.subtitle.toLowerCase())}`
-                          ? "bg-[#17822e] text-[#FFF] font-bold"
-                          : "hover:bg-[#17822e] hover:text-[#fff]"
+                        isActive
+                          ? "text-[#17822e] underline font-bold"
+                          : "hover:text-[#17822e] hover:underline"
                       }`}
                     >
                       {item.subtitle}
                     </Link>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </li>
           ))}
-          </Suspense>
-        </ul>
+        </Suspense>
+      </ul>
     </motion.div>
   );
 };
@@ -129,11 +148,22 @@ const NavWrapper: React.FC = () => {
     <nav className="lg:hidden shadow w-full bg-[#f9f2eb] border-b-2 border-[#333]/25 z-50">
       <div className="flex flex-row justify-between items-center">
         <Link href={"/"} className="bg-[#f9f2eb] py-3 pr-2 pl-2">
-          <Image src={PTECzestochowaLogo} alt="PTECzestochowaLogo" width={150} height={80} />
+          <Image
+            src={PTECzestochowaLogo}
+            alt="PTECzestochowaLogo"
+            width={150}
+            height={80}
+          />
         </Link>
-        <AnimatedHamburgerButton isMobileMenuOpen={isMobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+        <AnimatedHamburgerButton
+          isMobileMenuOpen={isMobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+        />
       </div>
-      <MobileMenu isOpen={isMobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
+      />
     </nav>
   );
 };

@@ -1,3 +1,4 @@
+"use client"; // Add this line to make the component a Client Component
 
 import Link from "next/link";
 import { NavItem } from './ts/types';

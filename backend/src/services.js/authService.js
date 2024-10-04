@@ -99,9 +99,9 @@ class UserService {
     const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
     return rows.length ? rows[0] : null;
   }
-  async createUser(req,res,next){
-    const { email, username, password,role } = req.body;
-
+  async createUser(req, res, next) {
+    const { email, username, password, role } = req.body;
+  
     try {
       const existingUser = await this.findOne(email);
       if (existingUser) {
@@ -111,15 +111,14 @@ class UserService {
           message: "It seems you already have an account, please log in instead.",
         });
       }
-
-
-      const newUser = { email, username,password,role};
+  
+      const newUser = { email, username, password, role };
       await this.save(newUser, next);
-
+  
       res.status(200).json({
         status: "success",
         data: [{ email, username }],
-        message: "Thank you for creating  accout with us.",
+        message: "Thank you for creating an account with us.",
       });
     } catch (err) {
       next(err);
@@ -169,25 +168,28 @@ class UserService {
       next(err);
     }
   }
-  async editUsername(userCourseId) {
+  async editUser(new_email,email, username, role) {
     try {
-      const [rows] = await pool.query(
-        `SELECT users.username 
-         FROM users 
-         JOIN user_courses ON users.id = user_courses.user_id 
-         WHERE user_courses.id = ?`, 
-         [userCourseId]
-      );
+        const [result] = await pool.query(
+            `UPDATE users SET 
+            email = ?, 
+            username = ?, 
+            role = ? 
+            WHERE email = ?`, 
+            [new_email, username, role, email] // Correctly passing the parameters
+        );
 
-      if (rows.length > 0) {
-        return rows[0].username;
-      }
-      return null;
+        // Check if any rows were affected (i.e., the user was found and updated)
+        if (result.affectedRows > 0) {
+            return { email, username, role }; // Return the updated user data or desired response
+        }
+        return null; // If no rows were affected, the user was not found
     } catch (error) {
-      console.error("Error detected at editing username");
-      throw error;
+        console.error("Error detected at editing user:", error);
+        throw error; // Re-throw the error for handling in the controller
     }
-  }
+}
+
   async getUserByRole(role='użytkownik'){
     try{
       const [rows] = await pool.query("SELECT `id`, `username`, `role` FROM `users` WHERE `role` = ?",[role])
@@ -207,7 +209,7 @@ class UserService {
     }
   }
   async register(req, res, next) {
-    const { email, username, password,role } = req.body;
+    const { email, username, password } = req.body;
 
     try {
       const existingUser = await this.findOne(email);
@@ -233,6 +235,10 @@ class UserService {
     }
   }
 
+  async getUsers(){
+    const [rows] = await pool.query('SELECT id,email,username,role FROM users');
+    return rows;
+  }
   async findByID(id) {
     const [rows] = await pool.query('SELECT * FROM users WHERE id = ?', [id]);
     return rows.length ? rows[0] : null;
@@ -260,21 +266,10 @@ class UserService {
         });
       }
 
-      const options = {
-        maxAge: 20 * 60 * 1000, 
-        httpOnly: true, 
-        secure: true,
-        sameSite: "None",
-      };
-      const token = this.generateAccessJWT(existingUser.id); 
       
-      res.cookie("SessionID", token, options); 
       res.status(200).json({
-        status: "success",
         message: "You have successfully logged in.",
         user:existingUser,
-        token:token
-        ,
       });
     } catch (err) {
       next(new AppError(err,404));

@@ -21,7 +21,18 @@ class CourseService {
   }
   async DeleteCourse(id){
     try {
-      const [rows] = await pool.query("DELETE FROM `courses` WHERE `id`='?'",[id]);
+      const [rows] = await pool.query("DELETE FROM `courses` WHERE `id`=?",[id]);
+      return rows;
+    } catch (error) {
+      console.error("Error detected ad fetching NavItems");
+      throw error;
+    }
+  }
+  async deleteUserFromCourse(userID,courseID){
+    try {
+      const [rows] = await pool.query("DELETE FROM `user_courses` WHERE `user_id`=? AND `course_id` =?",[userID,courseID]);
+      console.log(`user:${userID} course:${courseID}`)
+
       return rows;
     } catch (error) {
       console.error("Error detected ad fetching NavItems");
@@ -30,22 +41,32 @@ class CourseService {
   }
   async getAllUsers(){
     try {
-      const [rows] = await pool.query("SELECT * FROM `users`");
+      const [rows] = await pool.query("SELECT id,email,username,role FROM `users`");
+
       return rows;
     } catch (error) {
       console.error("Error detected ad fetching NavItems");
       throw error;
     }
   }
-  async getCoursesWithUser(){
-    try {
-      const [rows] = await pool.query("SELECT user_courses.id, users.email, users.username, courses.name, courses.description, courses.date, courses.course_link, user_courses.certificate, user_courses.course_status, user_courses.date_completed FROM `user_courses` JOIN `users` ON users.id = user_courses.user_id JOIN `courses` ON courses.id = user_courses.id");
+  async getUsersFromCourse(courseID){
+    try{
+      const [rows] = await pool.query("SELECT users.id, users.email, users.username FROM users JOIN user_courses ON users.id = user_courses.user_id  WHERE user_courses.course_id = ?",[courseID]);
       return rows;
-    } catch (error) {
-      console.error("Error detected ad fetching NavItems");
+    }catch (error) {
+      console.error("Error detected ad fetching getUsersFromCourse");
       throw error;
     }
   }
+    async getCoursesWithUser(){
+      try {
+        const [rows] = await pool.query("SELECT user_courses.course_id, courses.name, courses.description, courses.date, courses.course_link, user_courses.certificate, user_courses.course_status, user_courses.date_completed FROM `user_courses` JOIN `users` ON users.id = user_courses.user_id JOIN `courses` ON courses.id = user_courses.course_id");
+        return rows;
+      } catch (error) {
+        console.error("Error detected ad fetching NavItems");
+        throw error;
+      }
+    }
   async getCourseByUser(userID){
     try{
       const [rows] = await pool.query("SELECT * FROM user_courses JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id = ?",[userID]);
@@ -55,6 +76,7 @@ class CourseService {
       throw error;
     }
   }
+  
   async getCorusesByStatus(userID,status='Ukończony'){
     try{
       const [rows] = await pool.query("SELECT * FROM user_courses JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id = ? AND user_courses.course_status = ?",[userID,status]);
@@ -64,15 +86,21 @@ class CourseService {
       throw error;
     }
   }
-  async getEditCourse(course){
-    try{
-      const [rows] = await pool.query("UPDATE `courses` SET `name`=?,`description`=?,`date`=?,`course_link`=' ? WHERE `id`= ?",[course.name,course.description,course.date,course.link,course.id]);
+  async EditCourse(course, courseId) {
+    try {
+      const [rows] = await pool.query(
+        "UPDATE `courses` SET `name`=?, `description`=?, `date`=?, `course_link`=? WHERE `id`=?",
+        [course.courseName, course.courseDescription, course.courseDate, course.courseFile ?? "testowy-link.pl", courseId] // Use courseId from the parameter
+      );
       return rows;
-    }catch(error){
-      console.error("Error detected at fetchnig getEditCourse")
+    } catch (error) {
+      console.error("Error detected while fetching EditCourse:", error);
+      throw error; // Make sure the error is properly thrown for the API to handle
     }
   }
-  async editCourse(userCourseId) {
+  
+  
+  async geteditCourse(userCourseId) {
     try {
       const [rows] = await pool.query(
         `SELECT courses.name 
@@ -191,7 +219,16 @@ class CourseService {
       throw error;
     }
   }
+  async getCompletedCourses(userID){
+    try{
 
+    const [rows] = await pool.query("SELECT user_courses.id, courses.name AS course_name, user_courses.certificate, user_courses.course_status,user_courses.date_completed FROM user_courses JOIN courses ON courses.id = user_courses.course_id WHERE user_courses.course_status = 'Ukończony' AND user_courses.user_id = ?;",[userID]);
+      return rows;
+      } catch (error) {
+        console.error("Error detected at fetchgnig getCompletedCourses")
+        return error;
+      }
+  }
   async getCourses(){
     try{
       const [rows] = await pool.query("SELECT `id`, `name` FROM `courses`")
@@ -255,6 +292,24 @@ class CourseService {
       throw error;
     }
   }
+  async getCourse(courseId) {
+    try {
+      const [rows] = await pool.query(
+        `SELECT * 
+         FROM courses 
+         WHERE id = ?`, 
+         [courseId]
+      );
+
+      if (rows.length > 0) {
+        return rows[0];
+      }
+      return null;
+    } catch (error) {
+      console.error("Error detected at fetching course name");
+      throw error;
+    }
+  }
   async courseExists(courseName) {
     try {
       const [rows] = await pool.query(
@@ -271,25 +326,28 @@ class CourseService {
     }
   }
 
-  async addCourse(courseName, courseDate, courseDescription, courseLink) {
+  async addCourse(courseName, courseDate, description, courseLink) {
     try {
-      const query = `
-        INSERT INTO courses (name, description, date, course_link) 
-        VALUES (?, ?, ?, ?)`;
+        const [result] = await pool.query(`
+            INSERT INTO courses (name, description, date, course_link) 
+            VALUES (?, ?, ?, ?)`, [
+            courseName,
+            description,
+            courseDate,
+            courseLink,
+        ]);
 
-      const [result] = await pool.query(query, [
-        courseName,
-        courseDescription,
-        courseDate,
-        courseLink,
-      ]);
-
-      return result.affectedRows > 0;
+        return result.affectedRows > 0;
     } catch (error) {
-      console.error("Error detected at adding course");
-      throw error;
+        console.error("Error in addCourse:", error);
+        throw error;
     }
-  }
+}
+
+
+  
+  
+  
 
 }
 export default new CourseService();

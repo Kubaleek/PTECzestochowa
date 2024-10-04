@@ -1,3 +1,5 @@
+"use client"; // Add this line to make the component a Client Component
+
 import { Suspense, useState } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -105,7 +107,7 @@ const Navbar: React.FC = () => {
                                 href={itemUrl}
                                 className={`flex flex-col transition-all ease-out duration-150 p-2 text-sm ${
                                   isActive
-                                    ? "underline hover:text-[#17822e] font-bold"
+                                    ? "underline text-[#17822e] font-bold"
                                     : "hover:underline hover:text-[#17822e]"
                                 }`}
                               >

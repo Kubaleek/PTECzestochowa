@@ -12,34 +12,57 @@ const Logout = async (req,res)=>{
 const DeleteUser = async (req, res, next) => {
     await authService.deleteUser(req, res, next);
 };
+const getUsers = async (req,res,next)=>{
+    const users = await authService.getUsers();
+    res.status(200).json({
+        data: users
+    });
+}
 const saveBlacklist = async (req,res,next) => {
     const {date,userId} = req.body;
-    const data = await authService.saveBlacklist({
+    const data = await zauthService.saveBlacklist({
         date,
         userId
     });
     res.json({data:data})
 }
-const EditUsername = async (req, res, next) => {
-    const { userCourseId } = req.params;
-    const username = await authService.editUsername(userCourseId);
-    if (username) {
-        res.status(200).json({
-            status: "success",
-            data: { username },
-            message: "Username fetched successfully."
-        });
-    } else {
-        res.status(404).json({
-            status: "failed",
-            message: "Username not found."
-        });
+const EditUser = async (req, res, next) => {
+    const { new_email,email, username, role } = req.body;
+
+    try {
+        const user = await authService.editUser(new_email,email, username, role);
+        if (user) {
+            res.status(200).json({
+                status: "success",
+                data: { user },
+                message: "User has been edited."
+            });
+        } else {
+            res.status(404).json({
+                status: "failed",
+                message: "User not found."
+            });
+        }
+    } catch (error) {
+        next(error); // Handle error properly
     }
 };
 
+const createUser = async (req, res, next) => {
+    try {
+      await authService.createUser(req, res, next);
+    } catch (err) {
+      next(err);
+    }
+  }
 const GetUserByRole = async (req, res, next) => {
     const { role } = req.params;
     const users = await authService.getUserByRole(role);
+    res.status(200).json({
+        status: "success",
+        data: users,
+        message: "Users fetched successfully."
+    });
     res.status(200).json({
         status: "success",
         data: users,
@@ -61,7 +84,9 @@ export const Controllers = {
     GetUserByEmail,
     Logout,
     DeleteUser,
-    EditUsername,
+    EditUser,
     GetUserByRole,
-    saveBlacklist
+    saveBlacklist,
+    getUsers,
+    createUser
 };
