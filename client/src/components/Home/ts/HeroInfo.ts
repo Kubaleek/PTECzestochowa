@@ -48,30 +48,6 @@ const HeroInfos: HeroInfosType[] = [
         src: Hero6,
         alt: "Czwartki u Ekonomistów",
     },
-    {
-        id: 7,
-        href: "",
-        src: Hero7,
-        alt: "Konkurs",
-    },
-    {
-        id: 8,
-        href: "",
-        src: Hero8,
-        alt: "Wynajem",
-    },
-    {
-        id: 9,
-        href: "",
-        src: Hero9,
-        alt: "Konkurs Podręcznik",
-    },
-    {
-        id: 10,
-        href: "",
-        src: Hero10,
-        alt: "REE2024",
-    },
 ]
 
 export default HeroInfos;
