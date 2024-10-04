@@ -6,6 +6,7 @@ import {
   ModalBody,
 } from "@nextui-org/react";
 import EditUsersForm from "./Forms/EditUsersForm";
+import { TeditUser } from "@/components/Home/ts/types";
 
 type EditModalType = {
   isOpen: boolean;
@@ -19,7 +20,7 @@ export const EditUser = ({
 }: {
   editModal: EditModalType;
   email: string;
-  user: { username: string; role: string };
+  user: TeditUser
 }) => {
   return (
     <Modal

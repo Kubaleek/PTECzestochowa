@@ -27,7 +27,7 @@ const EditUsersForm: React.FC<EditUsersFormProps> = ({ onClose, email }) => {
   } = methods;
 
   // Use the custom mutation hook
-  const { mutate: editUser, isLoading, isError, error } = useEditUserMutation({
+  const { mutate: editUser, isPending, isError, error } = useEditUserMutation({
     onSuccess: () => {
       console.log("User edited successfully");
       onClose(); // Close the form on successful edit
@@ -89,9 +89,9 @@ const EditUsersForm: React.FC<EditUsersFormProps> = ({ onClose, email }) => {
             type="submit"
             color="success"
             className="w-full lg:w-auto rounded text-white bg-green-700"
-            disabled={isLoading} // Disable button while loading
+            disabled={isPending} // Disable button while loading
           >
-            {isLoading ? "Edytowanie..." : "Edytuj Użytkownika"}
+            {isPending ? "Edytowanie..." : "Edytuj Użytkownika"}
           </Button>
         </div>
         {isError && <p className="text-red-500">{error?.message}</p>} {/* Show error message if there's an error */}

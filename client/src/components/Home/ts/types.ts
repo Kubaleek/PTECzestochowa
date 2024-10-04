@@ -104,18 +104,21 @@ export interface Course {
   name: string;
   description: string;
   date: string; // Data kursu
+  endDate:string;
   course_link: string;
 }
 
 // Interfejs dla użytkowników (tabela `users`)
-export interface User {
+export type User = {
   id: number;
   email: string;
   username: string;
+  avatar?: string;
   role:string;
   last_login?: string; // Data ostatniego logowania
   status?: string;
 }
+export type TeditUser = Omit<User,"id" | "email" | "avatar" |"status"|"last_login"> 
 export interface Users{
   users: User[];
 

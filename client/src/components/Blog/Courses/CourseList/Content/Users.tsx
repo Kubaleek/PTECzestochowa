@@ -15,10 +15,12 @@ import { Avatar } from "@nextui-org/react";
 import { AddUser } from "./Modals/AddUser";
 import { EditUser } from "./Modals/EditUser";
 import { useDeleteUserMutation, useUsersQuery } from "@/services/usersHook";
+import { User } from "@/components/Home/ts/types";
+
 
 export default function Users() {
   const { data: session, status } = useSession(); 
-  const [selectedUser, setSelectedUser] = React.useState(null);
+  const [selectedUser, setSelectedUser] = React.useState<User>();
   const addUser = useDisclosure();
   const detailModal = useDisclosure();
   const editModal = useDisclosure();
@@ -45,11 +47,11 @@ export default function Users() {
   };
 
   // Przypisanie użytkowników do zmiennej users
-  const users = UsersResponse?.data || [];
-  const handleUserClick = (userDetails) => {
-    setSelectedUser(userDetails);
-    detailModal.onOpen();
-  };
+  const users = UsersResponse?.users || [];
+  // const handleUserClick = (userDetails) => {
+  //   setSelectedUser(userDetails);
+  //   detailModal.onOpen();
+  // };
 
   return (
     <>
@@ -135,7 +137,10 @@ export default function Users() {
                         Edytuj
                       </Button>
                       {/* Modal edycji użytkownika */}
-                      <EditUser email={selectedUser?.email} editModal={editModal} user={selectedUser} />
+                      <EditUser email={selectedUser?.email || ""} editModal={editModal} user={{
+                        username:selectedUser?.username || "",
+                        role:selectedUser?.role || "",
+                      }} />
                       <Button
                         color="danger"
                         variant="flat"

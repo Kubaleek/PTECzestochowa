@@ -1,7 +1,6 @@
 import React from 'react';
 import { EditCourseForm } from "./Modals/EditCourse";
 import { AddCourseForm } from "./Modals/AddCourse";
-import { AssignCourseForm } from './Modals/AssignCourse';
 import {
   Button,
   Modal,
@@ -16,14 +15,14 @@ import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { Link } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useCoursesQuery, useDeleteCourseMutation } from "@/services/courseHooks"; 
-import { CoursesResponse } from '@/components/Home/ts/types'; 
+import { Course, CoursesResponse } from '@/components/Home/ts/types'; 
 
 export default function Test1() {
   const { data: session, status } = useSession(); // Use useSession to manage session state
   const addModal = useDisclosure();
   const editModal = useDisclosure();
   const detailModal = useDisclosure();
-  const [selectedCourse, setSelectedCourse] = React.useState(null);
+  const [selectedCourse, setSelectedCourse] = React.useState<Course>();
   const isAdmin = session?.user?.role === 'administrator'; // Sprawdzenie, czy użytkownik jest administratorem
 
   const {
@@ -50,7 +49,7 @@ export default function Test1() {
     }
   };
 
-  const handleCourseClick = (course) => {
+  const handleCourseClick = (course:Course) => {
     setSelectedCourse(course);
     detailModal.onOpen();
   };
@@ -159,12 +158,12 @@ export default function Test1() {
                   Edytuj
                 </Button>
                 {/* Fixed courseId */}
-                <EditCourseForm courseId={selectedCourse?.id} editModal={editModal} />
+                <EditCourseForm courseId={selectedCourse?.id || 0} editModal={editModal} />
                 <Button
                   color="danger"
                   variant="flat"
                   className="rounded w-full"
-                  onClick={() => handleDeleteCourse(selectedCourse?.id)}
+                  onClick={() => handleDeleteCourse(selectedCourse?.id.toString() || "0")}
                 >
                   Usuń
                 </Button>
