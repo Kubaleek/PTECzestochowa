@@ -1,5 +1,6 @@
 "use client"; // Add this line to make the component a Client Component
 
+import React from "react";
 import { NavItem } from "../common/ts/types";
 import { useNavsQuery } from "@/services/queryHooks";
 import slugify from "slugify";
@@ -60,7 +61,7 @@ const Aside = () => {
             Powrót do strony głównej
           </a>
         </p>
-        <Suspense fallback={<div>Loading....</div>}>
+        <Suspense fallback={<></>}>
 
         {isLoading ? (
           <div className="flex flex-col gap-3">

@@ -1,3 +1,4 @@
+import React from "react";
 import Header from "@/components/Home/Header";
 import Hero from "@/components/Home/Hero";
 import MapCityContent from "@/components/Home/MapCityContent";
@@ -13,7 +14,7 @@ export default async function Home() {
 
   return (
     <>
-    <Suspense fallback={<div>Loading..</div>}>
+    <Suspense fallback={<></>}>
 
      <Header />
       <Navbar />

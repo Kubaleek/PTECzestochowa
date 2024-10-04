@@ -67,6 +67,7 @@ export default function CompletedModule() {
         </div>
         <Divider className="h-[1px] w-full" />
       </div>
+      <Divider className="h-[1px] w-full" />
       <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
         {
           courses.length > 0 ? (

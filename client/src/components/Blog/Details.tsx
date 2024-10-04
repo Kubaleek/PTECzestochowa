@@ -111,7 +111,7 @@ export default function Details({ category, id, subid }: DetailsProps) {
   return (
     <section className="col-span-12 md:col-span-8 xl:col-span-9">
       <article className="mm_article flex flex-col gap-3 mb-20 bg-white rounded-lg w-full mt-4 p-3 shadow-lg border border-[#333]/25 text-pretty overflow-hidden">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<></>}>
           {isLoading ? (
             <LoadingSkeleton />
           ) : error ? (

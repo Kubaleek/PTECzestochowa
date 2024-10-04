@@ -125,6 +125,7 @@ export const Panel: React.FC = () => {
                   <div className="flex flex-col gap-6">
                     <CompletedModule />
                   </div>
+                  
                 </Tab>
               )}
             </Tabs>
