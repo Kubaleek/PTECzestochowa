@@ -117,7 +117,7 @@ export default function Test1() {
             ))}
           </div>
         ) : (
-          <div>Nie ma dostępnych Szkoleń.</div>
+          <></>
         )}
       </div>
 

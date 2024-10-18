@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {toast} from 'react-hot-toast'
 export default function Newslatter() {
-  const [notka,setNotka] = useState("");
     return (
         <div className="shadow-xl border border-[#333]/25 flex flex-col p-4 pb-4 bg-white rounded-md items-center">
           <h2 className="text-[24px] font-bold text-[#2d3748] text-center my-1">
@@ -24,22 +23,6 @@ export default function Newslatter() {
               <div className="col-span-12 w-full flex items-center justify-center">
                 <button
                   type="submit"
-                  onClick={(e)=>{
-                    e.preventDefault();
-                    const random = Math.floor(Math.random() * 400)
-                    if(random == 1){
-                        toast.success('Sekretnie Dołączyłeś do NewsLettera :>',{
-                      duration:1000,
-                      
-                    }); 
-                    }else{
-                      toast.success('Dołączyłeś do newslettera!',{
-                        duration:1000,
-                        
-                      }); 
-                    }
-                  // Displays a success message
-                  }}
                   className="inline-block outline-none appearance-none px-3 py-2 bg-[#0f8009] shadow-lg text-white text-sm font-medium rounded transition-all duration-150 ease-in-out mr-2"
                   aria-label="zapisz się newslettera">
                   Zapisz się

@@ -112,9 +112,7 @@ export default function CompletedModule() {
             )
           )
           ) : (
-            <div>
-              Niestety ale jeszcze nie ukończyłeś żadnego szkolenia
-            </div>
+            <></>
           )
         }
        
