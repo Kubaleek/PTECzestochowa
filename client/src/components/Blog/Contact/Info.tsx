@@ -13,6 +13,7 @@ export default function ContactData() {
         <li>KRS: 000009063</li>
         <li>Bank: PKO Bank Polski: 73 1020 1664 0000 3202 0166 1818</li>
       </ul>
+      <h4 className="font-medium font-sans text-gray-500">Prace w toku! Już wkrótce dostępny będzie formularz kontaktowy.</h4>
     </div>
   );
 }

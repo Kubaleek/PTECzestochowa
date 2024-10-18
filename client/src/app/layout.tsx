@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 import ReactQueryProvider from '../utils/ReactQueryProvider';
 import { Toaster } from "react-hot-toast";
 import AuthProvider from './context/AuthProvider';
+import { Privacy } from '@/components/Cookies/Privacy';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -35,6 +36,7 @@ export default function RootLayout({ children}: IProps) {
       <AuthProvider>
         <ReactQueryProvider>
           <Toaster position={'bottom-right'}/>
+          <Privacy />
           {children}
         </ReactQueryProvider>
         </AuthProvider>
