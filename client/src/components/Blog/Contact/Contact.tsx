@@ -43,7 +43,7 @@ export default function Contact() {
               <h3 className="font-bold text-xl text-pretty">
                 Co musi zawierać wiadomość
               </h3>
-              <p className="text-lg font-medium text-pretty mb-2">
+              <p className="text-small sm:text-lg font-medium text-pretty">
                 Tytuł Wiadomości: Wiadomość Ogólna
               </p>
               <ul className="list-disc list-inside space-y-1 text-gray-800">
@@ -88,7 +88,7 @@ export default function Contact() {
               <h3 className="font-bold text-xl text-pretty">
                 Co musi zawierać wiadomość
               </h3>
-              <p className="text-lg font-medium text-pretty mb-2">
+              <p className="text-small sm:text-lg font-medium text-pretty">
                 Tytuł Wiadomości: Propozycja Współpracy
               </p>
               <ul className="list-disc list-inside space-y-1 text-gray-800">
@@ -133,7 +133,7 @@ export default function Contact() {
               <h3 className="font-bold text-xl text-pretty">
                 Co musi zawierać wiadomość
               </h3>
-              <p className="text-lg font-medium text-pretty mb-2">
+              <p className="text-small sm:text-lg font-medium text-pretty">
                 Tytuł Wiadomości: Zgłoszenie na Kongres
               </p>
               <ul className="list-disc pl-6 text-base text-gray-700 space-y-2">
@@ -255,7 +255,7 @@ export default function Contact() {
               <h3 className="font-bold text-xl text-pretty">
                 Co musi zawierać wiadomość
               </h3>
-              <p className="text-lg font-medium text-pretty mb-2">
+              <p className="text-small sm:text-lg font-medium text-pretty">
                 Tytuł Wiadomości: Kursy
               </p>
               <ul className="list-disc list-inside space-y-4 text-gray-800">

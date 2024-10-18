@@ -87,9 +87,7 @@ export default function Users() {
         <Divider className="h-[1px] w-full" />
         <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
           {users.length === 0 ? (
-            <p className="text-center text-gray-500">
-              Brak użytkowników do wyświetlenia.
-            </p>
+            <></>
           ) : (
             users.map((user) => (
               <Card
