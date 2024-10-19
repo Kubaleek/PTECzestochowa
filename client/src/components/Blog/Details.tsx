@@ -11,7 +11,7 @@ import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetPages } from "@/services/homeAPI";
 import { Skeleton } from "@nextui-org/skeleton";
 import Contact from "./Contact/Contact";
-import Conferences from "./Conferences/Conferences";
+import Conferences from "./Conferences";
 
 export const getServerSideProps: GetServerSideProps = async ({
   params,

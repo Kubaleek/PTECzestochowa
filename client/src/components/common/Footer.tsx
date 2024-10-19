@@ -67,7 +67,7 @@ export default function Footer() {
                   <div className={`grid md:grid-cols-4 gap-6 ${pathname === "/" ? 'lg:grid-cols-5' : 'lg:grid-cols-6'}`}>
                   {Object.keys(groupedNavItems).map((category) => (
                     <div key={category}>
-                      <h4 className="text-lg font-bold mb-2">{category}</h4>
+                      <h4 className="text-lg font-bold mb-2">{category.toLowerCase()}</h4>
                       <ul className="space-y-1">
                         {groupedNavItems[category].map((item) => {
                           const itemUrl = `/${slugify(item.category.toLowerCase())}?id=${item.id}`;

@@ -34,7 +34,7 @@ export default function LastArticles() {
             </svg>
             <span className="text-[26px] font-bold m-0">Aktualności</span>
           </h2>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<></>}>
 
           {isLoading ? (
             <div className="flex flex-col gap-4">

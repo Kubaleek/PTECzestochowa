@@ -128,8 +128,7 @@ export default function AssignedModules() {
             </span>
           </h3>
           <p className="text-sm text-pretty leading-relaxed text-gray-700 text-justify text-clip">
-            Oto lista przypisanych szkoleń dla użytkowników. Tutaj znajdziesz
-            informacje o szkoleniach przypisanych do użytkowników. <span>
+            Oto lista przypisanych szkoleń dla użytkowników.. <span>
             {isAdmin ? (
               <>
                 Jako administrator, masz możliwość zarządzania tymi
@@ -137,8 +136,7 @@ export default function AssignedModules() {
               </>
             ) : (
               <>
-                Jako użytkownik, możesz przeglądać przypisane szkolenia, ale nie
-                masz możliwości ich edytowania ani usuwania.
+                Jako użytkownik, możesz przeglądać swoje przepisane szkolenia.
               </>
             )}
             </span>
@@ -159,7 +157,6 @@ export default function AssignedModules() {
             <AssignCourseForm assginModal={assginModal} />
           </div>
         )}
-        <Divider className="h-[1px] w-full" />
         <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
           {courses.map((course) => (
             <div key={course.course_id}>

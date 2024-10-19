@@ -12,7 +12,7 @@ export default function LastNews() {
     const news = data?.data ?? [];
     return (
         <>
-        <Suspense fallback={<div>Loading....</div>}>
+        <Suspense fallback={<></>}>
 
             {isLoading ? (
             <div className="grid grid-cols-1 gap-4">

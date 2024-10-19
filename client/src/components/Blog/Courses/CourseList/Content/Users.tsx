@@ -84,7 +84,6 @@ export default function Users() {
           {/* Modal dodawania użytkownika */}
           <AddUser addUser={addUser} />
         </div>
-        <Divider className="h-[1px] w-full" />
         <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
           {users.length === 0 ? (
             <></>

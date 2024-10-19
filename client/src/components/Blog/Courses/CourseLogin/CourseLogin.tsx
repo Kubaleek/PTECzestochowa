@@ -6,9 +6,6 @@ import { useRouter } from "next/navigation";
 import {
   Tabs,
   Tab,
-  Card,
-  CardHeader,
-  CardBody,
   Button,
 } from "@nextui-org/react";
 import { useRegisterMutation } from "@/services/usersHook";
@@ -37,13 +34,13 @@ export const CoursesLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { mutate: doRegister } = useRegisterMutation({
     onSuccess: () => {
-      // Zaktualizuj cache lub wyświetl powiadomienie o sukcesie
-      console.log("rejestracja przebiegła pomyślnie");
+      console.log("Rejestracja przebiegła pomyślnie");
     },
     onError: (error) => {
       console.error("Wystąpił błąd podczas rejestracji:", error);
     },
   });
+
   const onSubmit = async (data: LoginFormInputs) => {
     setIsLoading(true);
 
@@ -64,17 +61,17 @@ export const CoursesLogin = () => {
 
   const onSubmitRegister = async (data: RegisterFormInputs) => {
     setIsLoading(true);
-    await doRegister(data); // Wait for the mutation to complete
-    console.log("Rejestracja:", data);
+    await doRegister(data);
     setIsLoading(false);
     router.push("/kursy?id=51");
-    window.location.reload()
+    window.location.reload();
   };
+
   return (
     <FormProvider {...methods}>
-      <div className="w-full max-w-5xl bg-white shadow-lg flex flex-col lg:flex-row mb-4 border border-[#333]/50 rounded">
-        <div className="w-full lg:w-2/5 bg-green-700 p-4 flex flex-col gap-3 text-white">
-          <div className="flex items-center">
+      <div className="w-full bg-white shadow-lg flex flex-col lg:flex-row mb-4 border border-[#333]/50 rounded">
+        <div className="w-full lg:w-2/5 xl:w-1/5 bg-green-700 p-4 flex flex-col gap-3 text-white">
+        <div className="flex items-center">
             <svg
               version="1.1"
               viewBox="139.31 0 92.39 92.39"
@@ -102,25 +99,24 @@ export const CoursesLogin = () => {
           <p className="text-xs text-pretty leading-relaxed text-justify">
             Aby zobaczyć listę szkoleń, zaloguj się lub zarejestruj się. W razie problemów skontaktuj się z administratorem.
           </p>
+          <p className="text-xs text-pretty leading-relaxed text-justify">
+            Trwają prace nad panelem szkoleń!
+          </p>
         </div>
-        <div className="w-full lg:w-3/5 p-4 bg-[#f7f3ef]">
+        <div className="w-full xl:w-4/5 p-4 bg-[#f7f3ef]">
           <Tabs
             aria-label="Options"
             color="primary"
             variant="underlined"
             classNames={{
-              tabList:
-                "gap-3 w-full relative rounded-none p-0 border-b border-divider",
+              tabList: "gap-3 w-full relative rounded-none p-0 border-b border-divider",
               cursor: "w-full bg-[#17822e]",
               tab: "max-w-fit h-12",
               tabContent: "group-data-[selected=true]:text-[#17822e]",
             }}
           >
             <Tab key="login" title="Logowanie">
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col gap-6"
-              >
+              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
                 <DynamicFormInput
                   label="Email"
                   placeholder="Wpisz swój email"
@@ -131,6 +127,8 @@ export const CoursesLogin = () => {
                   control={control}
                   type="email"
                 />
+                {errors.email && <p className="text-red-500 text-xs">{errors.email.message}</p>}
+                
                 <DynamicFormInput
                   label="Hasło"
                   placeholder="Wpisz swoje hasło"
@@ -141,22 +139,23 @@ export const CoursesLogin = () => {
                   control={control}
                   type="password"
                 />
-                <Button
-                  type="submit"
-                  color="success"
-                  variant="flat"
-                  className="w-full lg:w-auto rounded text-white bg-green-700"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Logowanie..." : "Zaloguj się"}
-                </Button>
+                {errors.password && <p className="text-red-500 text-xs">{errors.password.message}</p>}
+                
+                <div className="flex justify-start items-center">
+                  <Button
+                    type="submit"
+                    color="success"
+                    variant="flat"
+                    className="w-full lg:w-auto rounded !text-white bg-green-700"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Logowanie..." : "Zaloguj się"}
+                  </Button>
+                </div>
               </form>
             </Tab>
             <Tab key="register" title="Rejestracja">
-              <form
-                onSubmit={handleSubmit(onSubmitRegister)}
-                className="flex flex-col gap-6"
-              >
+              <form onSubmit={handleSubmit(onSubmitRegister)} className="flex flex-col gap-6">
                 <DynamicFormInput
                   label="Imię i Nazwisko"
                   placeholder="Wpisz swoje Imię i Nazwisko"
@@ -187,15 +186,17 @@ export const CoursesLogin = () => {
                   control={control}
                   type="password"
                 />
-                <Button
-                  type="submit"
-                  color="success"
-                  variant="flat"
-                  className="w-full lg:w-auto rounded text-white bg-green-700"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Rejestracja..." : "Zarejestruj się"}
-                </Button>
+                <div className="flex justify-start items-center">
+                  <Button
+                    type="submit"
+                    color="success"
+                    variant="flat"
+                    className="w-full lg:w-auto rounded !text-white bg-green-700"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Rejestracja..." : "Zarejestruj się"}
+                  </Button>
+                </div>
               </form>
             </Tab>
           </Tabs>

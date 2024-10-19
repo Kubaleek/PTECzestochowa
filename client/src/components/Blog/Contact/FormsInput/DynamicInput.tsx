@@ -25,7 +25,7 @@ interface DynamicFormInputProps {
   placeholder?: string;
   register: UseFormRegister<any>;
   validation: any;
-  error?: FieldError | undefined;
+  error?: FieldError;
   name: string;
   control: Control<any>;
   type: string;
@@ -43,41 +43,32 @@ const DynamicFormInput = ({
 }: DynamicFormInputProps) => {
   const { setValue } = useFormContext();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [passwordValue, setPasswordValue] = useState<string>('');
-  const [showPassword, setShowPassword] = useState<boolean>(false); // State for showing password
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const getValidationRules = () => {
     const rules = { ...validation };
-
+    
     if (type === 'email') {
       rules.pattern = {
         value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         message: 'Niepoprawny format e-maila',
       };
-    }
-
-    if (type === 'tel') {
+    } else if (type === 'tel') {
       rules.pattern = {
-        value: /^[+]?[0-9]{1,4}?([-\s]?[0-9]{1,3}){3,5}$/i,
+        value: /^[+]?[0-9]{1,4}?([-\s]?[0-9]{1,3}){3,5}$/,
         message: 'Niepoprawny numer telefonu',
       };
-    }
-
-    if (type === 'password') {
+    } else if (type === 'password') {
       rules.minLength = { value: 8, message: 'Hasło musi mieć co najmniej 8 znaków' };
-      // Removed the rule that requires the password to start with "pte-"
     }
 
     return rules;
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      const fileArray = Array.from(files);
-      setSelectedFiles(fileArray);
-      setValue(name, fileArray);
-    }
+    const files = e.target.files ? Array.from(e.target.files) : [];
+    setSelectedFiles(files);
+    setValue(name, files);
   };
 
   const handleRemoveFile = (index: number) => {
@@ -90,7 +81,7 @@ const DynamicFormInput = ({
     switch (type) {
       case 'checkbox':
         return (
-          <FormControl error={!!error} component="fieldset">
+          <FormControl error={!!error}>
             <FormControlLabel
               control={
                 <Controller
@@ -99,8 +90,8 @@ const DynamicFormInput = ({
                   rules={validation}
                   render={({ field }) => (
                     <Checkbox
-                      checked={!!field.value}
-                      onChange={(e) => field.onChange(e.target.checked)}
+                      {...field}
+                      checked={field.value}
                       color="success"
                     />
                   )}
@@ -111,6 +102,7 @@ const DynamicFormInput = ({
             {error && <FormHelperText>{error.message}</FormHelperText>}
           </FormControl>
         );
+
       case 'textarea':
         return (
           <TextField
@@ -124,9 +116,9 @@ const DynamicFormInput = ({
             variant="standard"
             fullWidth
             color="success"
-            required
           />
         );
+
       case 'file':
         return (
           <div className="flex flex-col gap-2">
@@ -144,53 +136,41 @@ const DynamicFormInput = ({
             <input
               type="file"
               id={name}
-              name={name}
               style={{ display: 'none' }}
               onChange={handleFileChange}
               multiple
               required
             />
             {error && <p className="text-red-500 font-semibold">{error.message}</p>}
-            <div className="mt-2">
-              {selectedFiles.length > 0 && (
-                <List className="border  text-pretty break-words">
-                  {selectedFiles.map((file, index) => (
-                    <ListItem
-                      key={index}
-                      secondaryAction={
-                        <IconButton edge="end" aria-label="delete" onClick={() => handleRemoveFile(index)}>
-                          <DeleteIcon color="error" />
-                        </IconButton>
-                      }
-                    >
-                      <ListItemAvatar>
-                        <Avatar>
-                          <CloudUploadIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText  primary={file.name} secondary={`${(file.size / 1024).toFixed(2)} KB`} />
-                    </ListItem>
-                  ))}
-                </List>
-              )}
-            </div>
+            <List className="mt-2 border">
+              {selectedFiles.map((file, index) => (
+                <ListItem
+                  key={index}
+                  secondaryAction={
+                    <IconButton edge="end" onClick={() => handleRemoveFile(index)}>
+                      <DeleteIcon color="error" />
+                    </IconButton>
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar>
+                      <CloudUploadIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={file.name} secondary={`${(file.size / 1024).toFixed(2)} KB`} />
+                </ListItem>
+              ))}
+            </List>
           </div>
         );
+
       case 'password':
         return (
           <TextField
-            type={showPassword ? 'text' : 'password'} // Change type based on showPassword state
+            type={showPassword ? 'text' : 'password'}
             label={label}
             placeholder={placeholder}
-            required
-            {...register(name, {
-              ...getValidationRules(),
-              onChange: (e) => {
-                const inputValue = e.target.value;
-                setValue(name, inputValue); // Directly set the value without prefix check
-                setPasswordValue(inputValue);
-              },
-            })}
+            {...register(name, { ...getValidationRules(), onChange: (e) => setValue(name, e.target.value) })}
             error={!!error}
             helperText={error?.message}
             variant="standard"
@@ -199,11 +179,8 @@ const DynamicFormInput = ({
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPassword((prev) => !prev)} // Toggle showPassword state
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />} {/* Toggle icon */}
+                  <IconButton onClick={() => setShowPassword(prev => !prev)}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -217,7 +194,6 @@ const DynamicFormInput = ({
             type={type}
             label={label}
             placeholder={placeholder}
-            required
             {...register(name, getValidationRules())}
             error={!!error}
             helperText={error?.message}

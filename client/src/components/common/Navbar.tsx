@@ -77,7 +77,7 @@ const Navbar: React.FC = () => {
                   className="relative"
                 >
                   <button type="button" className="relative text-white">
-                    {category}
+                    {category.toLowerCase()}
                     <span
                       style={{
                         transform:

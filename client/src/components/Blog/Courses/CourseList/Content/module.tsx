@@ -1,6 +1,6 @@
 import React from 'react';
 import { EditCourseForm } from "./Modals/EditCourse";
-import { AddCourseForm } from "./Modals/AddCourse";
+import AddCourseForm from './Modals/AddCourse';
 import {
   Button,
   Modal,
@@ -94,7 +94,6 @@ export default function Test1() {
             <AddCourseForm addModal={addModal} />
           </div>
         )}
-        <Divider className="h-[1px] w-full" />
 
         {courses.length > 0 ? (
           <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
