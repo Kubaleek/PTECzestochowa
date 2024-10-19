@@ -272,19 +272,6 @@ export default function AssignedModules() {
                         </div>
                       )}
                     </ModalBody>
-                    <ModalFooter>
-                      {isAdmin && (
-                        <div className="flex gap-3">
-                          <Button
-                            color="danger"
-                            variant="flat"
-                            className="rounded w-full"
-                          >
-                            Usuń
-                          </Button>
-                        </div>
-                      )}
-                    </ModalFooter>
                   </ModalContent>
                 </Modal>
               </div>
