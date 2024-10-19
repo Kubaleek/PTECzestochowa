@@ -12,7 +12,6 @@ const nextConfig = {
     missingSuspenseWithCSRBailout: false,
   },
   reactStrictMode: true,
-  swcMinify: false,
 };
 
 export default nextConfig;
