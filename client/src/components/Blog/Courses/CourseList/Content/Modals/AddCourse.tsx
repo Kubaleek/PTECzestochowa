@@ -136,8 +136,8 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({ addModal }) => {
                   name="courseFile"
                   control={control}
                   register={methods.register}
-                  validation={{ required: "Plik jest wymagany" }}
-                  error={errors.courseFile}
+                  validation={{}}
+                  error={undefined}
                   type="file"
                 />
               </div>

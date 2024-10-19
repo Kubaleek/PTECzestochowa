@@ -20,7 +20,7 @@ import {
   useDeleteUserFromCourseMutation,
 } from "@/services/courseHooks";
 import { CoursesResponse } from "@/components/Home/ts/types";
-import { AssignCourseForm } from "./Modals/AssignCourse";
+import AssignCourseModal from "./Modals/AssignCourse";
 import Avatar from "@mui/material/Avatar";
 import Chip from "@mui/material/Chip";
 import GroupIcon from "@mui/icons-material/Group";
@@ -71,7 +71,7 @@ export default function AssignedModules() {
     }
   };
 
-  const handleCourseClick = (course:any) => {
+  const handleCourseClick = (course: any) => {
     setSelectedCourse(course);
     detailModal.onOpen();
   };
@@ -119,7 +119,7 @@ export default function AssignedModules() {
 
   return (
     <>
-      <div className="bg-[#f5f1ec] flex flex-col gap-3 items-center justify-between border-2 border-[#333]/25 p-4 shadow-lg">
+      <div className="bg-[#f5f1ec] flex flex-col gap-3 justify-between border-2 border-[#333]/25 p-4 shadow-lg">
         <div>
           <h3 className="text-xl font-bold text-black gap-2 text-pretty leading-relaxed items-center flex place-items-center">
             Przydzielone Szkolenia
@@ -128,88 +128,88 @@ export default function AssignedModules() {
             </span>
           </h3>
           <p className="text-sm text-pretty leading-relaxed text-gray-700 text-justify text-clip">
-            Oto lista przypisanych szkoleń dla użytkowników.. <span>
-            {isAdmin ? (
-              <>
-                Jako administrator, masz możliwość zarządzania tymi
-                przypisaniami.
-              </>
-            ) : (
-              <>
-                Jako użytkownik, możesz przeglądać swoje przepisane szkolenia.
-              </>
-            )}
+            Oto lista przypisanych szkoleń dla użytkowników..{" "}
+            <span>
+              {isAdmin ? (
+                <>
+                  Jako administrator, masz możliwość zarządzania tymi
+                  przypisaniami.
+                </>
+              ) : (
+                <>
+                  Jako użytkownik, możesz przeglądać swoje przepisane szkolenia.
+                </>
+              )}
             </span>
           </p>
         </div>
         <Divider className="h-[1px] w-full" />
-      </div>
-      <div className="flex flex-col gap-3">
-        {isAdmin && (
-          <div className="flex flex-col sm:flex-row gap-3 justify-end items-center">
-            <Button
-              onPress={assginModal.onOpen}
-              className="w-full lg:w-auto rounded text-white bg-green-700"
-              endContent={<AssignCourse />}
-            >
-              Przydziel Szkolenie
-            </Button>
-            <AssignCourseForm assginModal={assginModal} />
-          </div>
-        )}
-        <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
-          {courses.map((course) => (
-            <div key={course.course_id}>
-              <Card
-                shadow="lg"
-                className="bg-[#f5f1ec] border-2 border-[#333]/25 rounded"
+        <div className="flex flex-col gap-3">
+          {isAdmin && (
+            <div className="flex flex-col sm:flex-row gap-3 justify-end items-center">
+              <Button
+                onPress={assginModal.onOpen}
+                className="w-full lg:w-auto rounded text-white bg-green-700"
+                endContent={<AssignCourse />}
               >
-                <CardHeader className="flex flex-col justify-start sm:flex-row items-start gap-3">
-                  <div className="flex flex-col gap-2">
-                    <CourseIcon />
-                    <div className="flex flex-col">
-                      <p className="text-small font-medium text-justify">
-                        {course.name}
-                      </p>
-                      <p className="text-small text-default-500">
-                        Szkolenie #{course.course_id}
-                      </p>
-                      <p className="text-small text-default-500">
-                        Uczestnicy: {course.users.length}
-                      </p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <Divider className="h-[1px] w-full" />
-                <CardBody>
-                  <Button
-                    className="w-full lg:w-auto rounded text-white bg-green-700 text-small text-justify"
-                    onClick={() => handleCourseClick(courses)}
-                  >
-                    Sprawdź Informacje
-                  </Button>
-                </CardBody>
-              </Card>
-
-              <Modal
-                placement="center"
-                backdrop="blur"
-                scrollBehavior="inside"
-                radius="sm"
-                size="sm"
-                className="!bg-[#f5f1ec] border-1 shadow-lg "
-                isOpen={detailModal.isOpen}
-                onClose={detailModal.onClose}
-              >
-                <ModalContent>
-                  <ModalHeader>{course.name}</ModalHeader>
-                  <ModalBody className="mt-0 pt-0">
-                    {selectedCourse && (
-                      <div className="flex flex-col gap-3 text-pretty leading-relaxed">
-                        <p className="flex flex-col">
-                          <strong>Szkolenie:</strong> {course.name}
+                Przydziel Szkolenie
+              </Button>
+              <AssignCourseModal assignModal={assginModal} />
+            </div>
+          )}
+          <div className="gap-6 grid grid-cols-1 xl:grid-cols-2">
+            {courses.map((course) => (
+              <div key={course.course_id}>
+                <Card
+                  shadow="lg"
+                  className="bg-[#f8f7f5] border-2 border-[#333]/25 rounded"
+                >
+                  <CardHeader className="flex flex-col justify-start sm:flex-row items-start gap-3">
+                    <div className="flex flex-col gap-2">
+                      <CourseIcon />
+                      <div className="flex flex-col">
+                        <p className="text-small font-medium text-justify">
+                          {course.name}
                         </p>
-                        {/* <p className="flex flex-col">
+                        <p className="text-small text-default-500">
+                          Szkolenie #{course.course_id}
+                        </p>
+                        <p className="text-small text-default-500">
+                          Uczestnicy: {course.users.length}
+                        </p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <Divider className="h-[1px] w-full" />
+                  <CardBody>
+                    <Button
+                      className="w-full lg:w-auto rounded text-white bg-green-700 text-small text-justify"
+                      onClick={() => handleCourseClick(courses)}
+                    >
+                      Sprawdź Informacje
+                    </Button>
+                  </CardBody>
+                </Card>
+
+                <Modal
+                  placement="center"
+                  backdrop="blur"
+                  scrollBehavior="inside"
+                  radius="sm"
+                  size="sm"
+                  className="!bg-[#f5f1ec] border-1 shadow-lg "
+                  isOpen={detailModal.isOpen}
+                  onClose={detailModal.onClose}
+                >
+                  <ModalContent>
+                    <ModalHeader>{course.name}</ModalHeader>
+                    <ModalBody className="mt-0 pt-0">
+                      {selectedCourse && (
+                        <div className="flex flex-col gap-3 text-pretty leading-relaxed">
+                          <p className="flex flex-col">
+                            <strong>Szkolenie:</strong> {course.name}
+                          </p>
+                          {/* <p className="flex flex-col">
                           <strong>Status Szkolenia:</strong>Ukończony
                         </p>
                         <p className="flex flex-col">
@@ -224,71 +224,72 @@ export default function AssignedModules() {
                             Plik do Pobrania
                           </Link>
                         </p> */}
-                        <p className="flex flex-col gap-2">
-                          <strong>Przydzieleni do Szkolenia:</strong>
+                          <p className="flex flex-col gap-2">
+                            <strong>Przydzieleni do Szkolenia:</strong>
 
-                          <span className="grid grid-cols-2 gap-3">
-                            {isAdmin
-                              ? course.users.map((e) => (
-                                  <Chip
-                                    key={e.id}
-                                    avatar={
-                                      <Avatar>
-                                        <GroupIcon />
-                                      </Avatar>
-                                    }
-                                    label={`${e.username}`}
-                                    variant="outlined"
-                                    onDelete={() =>
-                                      handleDeleteUserFromCourse(
-                                        e.id,
-                                        course.course_id
-                                      )
-                                    }
-                                    deleteIcon={
-                                      <DeleteIcon
-                                        style={{
-                                          color: "red",
-                                          fontSize: "18px",
-                                        }}
-                                      />
-                                    }
-                                  />
-                                ))
-                              : course.users.map((e) => (
-                                  <Chip
-                                    key={e.id}
-                                    avatar={
-                                      <Avatar>
-                                        <GroupIcon />
-                                      </Avatar>
-                                    }
-                                    label={`${e.username}`}
-                                    variant="outlined"
-                                  />
-                                ))}
-                          </span>
-                        </p>
-                      </div>
-                    )}
-                  </ModalBody>
-                  <ModalFooter>
-                    {isAdmin && (
-                      <div className="flex gap-3">
-                        <Button
-                          color="danger"
-                          variant="flat"
-                          className="rounded w-full"
-                        >
-                          Usuń
-                        </Button>
-                      </div>
-                    )}
-                  </ModalFooter>
-                </ModalContent>
-              </Modal>
-            </div>
-          ))}
+                            <span className="grid grid-cols-2 gap-3">
+                              {isAdmin
+                                ? course.users.map((e) => (
+                                    <Chip
+                                      key={e.id}
+                                      avatar={
+                                        <Avatar>
+                                          <GroupIcon />
+                                        </Avatar>
+                                      }
+                                      label={`${e.username}`}
+                                      variant="outlined"
+                                      onDelete={() =>
+                                        handleDeleteUserFromCourse(
+                                          e.id,
+                                          course.course_id
+                                        )
+                                      }
+                                      deleteIcon={
+                                        <DeleteIcon
+                                          style={{
+                                            color: "red",
+                                            fontSize: "18px",
+                                          }}
+                                        />
+                                      }
+                                    />
+                                  ))
+                                : course.users.map((e) => (
+                                    <Chip
+                                      key={e.id}
+                                      avatar={
+                                        <Avatar>
+                                          <GroupIcon />
+                                        </Avatar>
+                                      }
+                                      label={`${e.username}`}
+                                      variant="outlined"
+                                    />
+                                  ))}
+                            </span>
+                          </p>
+                        </div>
+                      )}
+                    </ModalBody>
+                    <ModalFooter>
+                      {isAdmin && (
+                        <div className="flex gap-3">
+                          <Button
+                            color="danger"
+                            variant="flat"
+                            className="rounded w-full"
+                          >
+                            Usuń
+                          </Button>
+                        </div>
+                      )}
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>

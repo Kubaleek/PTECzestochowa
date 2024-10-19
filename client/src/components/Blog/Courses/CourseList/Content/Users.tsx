@@ -12,8 +12,7 @@ import {
 import { useSession } from "next-auth/react";
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
-import { AddUser } from "./Modals/AddUser";
-import { EditUser } from "./Modals/EditUser";
+import EditUser from "./Modals/EditUser";
 import { useDeleteUserMutation, useUsersQuery } from "@/services/usersHook";
 import { User } from "@/components/Home/ts/types";
 
@@ -21,7 +20,6 @@ import { User } from "@/components/Home/ts/types";
 export default function Users() {
   const { data: session, status } = useSession(); 
   const [selectedUser, setSelectedUser] = React.useState<User>();
-  const addUser = useDisclosure();
   const detailModal = useDisclosure();
   const editModal = useDisclosure();
 
@@ -65,25 +63,13 @@ export default function Users() {
           </h3>
           <p className="text-sm text-gray-700 leading-relaxed text-justify">
             Poniżej znajduje się lista użytkowników. Jako administrator, masz
-            możliwość zarządzania ich danymi – możesz dodawać nowych
-            użytkowników, edytować istniejące profile oraz usuwać konta, które
+            możliwość zarządzania ich danymi , edytować istniejące profile oraz usuwać konta, które
             nie są już aktywne.
           </p>
         </div>
         <Divider className="h-[1px] w-full" />
       </div>
       <div className="flex flex-col gap-3">
-        <div className="flex flex-col sm:flex-row gap-3 justify-end items-center">
-          <Button
-            onPress={addUser.onOpen}
-            className="w-full lg:w-auto rounded text-white bg-green-700"
-            endContent={<AddIcon />}
-          >
-            Dodaj Użytkownika
-          </Button>
-          {/* Modal dodawania użytkownika */}
-          <AddUser addUser={addUser} />
-        </div>
         <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
           {users.length === 0 ? (
             <></>
@@ -125,7 +111,7 @@ export default function Users() {
                       <Button
                         color="success"
                         variant="flat"
-                        className="rounded w-full"
+                        className="rounded w-full bg-green-700 !text-white"
                         onPress={() => {
                           setSelectedUser(user);
                           editModal.onOpen();

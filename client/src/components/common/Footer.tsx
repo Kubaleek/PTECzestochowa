@@ -64,7 +64,7 @@ export default function Footer() {
             ) : (
                 <>
                 <div className="footerDesktop md:flex hidden flex-col gap-3">
-                  <div className={`grid md:grid-cols-4 gap-6 ${pathname === "/" ? 'lg:grid-cols-5' : 'lg:grid-cols-6'}`}>
+                  <div className={`grid md:grid-cols-4 gap-6 ${pathname === "/" ? 'lg:grid-cols-7' : 'lg:grid-cols-7'}`}>
                   {Object.keys(groupedNavItems).map((category) => (
                     <div key={category}>
                       <h4 className="text-lg font-bold mb-2">{category.toLowerCase()}</h4>
