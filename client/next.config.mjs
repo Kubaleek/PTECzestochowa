@@ -3,7 +3,6 @@
 const nextConfig = {
   distDir: 'build',
   reactStrictMode: true,
-  swcMinify: false,
   webpack(config) {
     config.optimization.splitChunks = {
       chunks: 'all',
