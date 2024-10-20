@@ -13,7 +13,7 @@ const nextConfig = {
   experimental: {
     missingSuspenseWithCSRBailout: false, 
     workerThreads: false,
-    cpus: 4,
+    cpus: 1,
   },
 };
 
