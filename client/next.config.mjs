@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
+  distDir: 'build',
   reactStrictMode: true,
   webpack(config) {
     config.optimization.splitChunks = {
@@ -9,9 +11,10 @@ const nextConfig = {
     return config;
   },
   experimental: {
-    missingSuspenseWithCSRBailout: false,
+    missingSuspenseWithCSRBailout: false, 
+    workerThreads: false,
+    cpus: 4,
   },
-  reactStrictMode: true,
 };
 
 export default nextConfig;
