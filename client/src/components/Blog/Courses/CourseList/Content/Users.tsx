@@ -63,7 +63,8 @@ export default function Users() {
           </h3>
           <p className="text-sm text-gray-700 leading-relaxed text-justify">
             Poniżej znajduje się lista użytkowników. Jako administrator, masz
-            możliwość zarządzania ich danymi , edytować istniejące profile oraz usuwać konta, które
+            możliwość zarządzania ich danymi – możesz dodawać nowych
+            użytkowników, edytować istniejące profile oraz usuwać konta, które
             nie są już aktywne.
           </p>
         </div>

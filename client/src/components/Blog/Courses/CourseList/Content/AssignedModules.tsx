@@ -157,7 +157,7 @@ export default function AssignedModules() {
               <AssignCourseModal assignModal={assginModal} />
             </div>
           )}
-          <div className="gap-6 grid grid-cols-1 xl:grid-cols-2">
+          <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
             {courses.map((course) => (
               <div key={course.course_id}>
                 <Card
