@@ -55,7 +55,7 @@ const cityContacts: City = {
         "573108787",
         "000009063",
         "150045353",
-        "http://www.czestochowa.pte.pl"
+        "https://czestochowapte.pl/"
     ),
     Gdańsk: createCityContact(
         "Gdańsk",
