@@ -1,6 +1,4 @@
-/** @type {import('next').NextConfig} */
-
-const { createProxyMiddleware } = require('http-proxy-middleware');
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const nextConfig = {
   async rewrites() {
@@ -32,4 +30,5 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+// Export the configuration
+export default nextConfig;
