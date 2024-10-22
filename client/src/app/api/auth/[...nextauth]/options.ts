@@ -1,4 +1,4 @@
-import type { NextAuthOptions } from "next-auth";
+simport type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 declare module "next-auth" {
   interface Session {

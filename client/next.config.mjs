@@ -32,4 +32,5 @@ const nextConfig = {
   },
 };
 
+// Export the configuration
 export default nextConfig;
