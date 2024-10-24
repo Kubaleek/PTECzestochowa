@@ -43,7 +43,6 @@ Do projektu wykorzystaliśmy technologie takie jak:
 
 **Q:** Dlaczego tak długo trwało projekt?
 
-**A:**
-Miałem skończoną stronę w PHP, ale gdy mój nauczyciel postawił ją na serwerze, wystąpiły spore błędy. Nie posiadałem doświadczenia w takich projektach i nie znałem współczesnych bibliotek, nad którymi pracuję, co wpływało na moje błędy. Początkowo tworzyłem stronę w HTML, a następnie przeszedłem na PHP, co wpłynęło na długość projektu. W ciągu trzech miesięcy zbudowałem stronę internetową, tworząc 51 plików w HTML, CSS i Bootstrap. Następnie przeniosłem się na PHP i MySQL, co zajęło kolejne trzy miesiące. Na końcu przeszedłem na Next.js, a danyPL dołączył do projektu i pomógł mi go ukończyć.
+**A:** Po zakończeniu pracy nad stroną w PHP i postawieniu jej na serwerze przez nauczyciela, wystąpiły poważne błędy. Nie miałem doświadczenia w takich projektach ani znajomości nowoczesnych bibliotek, co wpływało na moje błędy. Początkowo tworzyłem stronę w HTML, a następnie przeszedłem na PHP, co wydłużyło czas realizacji. W ciągu trzech miesięcy zbudowałem stronę internetową, tworząc 51 plików w HTML, CSS i Bootstrap. Następnie przeniosłem się na PHP i MySQL, co zajęło kolejne trzy miesiące. Na końcu przeszedłem na Next.js, a danyPL dołączył do projektu i pomógł mi go ukończyć.
 
 
