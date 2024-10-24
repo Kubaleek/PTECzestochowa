@@ -22,9 +22,9 @@
 
 **Q:** Jak dostaliście ten projekt?
 
-**A:** Zaczęło się to w drugiej klasie, podczas lekcji podstaw przedsiębiorczości. Po lekcji pani opowiadała, 
-że Polskie Towarzystwo Ekonomiczne z Oddziału Częstochowy, potrzebuje aplikacji webowej, więc w grudniu przyjąłem to zadanie. 
-Później do projektu dołączył **danyPL**.
+**A:** Zaczęło się to w drugiej klasie, podczas lekcji podstaw przedsiębiorczości. 
+Po lekcji pani opowiadała, że Polskie Towarzystwo Ekonomiczne z Oddziału Częstochowy potrzebuje aplikacji webowej, 
+więc w grudniu przyjąłem to zadanie. Później do projektu dołączył **danyPL**.
 
 **Q:** Jakie technologie wykorzystaliście?
 
@@ -43,6 +43,6 @@ Do projektu wykorzystaliśmy technologie takie jak:
 
 **Q:** Dlaczego tak długo trwało projekt?
 
-**A:** Po zakończeniu pracy nad stroną w PHP i postawieniu jej na serwerze przez nauczyciela, wystąpiły poważne błędy. Nie miałem doświadczenia w takich projektach ani znajomości nowoczesnych bibliotek, co wpływało na moje błędy. Początkowo tworzyłem stronę w HTML, a następnie przeszedłem na PHP, co wydłużyło czas realizacji. W ciągu trzech miesięcy zbudowałem stronę internetową, tworząc 51 plików w HTML, CSS i Bootstrap. Następnie przeniosłem się na PHP i MySQL, co zajęło kolejne trzy miesiące. Na końcu przeszedłem na Next.js, a danyPL dołączył do projektu i pomógł mi go ukończyć.
+**A:** Po zakończeniu pracy nad stroną w PHP i postawieniu jej na serwerze przez nauczyciela, wystąpiły poważne błędy. Nie miałem doświadczenia w takich projektach ani znajomości nowoczesnych bibliotek, co wpływało na moje błędy. Początkowo tworzyłem stronę w HTML, a następnie przeszedłem na PHP, co wydłużyło czas realizacji. W ciągu trzech miesięcy zbudowałem stronę internetową, tworząc 51 plików w HTML, CSS i Bootstrap. Następnie przeniosłem się na PHP i MySQL, co zajęło kolejne trzy miesiące. Na końcu przeszedłem na Next.js, a **danyPL** dołączył do projektu i pomógł mi go ukończyć.
 
 
