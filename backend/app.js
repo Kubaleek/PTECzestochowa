@@ -20,10 +20,11 @@ app.use(securityService.limiter)
 app.use(helmet())                                                                                  
 app.use(cookieParser())                                                                                  
 // Routery                                                                                  
-app.use(postRouter);             
-app.use(authRouter)             
-app.use(emailRouter)       
-app.use(courseRouter)                                                 
+
+app.use('/backend/pte/coures', courseRouter);
+app.use('/backend/', authRouter);
+app.use('/backend/pte/contact',emailRouter);
+app.use('/backend/pte/posts',postRouter);                                                 
 app.use((err, req, res, next) => {                                                                                  
     err.status = err.status || "fail";                                                                                  
     err.statusCode = err.statusCode || 500;                                                                                  

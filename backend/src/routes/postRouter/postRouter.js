@@ -8,11 +8,11 @@ import slugify from 'slugify';
 const { NavsItems, GetLastArticles, GetLastNews, GetLastPosts } = Controllers;
 const postRouter = express.Router();
 
-postRouter.get(`${data.posts}/menu`, NavsItems);
-postRouter.get(`${data.posts}/lastArticles`, GetLastArticles);
-postRouter.get(`${data.posts}/lastPosts`, GetLastPosts);
-postRouter.get(`${data.posts}/lastNews`, GetLastNews);
-postRouter.get(`${data.posts}/:category/`, async (req, res, next) => {
+postRouter.get(`/menu`, NavsItems);
+postRouter.get(`/lastArticles`, GetLastArticles);
+postRouter.get(`/lastPosts`, GetLastPosts);
+postRouter.get(`/lastNews`, GetLastNews);
+postRouter.get(`/:category/`, async (req, res, next) => {
     const { category } = req.params;
     const { id, subid } = req.query;
 

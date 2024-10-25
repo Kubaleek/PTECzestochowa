@@ -1,6 +1,6 @@
 export default {
-    posts:"/pte/posts",
-    auth:"/pte/auth",
-    email:"/pte/contact",
-    courses:"/pte/courses"
+    posts:"/api/pte/posts",
+    auth:"/api/pte/auth",
+    email:"/api/pte/contact",
+    courses:"/api/pte/courses"
 }
