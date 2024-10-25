@@ -89,12 +89,7 @@ export default function Details({ category, id, subid }: DetailsProps) {
 
   const posts = useMemo(() => PostsResponse?.data || [], [PostsResponse]);
 
-  useEffect(() => {
-    posts.forEach((e) => {
-      console.log(e.subposts_content);
-    });
-  }, [posts]);
-
+ 
   const renderConditionalComponent = () => {
     if (paths === "/kontakt" && currentId === "52") {
       return <Contact />;

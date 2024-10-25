@@ -52,10 +52,10 @@ const cityContacts: City = {
         "+48 509 928 888",
         "Ul. Pułaskiego 4/6 42-200 Częstochowa",
         "73102016640000320201661818",
-        "573108787",
-        "000009063",
-        "150045353",
-        "http://www.czestochowa.pte.pl"
+        "5730108787",
+        "0000096063",
+        "150045354",
+        "http://www.czestochowapte.pl"
     ),
     Gdańsk: createCityContact(
         "Gdańsk",

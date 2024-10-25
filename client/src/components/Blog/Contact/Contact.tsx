@@ -39,7 +39,7 @@ export default function Contact() {
         >
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             <ContactData />
-            <div className="px-4 py-4 bg-white rounded-lg shadow-lg flex flex-col gap-3">
+            <div className="px-4 py-4 bg-white rounded-lg flex flex-col gap-3">
               <h3 className="font-bold text-xl text-pretty">
                 Co musi zawierać wiadomość
               </h3>
@@ -84,7 +84,7 @@ export default function Contact() {
         >
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             <ContactData />
-            <div className="px-4 py-4 bg-white rounded-lg shadow-lg flex flex-col gap-3">
+            <div className="px-4 py-4 bg-white rounded-lg flex flex-col gap-3">
               <h3 className="font-bold text-xl text-pretty">
                 Co musi zawierać wiadomość
               </h3>
@@ -129,7 +129,7 @@ export default function Contact() {
         >
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             <ContactData />
-            <div className="p-4 bg-white rounded-lg shadow-lg flex flex-col gap-3">
+            <div className="p-4 bg-white rounded-lg flex flex-col gap-3">
               <h3 className="font-bold text-xl text-pretty">
                 Co musi zawierać wiadomość
               </h3>
@@ -251,7 +251,7 @@ export default function Contact() {
         >
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             <ContactData />
-            <div className="p-4 bg-white rounded-lg shadow-lg flex flex-col gap-3">
+            <div className="p-4 bg-white rounded-lg flex flex-col gap-3">
               <h3 className="font-bold text-xl text-pretty">
                 Co musi zawierać wiadomość
               </h3>

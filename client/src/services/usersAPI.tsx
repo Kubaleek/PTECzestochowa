@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 // Tworzenie instancji axios z odpowiednią konfiguracją
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000/',
+  baseURL: 'https://czestochowapte.pl/backend/',
 });
 
 // Definicja typu dla opcji, aby uwzględniała method i body

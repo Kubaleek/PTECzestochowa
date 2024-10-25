@@ -22,7 +22,7 @@ declare module "next-auth" {
 }
 const Login = async (email: string, password: string) => {
   try {
-    const response = await fetch("http://localhost:5000/login", {
+    const response = await fetch("https://czestochowapte.pl/backend/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +90,10 @@ export const options: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: '/kursy?id=51',
+    signIn: '/kursy?id=51',  
+    signOut: '/apiv2/auth/signout',
+    error: '/apiv2/auth/error', // Error code passed in query string as ?error=
+    verifyRequest: '/apiv2/auth/verify-request', // (used for check email message)
   },
   session: {
     strategy: "jwt",
