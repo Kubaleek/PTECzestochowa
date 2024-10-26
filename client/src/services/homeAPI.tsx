@@ -2,7 +2,7 @@ import slugify from 'slugify';
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'https://czestochowapte.pl/backend/pte/posts',
+  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/backend/pte/posts`,
 });
 
 const fetchData = async (endpoint: string, options?: any) => {
