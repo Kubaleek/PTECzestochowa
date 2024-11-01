@@ -67,8 +67,8 @@ export const CoursesLogin = () => {
     await doRegister(data); // Wait for the mutation to complete
     console.log("Rejestracja:", data);
     setIsLoading(false);
-    router.push("/kursy?id=51");
-    window.location.reload()
+   // router.push("/kursy?id=51");
+   // window.location.reload()
   };
   return (
     <FormProvider {...methods}>

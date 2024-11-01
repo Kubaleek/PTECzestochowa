@@ -6,8 +6,8 @@ declare module "next-auth" {
       id: string; // Add any other properties you expect here
       email: string;
       username:string;
-      role:string;
-      created_at:Date;
+      role:string,
+      created_at:Date
     };
   }
 
@@ -22,7 +22,7 @@ declare module "next-auth" {
 }
 const Login = async (email: string, password: string) => {
   try {
-    const response = await fetch("https://czestochowapte.pl/backend/login/", {
+    const response = await fetch("https://czestochowapte.pl/backend/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -52,8 +52,7 @@ const Login = async (email: string, password: string) => {
 
 export const options: NextAuthOptions = {
   secret:process.env.NEXTAUTH_SECRET,
-  debug:true,  
-providers: [
+  providers: [
     
     CredentialsProvider({
       name: "Credentials",
@@ -121,4 +120,3 @@ providers: [
   },
   
 };
-
