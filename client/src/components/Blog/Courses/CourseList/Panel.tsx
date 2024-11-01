@@ -173,7 +173,7 @@ export const Panel: React.FC = () => {
                     <span>Szkolenia</span>
                   </div>
                 }>
-                <motion.div {...tabAnimation}>
+                <motion.div className="flex flex-col gap-3" {...tabAnimation}>
                   <Courses />
                 </motion.div>
               </Tab>
