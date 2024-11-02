@@ -165,14 +165,16 @@ export const Panel: React.FC = () => {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="h-5 w-5 lucide lucide-book-open-check">
+                      className="h-5 w-5 lucide lucide-book-open-check"
+                    >
                       <path d="M8 3H2v15h7c1.7 0 3 1.3 3 3V7c0-2.2-1.8-4-4-4Z" />
                       <path d="m16 12 2 2 4-4" />
                       <path d="M22 6V3h-6c-2.2 0-4 1.8-4 4v14c0-1.7 1.3-3 3-3h7v-2.3" />
                     </svg>
                     <span>Szkolenia</span>
                   </div>
-                }>
+                }
+              >
                 <motion.div className="flex flex-col gap-3" {...tabAnimation}>
                   <Courses />
                 </motion.div>
@@ -190,7 +192,8 @@ export const Panel: React.FC = () => {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="lucide lucide-package">
+                      className="lucide lucide-package"
+                    >
                       <path d="m7.5 4.27 9 5.15" />
                       <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
                       <path d="m3.3 7 8.7 5 8.7-5" />
@@ -198,38 +201,74 @@ export const Panel: React.FC = () => {
                     </svg>
                     <span>Przydzielone Szkolenia</span>
                   </div>
-                }>
-                <motion.div {...tabAnimation}>
-                </motion.div>
-              </Tab>
-
-              <Tab
-                title={
-                  <div className="flex justify-center items-center gap-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-users-round"
-                    >
-                      <path d="M18 21a8 8 0 0 0-16 0" />
-                      <circle cx="10" cy="8" r="5" />
-                      <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
-                    </svg>
-
-                    <span>Użytkownicy</span>
-                  </div>
                 }
               >
-                <motion.div {...tabAnimation}>
+                <motion.div className="flex flex-col gap-3" {...tabAnimation}>
+                  <AssignedModules />
                 </motion.div>
               </Tab>
+
+              {isAdmin && (
+                <Tab
+                  title={
+                    <div className="flex justify-center items-center gap-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-users-round"
+                      >
+                        <path d="M18 21a8 8 0 0 0-16 0" />
+                        <circle cx="10" cy="8" r="5" />
+                        <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
+                      </svg>
+
+                      <span>W Budowie</span>
+                    </div>
+                  }
+                >
+                  <motion.div className="flex flex-col gap-3" {...tabAnimation}>
+                    <Users />
+                  </motion.div>
+                </Tab>
+              )}
+              {!isAdmin && (
+                <Tab
+                  title={
+                    <div className="flex justify-center items-center gap-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-check-check"
+                      >
+                        <path d="M18 6 7 17l-5-5" />
+                        <path d="m22 10-7.5 7.5L13 16" />
+                      </svg>
+                      <span>Ukończone Szkolenia</span>
+                    </div>
+                  }
+                >
+                  <motion.div
+                    className="flex flex-col gap-3"
+                    {...tabAnimation}
+                  >
+                    <CompletedModule />
+                  </motion.div>
+                </Tab>
+              )}
             </Tabs>
           </div>
         </div>

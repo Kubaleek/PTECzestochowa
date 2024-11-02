@@ -23,36 +23,10 @@ export default function CompletedModule() {
     isLoading,
   } = useCompletedCoursesQuery(`${session?.user.id}`); // Fetch courses
 
-
   const courses = CourseResponse?.data || [];
-
-
-
-  
-
-
-
-  const CourseIcon = () => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-book-plus"
-    >
-      <path d="M12 7v6" />
-      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
-      <path d="M9 10h6" />
-    </svg>
-  );
   return (
     <>
-      <div className="bg-[#f5f1ec] flex flex-col gap-3 justify-between border-2 border-[#333]/25 p-4 shadow-lg">
+      <div className="bg-[#fff] flex flex-col gap-3 justify-between border border-[#333]/25 p-4">
         <div>
           <h3 className="text-xl font-bold text-black gap-2 text-pretty leading-relaxed items-center flex place-items-center">
             Twoje Ukończone Szkolenia
@@ -67,55 +41,68 @@ export default function CompletedModule() {
         </div>
         <Divider className="h-[1px] w-full" />
       </div>
-      <Divider className="h-[1px] w-full" />
-      <div className="gap-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4">
-        {
-          courses.length > 0 ? (
-            courses.map((course) => (
-              <Card
-              key={course.id}
-              shadow="lg"
-              className="bg-[#f5f1ec] border-2 border-[#333]/25 rounded"
-            >
-              <CardHeader className="flex flex-col justify-start sm:flex-row items-start gap-3">
-                <div className="flex flex-col gap-2">
-                  <CourseIcon />
-                  <div className="flex flex-col">
-                    <p className="text-small font-medium text-justify">{course.course_name}</p>
-                    <p className="text-small text-default-500">Szkolenie #{course.id}</p>
+      <div className="bg-[#fff] flex flex-col gap-3 justify-between border border-[#333]/25 p-4">
+        {courses.length > 0 ? (
+          <div className="flex flex-col gap-3">
+            {courses.map((course) => (
+              <div
+                key={course.id}
+                className="grid grid-cols-1 lg:grid-cols-2 border border-[#333]/25 shadow p-4 gap-3"
+              >
+                <div className="flex flex-col gap-6">
+                  <div>
+                    <p className="text-xs text-green-800">
+                      Szkolenie #{course.id}
+                    </p>
+                    <p className="flex flex-col text-xs sm:text-small text-pretty leading-relaxed ">
+                      <strong>Szkolenie:</strong>
+                      {course.course_name}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <p className="flex flex-col text-xs sm:text-small text-pretty leading-relaxed ">
+                      <strong>Status Szkolenia:</strong>
+                      {course.course_status}
+                    </p>
+                    <p className="flex flex-col text-xs sm:text-small text-pretty leading-relaxed ">
+                      <strong>Data Ukończenia Szkolenia:</strong>
+                      {course.date_completed}
+                    </p>
+                    <p className="flex flex-col text-xs sm:text-small text-pretty leading-relaxed ">
+                      <strong>Certyfikat:</strong>
+                      <Link
+                        href={`${course.certificate}`}
+                        color="success"
+                        className="text-green-800 max-w-fit"
+                        size="sm"
+                      >
+                        {" "}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="18"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="lucide lucide-download"
+                        >
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                          <polyline points="7 10 12 15 17 10" />
+                          <line x1="12" x2="12" y1="15" y2="3" />
+                        </svg>
+                      </Link>
+                    </p>
                   </div>
                 </div>
-              </CardHeader>
-              <Divider className="h-[1px] w-full" />
-              <CardBody className="flex flex-col gap-1">
-                <p className="flex flex-col">
-                  <strong>Status Szkolenia:</strong>{course.course_status}
-                </p>
-                <p className="flex flex-col">
-                    <strong>Data Ukończenia Szkolenia:</strong>
-                    {course.date_completed}
-                </p>
-                <p className="flex flex-col">
-                  <strong>Certyfikat:</strong>
-                  <Link
-                    href={`${course.certificate}`}
-                    color="success"
-                    className="text-green-800"
-                    size="sm"
-                  >
-                    {" "}
-                    Plik do Pobrania
-                  </Link>
-                </p>
-              </CardBody>
-            </Card>
-            )
-          )
-          ) : (
-            <></>
-          )
-        }
-       
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-500">Brak ukończonych szkoleń.</p>
+        )}
       </div>
     </>
   );

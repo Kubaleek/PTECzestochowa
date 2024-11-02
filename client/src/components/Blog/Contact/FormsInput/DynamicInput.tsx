@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   TextField, 
   Checkbox, 
@@ -30,6 +30,7 @@ interface DynamicFormInputProps {
   name: string;
   control: Control<any>;
   type: string;
+  initialValue?: any; // Add initialValue prop
 }
 
 const getValidationRules = (type: string, validation: any) => {
@@ -65,11 +66,22 @@ const DynamicFormInput = ({
   name,
   control,
   type,
+  initialValue // Destructure the initialValue prop
 }: DynamicFormInputProps) => {
   const { setValue } = useFormContext();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [passwordValue, setPasswordValue] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  // Set the initial value when the component mounts or when initialValue changes
+  useEffect(() => {
+    if (initialValue !== undefined) {
+      setValue(name, initialValue);
+      if (type === 'file' && initialValue instanceof FileList) {
+        setSelectedFiles(Array.from(initialValue));
+      }
+    }
+  }, [initialValue, setValue, name, type]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -234,7 +246,7 @@ const DynamicFormInput = ({
     }
   };
 
-  return <div className="flex flex-col gap-1`">{renderInput()}</div>;
+  return <div className="flex flex-col gap-1">{renderInput()}</div>;
 };
 
 export default DynamicFormInput;

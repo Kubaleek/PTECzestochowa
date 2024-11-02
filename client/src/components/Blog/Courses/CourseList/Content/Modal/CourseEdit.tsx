@@ -1,53 +1,58 @@
 import React from "react";
+import {
+  Button,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+} from "@nextui-org/react";
 import { useForm, FormProvider } from "react-hook-form";
 import DynamicFormInput from "@/components/Blog/Contact/FormsInput/DynamicInput";
-import { Button } from "@nextui-org/react";
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
 import { useEditCourseMutation } from "@/services/courseHooks";
 
 type EditCourseFormProps = {
-  onClose: () => void;
+  onClose: (isOpen: boolean) => void;
   courseId: number;
 };
 
-type EditCourseFormData = {
-  courseName: string;
-  courseDescription: string;
-  courseDate: string;
-  courseEndDate: string;
-  courseFile: FileList;
-  courseType: string;
+  type EditCourseFormData = {
+    courseName: string;
+    courseDescription: string;
+    courseDate: string;
+    courseEndDate: string;
+    courseFile?: FileList;
+    courseType: string;
+  };
+
+type EditModalType = {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
 };
 
 const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose, courseId }) => {
-  const methods = useForm<EditCourseFormData>();
-  const { handleSubmit, control, register, formState: { errors } } = methods;
+    const methods = useForm<EditCourseFormData>();
+    const { handleSubmit, control, register, formState: { errors } } = methods;
+  
+    const [courseStatus, setCourseStatus] = React.useState<string>("");
+  
+    const editCourseMutation = useEditCourseMutation({
+      onSuccess: () => {
+        console.log("Course successfully updated!");
+      },
+      onError: (error: any) => {
+        console.error("Error updating course:", error);
+      },
+    });
+    const onSubmit = (data: EditCourseFormData) => {
+      const courseDataWithId = {
+        id: courseId, // Add courseId here
+        ...data,
+      };
 
-  const [courseStatus, setCourseStatus] = React.useState<string>("");
-
-  const editCourseMutation = useEditCourseMutation({
-    onSuccess: () => {
-      console.log("Course successfully updated!");
-    },
-    onError: (error: any) => {
-      console.error("Error updating course:", error);
-    },
-  });
-  const onSubmit = (data: EditCourseFormData) => {
-    const courseDataWithId = {
-      id: courseId, // Add courseId here
-      ...data,
+      editCourseMutation.mutate(courseDataWithId);
+      window.location.reload()
+      onClose(false);
     };
-  
-    // Log the data being submitted to check the values
-  
-    editCourseMutation.mutate(courseDataWithId);
-    window.location.reload()
-    onClose();
-  };
-  
 
   return (
     <FormProvider {...methods}>
@@ -81,7 +86,7 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose, courseId }) =>
             register={register}
             validation={{ required: "Data jest wymagana" }}
             error={errors.courseDate}
-            type="text"
+            type="text" 
           />
           <DynamicFormInput
             label="Zakończenie Szkolenia"
@@ -91,9 +96,8 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose, courseId }) =>
             register={register}
             validation={{ required: "Data jest wymagana" }}
             error={errors.courseEndDate}
-            type="text"
+            type="text" 
           />
-
           <DynamicFormInput
             label="Plik Szkolenia"
             name="courseFile"
@@ -104,7 +108,6 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose, courseId }) =>
             type="file"
           />
         </div>
-        
         <div className="justify-end flex items-center py-4">
           <Button
             type="submit"
@@ -119,4 +122,29 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose, courseId }) =>
   );
 };
 
-export default EditFormCourse;
+export const CourseEdit = ({
+  editModal,
+  courseId,
+}: {
+  editModal: EditModalType;
+  courseId: number;
+}) => {
+  return (
+    <Modal
+      isOpen={editModal.isOpen}
+      onOpenChange={editModal.onOpenChange}
+      placement="center"
+      backdrop="blur"
+      scrollBehavior="inside"
+      radius="sm"
+      className="!bg-[#f5f1ec] border-1 shadow-lg"
+    >
+      <ModalContent>
+        <ModalHeader>Edytuj Szkolenie</ModalHeader>
+        <ModalBody className="mt-0">
+          <EditFormCourse onClose={editModal.onOpenChange} courseId={courseId} />
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+};
