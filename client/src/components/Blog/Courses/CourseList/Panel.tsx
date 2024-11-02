@@ -101,7 +101,7 @@ export const Panel: React.FC = () => {
                       showFallback
                       src="https://images.unsplash.com/broken"
                     />
-                    <p className="flex flex-col text-pretty text-justify">
+                    <p className="flex flex-col text-pretty">
                       {session?.user.username}
                       <span className="text-tiny">{session?.user.role}</span>
                     </p>
