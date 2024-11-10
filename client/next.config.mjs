@@ -10,11 +10,6 @@ const nextConfig = {
 
     return config;
   },
-  experimental: {
-    missingSuspenseWithCSRBailout: false, 
-    workerThreads: false,
-    cpus: 1,
-  },
 };
 
 export default nextConfig;
