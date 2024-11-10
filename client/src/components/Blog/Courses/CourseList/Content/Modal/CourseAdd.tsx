@@ -37,7 +37,10 @@ const CourseAdd: React.FC<{ addModal: AddModalType }> = ({ addModal }) => {
   } = methods;
 
   const { mutate: addCourse } = useAddCourseMutation({
-    onSuccess: () => console.log("Kurs dodany pomyślnie"),
+    onSuccess: () => {
+      console.log("Kurs dodany pomyślnie"),
+      window.location.reload();
+    },
     onError: (error) =>
       console.error("Wystąpił błąd podczas dodawania kursu:", error),
   });

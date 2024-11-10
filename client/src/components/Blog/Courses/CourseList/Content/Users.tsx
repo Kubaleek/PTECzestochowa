@@ -70,7 +70,7 @@ export default function Users() {
       <div className="bg-[#fff] flex flex-col gap-3 justify-between border border-[#333]/25 p-4">
          {users.length > 0 ? (
           users.map((user) => (
-            <div className="grid grid-cols-1 lg:grid-cols-2 border border-[#333]/25 shadow p-4 gap-3" key={user.id}>
+            <div className="grid grid-cols-1 border border-[#333]/25 shadow p-4 gap-3" key={user.id}>
             <div className="flex flex-col justify-between gap-3">
               <div className="flex gap-3">
                 <Avatar showFallback src="https://images.unsplash.com/broken" />
