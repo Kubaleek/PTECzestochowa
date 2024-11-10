@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   TextField, 
   Checkbox, 
@@ -28,8 +28,10 @@ interface DynamicFormInputProps {
   validation: RegisterOptions;
   error?: FieldError | undefined;
   name: string;
+  value?:string;
   control: Control<any>;
   type: string;
+  initialValue?: any; // Add initialValue prop
 }
 
 const getValidationRules = (type: string, validation: any) => {
@@ -62,14 +64,26 @@ const DynamicFormInput = ({
   register,
   validation,
   error,
+  value,
   name,
   control,
   type,
+  initialValue // Destructure the initialValue prop
 }: DynamicFormInputProps) => {
   const { setValue } = useFormContext();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [passwordValue, setPasswordValue] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  // Set the initial value when the component mounts or when initialValue changes
+  useEffect(() => {
+    if (initialValue !== undefined) {
+      setValue(name, initialValue);
+      if (type === 'file' && initialValue instanceof FileList) {
+        setSelectedFiles(Array.from(initialValue));
+      }
+    }
+  }, [initialValue, setValue, name, type]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -213,6 +227,7 @@ const DynamicFormInput = ({
       {...register(name, getValidationRules(type, validation))}
       error={!!error}
       helperText={error?.message}
+      value={value}
       variant="standard"
       fullWidth
       color="success"
@@ -234,7 +249,7 @@ const DynamicFormInput = ({
     }
   };
 
-  return <div className="flex flex-col gap-1`">{renderInput()}</div>;
+  return <div className="flex flex-col gap-1">{renderInput()}</div>;
 };
 
 export default DynamicFormInput;
