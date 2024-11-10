@@ -78,7 +78,7 @@ const NoPostsMessage = () => (
 export default function Details({ category, id, subid }: DetailsProps) {
   const paths = usePathname();
   const searchParams = useSearchParams();
-  const currentId = searchParams.get("id");
+  const currentId = searchParams.get("id") ?? "";
 
   // Fetch posts using a custom hook
   const { data: PostsResponse, error, isLoading } = useSubPostsQuery(
