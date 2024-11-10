@@ -1,5 +1,8 @@
 import authService from './../src/services.js/authService.js'
 import { validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv'
+dotenv.config();
 export const Validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -48,7 +51,28 @@ export const Validate = (req, res, next) => {
             });
         }
     };
+// middlewares/authorize.js
 
+// Importy
+// Middleware autoryzacyjny
+export const authorize = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    
+    // Ensure token is present and valid
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+  
+      // Verify the token against SECRET_ACCESS_TOKEN
+      if (token === process.env.NEXT_PUBLIC_API_ACCESS_TOKEN) {
+        next(); // Token is valid, proceed to the route handler
+      } else {
+        return res.status(403).json({ message: 'Invalid or expired token.' });
+      }
+    } else {
+      return res.status(401).json({ message: 'Authorization token is required.' });
+    }
+  };
+  
 // można stworzyć osobne middleware dla każdej z roli albo przepuszczać przez next() odpowiednie komunikaty
 export const VerifyRole = (req, res, next)=> {
     try {

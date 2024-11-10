@@ -115,12 +115,13 @@ export type User = {
   username: string;
   avatar?: string;
   role:string;
+  created_at?:string;
   last_login?: string; // Data ostatniego logowania
   status?: string;
 }
 export type TeditUser = Omit<User,"id" | "email" | "avatar" |"status"|"last_login"> 
 export interface Users{
-  users: User[];
+  data: User[];
 
 }
 // Interfejs dla przypisania kursu użytkownikowi (tabela `user_courses`)

@@ -1,9 +1,14 @@
 import slugify from 'slugify';
 import axios from 'axios';
-
+import dotenv from 'dotenv'
+dotenv.config();
 const apiClient = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/backend/pte/posts`,
+  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/pte/posts`,
+  headers: {
+    'Content-Type': 'application/json', // domyślnie dla wszystkich żądań
+  },
 });
+
 
 const fetchData = async (endpoint: string, options?: any) => {
   try {
@@ -11,6 +16,9 @@ const fetchData = async (endpoint: string, options?: any) => {
       url: endpoint,
       method: options?.method || 'GET',
       data: options?.body || {},
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_ACCESS_TOKEN}`, // use env variable for the token
+      },
     });
     return response.data;
   } catch (error) {

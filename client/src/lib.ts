@@ -1,3 +1,4 @@
+"use server"
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -59,4 +60,18 @@ export async function updateSession(request: NextRequest) {
     expires: parsed.expires,
   });
   return res;
+}
+
+export const formatDate = (dateS?:string) =>{
+  const date = new Date(dateS || new Date());
+
+  const formattedDate = date.toLocaleString("pl-PL", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+});
+
+return formattedDate;
 }
