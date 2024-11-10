@@ -28,6 +28,7 @@ interface DynamicFormInputProps {
   validation: RegisterOptions;
   error?: FieldError | undefined;
   name: string;
+  value?:string;
   control: Control<any>;
   type: string;
   initialValue?: any; // Add initialValue prop
@@ -63,6 +64,7 @@ const DynamicFormInput = ({
   register,
   validation,
   error,
+  value,
   name,
   control,
   type,
@@ -225,6 +227,7 @@ const DynamicFormInput = ({
       {...register(name, getValidationRules(type, validation))}
       error={!!error}
       helperText={error?.message}
+      value={value}
       variant="standard"
       fullWidth
       color="success"

@@ -229,7 +229,7 @@ export const Panel: React.FC = () => {
                         <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
                       </svg>
 
-                      <span>W Budowie</span>
+                      <span>Użytkownicy</span>
                     </div>
                   }
                 >

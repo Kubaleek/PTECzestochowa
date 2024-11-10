@@ -37,6 +37,7 @@ const EditUser: React.FC<EditUserProps> = ({ isOpen, onClose, email }) => {
   });
 
   const onSubmit = (data: EditUsersFormData) => {
+    console.log(data.email)
     editUser({
       new_email: data.email || email,
       email: email,
