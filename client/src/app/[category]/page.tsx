@@ -24,7 +24,7 @@ export default function SubPage() {
       <main className="main max-w-[1800px] mx-auto justify-center items-center p-6">
         <div className="grid grid-cols-12 gap-6 lg:gap-12">
           <Aside />
-          <Details category={categoryStr} id={id} subid={subid}/>
+          <Details category={categoryStr || ''} id={id} subid={subid} />
         </div>
         <hr className="h-[2px] w-full bg-[#17822e] mt-6" />
       </main>
