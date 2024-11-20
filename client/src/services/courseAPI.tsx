@@ -6,6 +6,7 @@ const apiClient = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/pte/coures`,
   headers: {
     'Content-Type': 'application/json', // domyślny nagłówek dla JSON
+     Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_ACCESS_TOKEN}`,
   },
 });
 // Funkcja do ustawienia tokenu autoryzacyjnego
@@ -84,6 +85,7 @@ export const EditCourse = (courseData: any) =>
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json', // Nagłówek JSON
+ Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_ACCESS_TOKEN}`,
     },
     data: courseData,
   });

@@ -13,7 +13,7 @@ import { authorize } from './utils/middlewares.js';
 const app = express();
 
 // Configure CORS to allow requests from both production and development URLs
-const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:3000'];
+const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:3000', 'https://czestochowapte.pl'];
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin || allowedOrigins.includes(origin)) {
