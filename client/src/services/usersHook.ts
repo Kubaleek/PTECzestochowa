@@ -59,12 +59,14 @@ const createQueryFn =
       ) => 
           useMutation({
               mutationFn: async ({ new_email, email, username, role }) => {
-                  const response = await EditUser(new_email, email, username, role);
-                  if (response.ok) {
-                      return response.json(); // Handle success response
-                  } else {
-                      throw new Error(response.statusText); // Handle error
-                  }
-              },
+  const response = await EditUser(new_email, email, username, role);
+  if (response.ok) {
+    return response.json();
+  } else {
+    const errorMessage = await response.text();
+    throw new Error(`Error: ${response.status} - ${errorMessage}`);
+  }
+},
+
               ...options,
           });

@@ -21,12 +21,16 @@
         "name": "next"
       }
     ],
-    "types": ["react", "react-dom"],  // Dodane linie
+    "types": [
+      "react",
+      "react-dom"
+    ], // Dodane linie
     "paths": {
       "@/*": [
         "./src/*"
       ]
-    }
+    },
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",

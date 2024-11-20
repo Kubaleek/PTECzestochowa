@@ -50,7 +50,7 @@ const EditFormCourse: React.FC<EditCourseFormProps> = ({ onClose, courseId }) =>
       };
 
       editCourseMutation.mutate(courseDataWithId);
-      window.location.reload()
+     
       onClose(false);
     };
 
