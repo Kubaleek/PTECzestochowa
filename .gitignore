@@ -2,5 +2,3 @@
 .env
 .env.local
 node_modules/
-public/assets/Courses/
-public/assets/Courses/Certificates
